@@ -45,10 +45,6 @@ public class TextUtils {
     private static final String CAUSE_STAKTRACE_PREFIX = "Caused by:";
     private static final String SUPPRESED_STAKTRACE_PREFIX = "Suppressed:";
 
-    public static final String SHA = "SHA";
-    public static final String UTF_8 = "UTF-8";
-    public static final String UTF_16_LE = "UTF-16LE";
-
     /**
      * This method compares 2 Strings as versions
      *
@@ -684,28 +680,5 @@ public class TextUtils {
         //Found the answer in: http://stackoverflow.com/questions/1060570/why-is-non-breaking-space-not-a-whitespace-character-in-java
 
         return s.replaceAll("\\p{javaSpaceChar}", " ");
-    }
-
-    //Return the position of substring ignoring case sensitive
-    public static int indexOfIgnoreCase(String origStr,String subStr){
-        String toLower = origStr.toLowerCase();
-        String subLower = subStr.toLowerCase();
-        return toLower.indexOf(subLower);
-    }
-
-    public static Character getLastCharacter(String str){
-
-        if(StringUtils.isNotEmpty(str)){
-            int i = str.length()-1;
-            while(i>=0){
-                char ch = str.charAt(i);
-                if(Character.isLetter(ch)){
-                    return ch;
-                }
-                --i;
-            }
-        }
-        return null;
-
     }
 }

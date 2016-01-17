@@ -114,15 +114,4 @@ public class FileUtils {
         }
         return fullPath;
     }
-
-    static public String getFileDir(String fullPath){
-        if(StringUtils.isNotEmpty(fullPath)) {
-            int lastFileSeparator1 = fullPath.lastIndexOf("\\");
-            int lastFileSeparator2 = fullPath.lastIndexOf("/");
-            if(lastFileSeparator1>0|| lastFileSeparator2>0) {
-                return fullPath.substring(0,Math.max(lastFileSeparator1, lastFileSeparator2));
-            }
-        }
-        return fullPath;
-    }
 }

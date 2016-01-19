@@ -4,11 +4,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mgnt</groupId>
+    <groupId>com.github.michaelgantman.mgnt.utils</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.03</version>
+    <name>MgntUtils</name>
+    <description>
+        Set of various Utils: stacktrace noice filter, String to/from unicode sequence converter, Silent String parsing
+        to Integer and other numeric types, Version comparator and Version ranges operations, Self-throttling binary
+        reader from Http request, File reader.
+    </description>
+    <url>https://github.com/michaelgantman/Mgnt</url>
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>http://opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>
+                Michael Gantman
+            </name>
+            <email>
+                michael_gantman@yahoo.com
+            </email>
+        </developer>
+    </developers>
 
-
+    <scm>
+        <connection>scm:git:https://github.com/michaelgantman/Mgnt</connection>
+        <developerConnection>scm:git:https://github.com/michaelgantman/Mgnt</developerConnection>
+        <url>https://github.com/michaelgantman/Mgnt</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>

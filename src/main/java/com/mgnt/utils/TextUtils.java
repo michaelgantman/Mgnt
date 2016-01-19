@@ -2,7 +2,6 @@ package com.mgnt.utils;
 
 import com.mgnt.utils.textutils.InvalidVersionFormatException;
 import com.mgnt.utils.textutils.Version;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,23 +107,23 @@ public class TextUtils {
      * project that uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty
      * Strings than the correlating error will not be printed.
      *
-     * @param numStr                        String to be parsed
+     * @param num                        CharSequence to be parsed
      * @param defaultValue                  value that will be returned by this method if parsing of the String failed
-     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code numStr} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code numStr} is not in appropriate format
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
-    public static int parseStringToInt(String numStr, int defaultValue,
+    public static int parseStringToInt(CharSequence num, int defaultValue,
                                        String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
         Integer result = null;
-        if (numStr == null || "".equals(numStr)) {
+        if (num == null || "".equals(num.toString())) {
             if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
                 logger.warn(nullOrEmptyStringErrorMessage);
             }
             result = defaultValue;
         } else {
             try {
-                result = Integer.parseInt(numStr);
+                result = Integer.parseInt(num.toString());
             } catch (NumberFormatException nfe) {
                 if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
                     warn(numberFormatErrorMessage, nfe);
@@ -142,23 +141,23 @@ public class TextUtils {
      * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
      * correlating error will not be printed.
      *
-     * @param numStr                        String to be parsed
+     * @param num                        CharSequence to be parsed
      * @param defaultValue                  value that will be returned by this method if parsing of the String failed
-     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code numStr} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code numStr} is not in appropriate format
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
-    public static float parseStringToFloat(String numStr, float defaultValue,
+    public static float parseStringToFloat(CharSequence num, float defaultValue,
                                            String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
         Float result = null;
-        if (numStr == null || "".equals(numStr)) {
+        if (num == null || "".equals(num.toString())) {
             if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
                 logger.warn(nullOrEmptyStringErrorMessage);
             }
             result = defaultValue;
         } else {
             try {
-                result = Float.parseFloat(numStr);
+                result = Float.parseFloat(num.toString());
             } catch (NumberFormatException nfe) {
                 if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
                     warn(numberFormatErrorMessage, nfe);
@@ -176,23 +175,23 @@ public class TextUtils {
      * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
      * correlating error will not be printed.
      *
-     * @param numStr                        String to be parsed
+     * @param num                        CharSequence to be parsed
      * @param defaultValue                  value that will be returned by this method if parsing of the String failed
-     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code numStr} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code numStr} is not in appropriate format
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
-    public static Byte parseStringToByte(String numStr, byte defaultValue,
+    public static Byte parseStringToByte(CharSequence num, byte defaultValue,
                                          String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
         Byte result = null;
-        if (numStr == null || "".equals(numStr)) {
+        if (num == null || "".equals(num.toString())) {
             if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
                 logger.warn(nullOrEmptyStringErrorMessage);
             }
             result = defaultValue;
         } else {
             try {
-                result = Byte.parseByte(numStr);
+                result = Byte.parseByte(num.toString());
             } catch (NumberFormatException nfe) {
                 if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
                     warn(numberFormatErrorMessage, nfe);
@@ -210,23 +209,23 @@ public class TextUtils {
      * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
      * correlating error will not be printed.
      *
-     * @param numStr                        String to be parsed
+     * @param num                        CharSequence to be parsed
      * @param defaultValue                  value that will be returned by this method if parsing of the String failed
-     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code numStr} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code numStr} is not in appropriate format
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
-    public static double parseStringToDouble(String numStr, double defaultValue,
+    public static double parseStringToDouble(CharSequence num, double defaultValue,
                                              String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
         Double result = null;
-        if (numStr == null || "".equals(numStr)) {
+        if (num == null || "".equals(num.toString())) {
             if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
                 logger.warn(nullOrEmptyStringErrorMessage);
             }
             result = defaultValue;
         } else {
             try {
-                result = Double.parseDouble(numStr);
+                result = Double.parseDouble(num.toString());
             } catch (NumberFormatException nfe) {
                 if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
                     warn(numberFormatErrorMessage, nfe);
@@ -244,23 +243,23 @@ public class TextUtils {
      * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
      * correlating error will not be printed.
      *
-     * @param numStr                        String to be parsed
+     * @param num                        CharSequence to be parsed
      * @param defaultValue                  value that will be returned by this method if parsing of the String failed
-     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code numStr} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code numStr} is not in appropriate format
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
-    public static long parseStringToLong(String numStr, long defaultValue,
+    public static long parseStringToLong(CharSequence num, long defaultValue,
                                          String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
         Long result = null;
-        if (numStr == null || "".equals(numStr)) {
+        if (num == null || "".equals(num.toString())) {
             if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
                 logger.warn(nullOrEmptyStringErrorMessage);
             }
             result = defaultValue;
         } else {
             try {
-                result = Long.parseLong(numStr);
+                result = Long.parseLong(num.toString());
             } catch (NumberFormatException nfe) {
                 if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
                     warn(numberFormatErrorMessage, nfe);
@@ -278,23 +277,23 @@ public class TextUtils {
      * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
      * correlating error will not be printed.
      *
-     * @param numStr                        String to be parsed
+     * @param num                        CharSequence to be parsed
      * @param defaultValue                  value that will be returned by this method if parsing of the String failed
-     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code numStr} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code numStr} is not in appropriate format
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
-    public static Short parseStringToShort(String numStr, short defaultValue,
+    public static Short parseStringToShort(CharSequence num, short defaultValue,
                                            String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
         Short result = null;
-        if (numStr == null || "".equals(numStr)) {
+        if (num == null || "".equals(num.toString())) {
             if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
                 logger.warn(nullOrEmptyStringErrorMessage);
             }
             result = defaultValue;
         } else {
             try {
-                result = Short.parseShort(numStr);
+                result = Short.parseShort(num.toString());
             } catch (NumberFormatException nfe) {
                 if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
                     warn(numberFormatErrorMessage, nfe);

@@ -21,13 +21,13 @@ and work with version as early as 5 and up. This library is available on Maven C
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
             &nbsp&ltversion&gt;1.03&lt&#47;version&gt;<br>
-        &lt&#47;dependency&gt;<br>
+        &lt&#47;dependency&gt;<br><br>
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
             &nbsp&ltversion&gt;1.03&lt&#47;version&gt;<br>
             &nbsp&ltclassifier&gt;javadoc&lt&#47;classifier&gt;<br>
-        &lt&#47;dependency&gt;<br>
+        &lt&#47;dependency&gt;<br><br>
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>

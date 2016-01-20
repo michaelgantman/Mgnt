@@ -15,6 +15,25 @@ StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-v
 a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
 server side and the reading speed of the server is faster then writing speed of the client. The utility allows for
 auto throttle to adjust to the client. This package was tested with Java versions 1.8 and 1.7 but probably would compile
-and work with version as early as 5 and up.
+and work with version as early as 5 and up. This library is available on Maven Central. Here are the artifacts:<br>
+<p>
+        &ltdependency&gt;<br>
+            &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
+            &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
+            &nbsp&ltversion&gt;1.03&lt&#47;version&gt;<br>
+        &lt&#47;dependency&gt;<br>
+        &ltdependency&gt;<br>
+            &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
+            &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
+            &nbsp&ltversion&gt;1.03&lt&#47;version&gt;<br>
+            &nbsp&ltclassifier&gt;javadoc&lt&#47;classifier&gt;<br>
+        &lt&#47;dependency&gt;<br>
+        &ltdependency&gt;<br>
+            &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
+            &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
+            &nbsp&ltversion&gt;1.03&lt&#47;version&gt;<br>
+            &nbsp&ltclassifier&gt;sources&lt&#47;classifier&gt;<br>
+        &lt&#47;dependency&gt;<br>
+</p>
 
 If have any feedback feel free to drop me a note at michael_gantman@yahoo.com

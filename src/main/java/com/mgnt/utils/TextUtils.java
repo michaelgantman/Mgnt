@@ -672,12 +672,4 @@ public class TextUtils {
             logger.trace(message, t);
         }
     }
-
-    public static String replaceSpecialWhitespaces(String s) {
-        //Carmel:
-        //This code replaces all white spaces, including special ones like NO-BREAK SPACE (&nbsp).
-        //Found the answer in: http://stackoverflow.com/questions/1060570/why-is-non-breaking-space-not-a-whitespace-character-in-java
-
-        return s.replaceAll("\\p{javaSpaceChar}", " ");
-    }
 }

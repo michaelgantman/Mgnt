@@ -14,12 +14,12 @@ public class StringUnicodeEncoderDecoder {
 
     /**
      * This method converts a {@link String} of characters in any language into a String That contains a sequence of Unicode codes corresponding to
-     * characters in the original String For Example String "Hello" will be converted into a String "\u0048\u0065\u006c\u006c\u006f" Null or empty
+     * characters in the original String For Example String "Hello" will be converted into a String "\u005c\u00750048\u005c\u00750065\u005c\u0075006c\u005c\u0075006c\u005c\u0075006f" Null or empty
      * String conversion will return an empty String
      *
      * @param txt {@link String} that contains a sequence of characters to convert
      * @return {@link String} That contains a sequence of unicode codes corresponding to the characters in the original String. Each code will be in
-     *         hexadecimal format preceded by prefix "'backslash' + 'u'" with no spaces between them. The String also will have no leading or trailing
+     *         hexadecimal format preceded by prefix "\u005c\u0075" with no spaces between them. The String also will have no leading or trailing
      *         white spaces
      */
     public static String encodeStringToUnicodeSequence(String txt) {

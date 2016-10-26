@@ -8,6 +8,8 @@ package com.mgnt.utils;
  */
 public class StringUnicodeEncoderDecoder {
     private final static String UNICODE_PREFIX = "\\u";
+    private final static String UPPER_CASE_UNICODE_PREFIX = "\\U";
+    private final static String UPPER_CASE_UNICODE_PREFIX_REGEX = "\\\\U";
     private final static String DELIMITER = "\\\\u";
 
     /**
@@ -35,13 +37,13 @@ public class StringUnicodeEncoderDecoder {
 
     /**
      * This method converts {@link String} that contains a sequence of Unicode codes onto a String of corresponding characters. For example a String
-     * "\u0048\u0065\u006c\u006c\u006f" will be converted into String "Hello" by this method. This method performs reverse conversion of the one
-     * performed by method {@link #encodeStringToUnicodeSequence(String)} I.e. Any textual String converted into sequence if Unicode codes by method
+     * "\u005c\u00750048\u005c\u00750065\u005c\u0075006c\u005c\u0075006c\u005c\u0075006f" will be converted into String "Hello" by this method. This method performs reverse conversion of the one
+     * performed by method {@link #encodeStringToUnicodeSequence(String)} I.e. Any textual String converted into sequence of Unicode codes by method
      * {@link #encodeStringToUnicodeSequence(String)} may be retrieved back by invoking this method on that Unicode sequence String.
      *
      * @param unicodeSequence {@link String} That contains sequence of Unicode codes. Each code must be in hexadecimal format and must be preceded by
-     *                        "'backslash' + 'u'" prefix. (note that prefix '\U' is not valid). This method allows leading and trailing whitespaces for the whole
-     *                        String as well as spaces between codes. Those white spaces will be ignored.
+     *                        "'backslash' + 'u'" prefix. (note that prefix '\U' is now valid as opposed to earlier versions). This method allows
+     *                        leading and trailing whitespaces for the whole String as well as spaces between codes. Those white spaces will be ignored.
      * @return {@link String} That contains sequence of characters that correspond to the respective Unicode codes in the original String
      * @throws IllegalArgumentException if input String is in invalid format. For example if any code is not in hexadecimal format or the code is not a valid Unicode code
      *                                  (not valid code point).
@@ -49,6 +51,7 @@ public class StringUnicodeEncoderDecoder {
     public static String decodeUnicodeSequenceToString(String unicodeSequence) throws IllegalArgumentException {
         StringBuilder result = new StringBuilder();
         try {
+            unicodeSequence = replaceUpperCase_U_WithLoverCase(unicodeSequence);
             unicodeSequence = unicodeSequence.trim().substring(UNICODE_PREFIX.length());
             for (String codePointStr : unicodeSequence.split(DELIMITER)) {
                 result.append(Character.toChars(Integer.parseInt(codePointStr.trim(), 16)));
@@ -57,6 +60,14 @@ public class StringUnicodeEncoderDecoder {
             throw new IllegalArgumentException("Error occurred while converting unicode sequence String to String", e);
         }
         return result.toString();
+    }
+
+    private static String replaceUpperCase_U_WithLoverCase(String unicodeSequence) {
+        String result = unicodeSequence;
+        if(unicodeSequence != null && unicodeSequence.contains(UPPER_CASE_UNICODE_PREFIX)) {
+            result = unicodeSequence.replaceAll(UPPER_CASE_UNICODE_PREFIX_REGEX, DELIMITER);
+        }
+        return result;
     }
 
     /**

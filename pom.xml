@@ -6,7 +6,7 @@
 
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.04</version>
+    <version>1.05</version>
     <name>MgntUtils</name>
     <description>
         Set of various Utils: stacktrace noice filter, String to/from unicode sequence converter, Silent String parsing
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
+            <version>1.7.21</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

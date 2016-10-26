@@ -1,6 +1,5 @@
 package com.mgnt.utils;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**

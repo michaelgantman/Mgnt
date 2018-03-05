@@ -2,6 +2,7 @@ package com.mgnt.utils;
 
 import com.mgnt.utils.textutils.InvalidVersionFormatException;
 import com.mgnt.utils.textutils.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,17 @@ public class TextUtils {
     private static final String SKIPPING_LINES_STRING = "\t...";
     private static final String CAUSE_STAKTRACE_PREFIX = "Caused by:";
     private static final String SUPPRESED_STAKTRACE_PREFIX = "Suppressed:";
+
+    static {
+        initRelevantPackageFromSystemProperty();
+    }
+
+    private static void initRelevantPackageFromSystemProperty() {
+        String relevantPackage = System.getProperty("mgnt.relevant_package");
+        if(StringUtils.isNotBlank(relevantPackage)) {
+            setRelevantPackage(relevantPackage);
+        }
+    }
 
     /**
      * This method compares 2 Strings as versions

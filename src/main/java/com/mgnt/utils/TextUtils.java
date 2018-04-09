@@ -44,13 +44,18 @@ public class TextUtils {
     private static final String SKIPPING_LINES_STRING = "\t...";
     private static final String CAUSE_STAKTRACE_PREFIX = "Caused by:";
     private static final String SUPPRESED_STAKTRACE_PREFIX = "Suppressed:";
+    private static final String RELEVANT_PACKAGE_SYSTEM_EVIRONMENT_VARIABLE = "MGNT_RELEVANT_PACKAGE";
+    private static final String RELEVANT_PACKAGE_SYSTEM_PROPERTY = "mgnt.relevant.package";
 
     static {
         initRelevantPackageFromSystemProperty();
     }
 
     private static void initRelevantPackageFromSystemProperty() {
-        String relevantPackage = System.getProperty("mgnt.relevant_package");
+        String relevantPackage = System.getProperty(RELEVANT_PACKAGE_SYSTEM_PROPERTY);
+        if(StringUtils.isBlank(relevantPackage)) {
+            relevantPackage = System.getenv(RELEVANT_PACKAGE_SYSTEM_EVIRONMENT_VARIABLE);
+        }
         if(StringUtils.isNotBlank(relevantPackage)) {
             setRelevantPackage(relevantPackage);
         }
@@ -450,17 +455,25 @@ public class TextUtils {
     /**
      * This method retrieves a stacktrace from {@link Throwable} as a String in full or shortened format. This is convenience method that invokes
      * method {@link #getStacktrace(Throwable, boolean, String)} with last parameter as {@code null}. It relies on relevant package prefix to have
-     * been set by method {@link #setRelevantPackage(String)}. In case when Spring framework is used it is
+     * been set by method {@link #setRelevantPackage(String)}. There are several ways to pre-invoke method {@link #setRelevantPackage(String)}:<br>
+     *     <ul>
+     *     <li>Set system environment variable <b>"MGNT_RELEVANT_PACKAGE"</b> with relevant package value (for the purposes of our example
+     *     it would be "com.plain.")</li>
+     *     <li>Run your code with System property <b>"mgnt.relevant.package"</b> set to relevant package value It could be done with
+     *     -D: <b>"-Dmgnt.relevant.package=com.plain."</b> Note that System property value would take precedence over environment variable
+     *     if both are set</li>
+     *     <li>In case when Spring framework is used and system property and environment variable described above are not used then it is
      * recommended to add the following bean into your Spring configuration xml file. This will ensure an invocation of method
      * {@link #setRelevantPackage(String)} which will appropriately initialize the package prefix and enable the use of this method
      *
      * <p>
      *     &lt;bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"&gt;<br>
-     *     &nbsp&lt;property name="targetClass" value="com.mgnt.utils.TextUtils"&#47;&gt;<br>
+     *     &nbsp;&lt;property name="targetClass" value="com.mgnt.utils.TextUtils"&#47;&gt;<br>
      *     &nbsp;&lt;property name="targetMethod" value="setRelevantPackage"&#47;&gt;<br>
      *     &nbsp;&lt;property name="arguments" value="com.plain."&#47;&gt;<br>
      *     &lt;&#47;bean&gt;
-     * </p>
+     * </p></li>
+     * </ul>
      *
      * @param e      {@link Throwable} from which stacktrace should be retrieved
      * @param cutTBS boolean flag that specifies if stacktrace should be shortened or not. It is shortened if the flag value is {@code true}
@@ -474,18 +487,25 @@ public class TextUtils {
     /**
      * This method retrieves a stacktrace from {@link Throwable} as a String in shortened format. This is convenience method that invokes method
      * {@link #getStacktrace(Throwable, boolean, String)} with second parameter set to {@code 'true'} and last parameter as {@code null}. It relies on
-     * relevant package prefix to have been set by method {@link #setRelevantPackage(String)}. In case when Spring framework is used it is
+     * relevant package prefix to have been set by method {@link #setRelevantPackage(String)}. There are several ways to pre-invoke method {@link #setRelevantPackage(String)}:<br>
+     *     <ul>
+     *     <li>Set system environment variable <b>"MGNT_RELEVANT_PACKAGE"</b> with relevant package value (for the purposes of our example
+     *     it would be "com.plain.")</li>
+     *     <li>Run your code with System property <b>"mgnt.relevant.package"</b> set to relevant package value It could be done with
+     *     -D: <b>"-Dmgnt.relevant.package=com.plain."</b> Note that System property value would take precedence over environment variable
+     *     if both are set</li>
+     *     <li>In case when Spring framework is used and system property and environment variable described above are not used then it is
      * recommended to add the following bean into your Spring configuration xml file. This will ensure an invocation of method
      * {@link #setRelevantPackage(String)} which will appropriately initialize the package prefix and enable the use of this method
-     * <p>
      *
+     * <p>
      *     &lt;bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"&gt;<br>
      *     &nbsp;&lt;property name="targetClass" value="com.mgnt.utils.TextUtils"&#47;&gt;<br>
-     *     &nbsp&lt;property name="targetMethod" value="setRelevantPackage"&#47;&gt;<br>
+     *     &nbsp;&lt;property name="targetMethod" value="setRelevantPackage"&#47;&gt;<br>
      *     &nbsp;&lt;property name="arguments" value="com.plain."&#47;&gt;<br>
      *     &lt;&#47;bean&gt;
-     * </p>
-     *
+     * </p></li>
+     * </ul>
      * @param e {@link Throwable} from which stacktrace should be retrieved
      * @return String that contains the stacktrace
      * @see #getStacktrace(Throwable, boolean, String)

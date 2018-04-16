@@ -1,5 +1,6 @@
 package com.mgnt.utils;
 
+import com.mgnt.utils.entities.TimeInterval;
 import com.mgnt.utils.textutils.InvalidVersionFormatException;
 import com.mgnt.utils.textutils.Version;
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class provides various utilities for work with String that represents some other type. In current version this class provides methods for
@@ -36,6 +38,11 @@ public class TextUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(TextUtils.class);
 
+    protected static final TimeUnit DEFAULT_TIMEOUT_TIME_UNIT = TimeUnit.MINUTES;
+    protected static final String SECONDS_SUFFIX = "s";
+    protected static final String MINUTES_SUFFIX = "m";
+    protected static final String HOURS_SUFFIX = "h";
+    private static final long INITIAL_PARSING_VALUE = -1L;
     /*
      * Strings defined bellow are for the use of methods getStacktrace() of this class
      */
@@ -320,6 +327,31 @@ public class TextUtils {
         }
         return result;
     }
+
+    /**
+     * This method parses String value into {@link TimeInterval}. This method supports time interval suffixes <b>"s"</b> for seconds,
+     * <b>"m"</b> for minutes and <b>"h"</b> for hours. If String parameter contains no suffix the default is minutes. So for example string
+     * "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "45" as 45 minutes. If the string parses to a
+     * negative numerical value or the string is not a valid numerical value then the {@code defaultValue} parameter is returned
+     * assuming it is a value in minutes. So invoking this method with say parameters ("hello", 10L) would return 10 minutes.
+     * Note that it is very convenient to extract time value from {@link TimeInterval}, See methods {@link TimeInterval#toMillis()},
+     * {@link TimeInterval#toSeconds()}, {@link TimeInterval#toMinutes()}, {@link TimeInterval#toHours()},
+     * {@link TimeInterval#toDays()}.  Various parsing errors if occur in this method are logged
+     * @param valueStr String value to parse to {@link TimeInterval}
+     * @param defaultValue long default value in minutes (must be positive)
+     * @return {@link TimeInterval} parsed from the String or {@code defaultValue} parameter in minutes if parsing failed
+     */
+    public static TimeInterval parsingStringToTimeInterval(String valueStr, long defaultValue) {
+        TimeInterval result = new TimeInterval();
+        String potentialSuffix = valueStr.substring(valueStr.length() - 1);
+        boolean isLetter = Character.isLetter(potentialSuffix.codePointAt(0));
+        String valueToParse = (isLetter) ? valueStr.substring(0, valueStr.length() - 1) : valueStr;
+        result.setValue(INITIAL_PARSING_VALUE);
+        result = setTimeUnit(isLetter, potentialSuffix, defaultValue, result);
+        result = setTimeValue(valueToParse, defaultValue, result);
+        return result;
+    }
+
 
     /**
      * This method retrieves a stacktrace from {@link Throwable} as a String in full or shortened format. Shortened format skips the lines in the
@@ -703,5 +735,57 @@ public class TextUtils {
         } else {
             logger.trace(message, t);
         }
+    }
+
+    private static TimeInterval setTimeValue(String valueToParse, long defaultValue, TimeInterval result) {
+        if (result.getValue() == INITIAL_PARSING_VALUE) {
+            try {
+                result.setValue(Long.parseLong(valueToParse));
+                if(result.getValue() < 1) {
+                    throw new IllegalArgumentException("Negative value '" + result.getValue() + "' for time interval is illegal");
+                }
+            } catch (Exception e) {
+                logger.warn(
+                        "Error occurred while parsing String \"{}\" to Long for time interval value. Using default value ({} minutes) instead. {}",
+                        valueToParse, defaultValue, TextUtils.getStacktrace(e));
+                result.setValue(defaultValue);
+                result.setTimeUnit(DEFAULT_TIMEOUT_TIME_UNIT);
+            }
+        }
+        return result;
+    }
+
+    private static TimeInterval setTimeUnit(boolean isLetter, String potentialSuffix, long defaultTimeValue, TimeInterval result) {
+        if (isLetter) {
+            try {
+                result.setTimeUnit(getTimeUnitBySuffix(potentialSuffix));
+            } catch (IllegalArgumentException iae) {
+                result.setValue(defaultTimeValue);
+                result.setTimeUnit(DEFAULT_TIMEOUT_TIME_UNIT);
+                logger.warn(
+                        "Error occurred while parsing suffix \"{}\" to TimeUnit. Using default value ({} minutes) instead. {}",
+                        potentialSuffix, defaultTimeValue, TextUtils.getStacktrace(iae));
+            }
+        } else {
+            result.setTimeUnit(DEFAULT_TIMEOUT_TIME_UNIT);
+        }
+        return result;
+    }
+
+    private static TimeUnit getTimeUnitBySuffix(String suffix) {
+        TimeUnit result;
+        if (SECONDS_SUFFIX.equalsIgnoreCase(suffix)) {
+            result = TimeUnit.SECONDS;
+        } else if (MINUTES_SUFFIX.equalsIgnoreCase(suffix)) {
+            result = TimeUnit.MINUTES;
+        } else if (HOURS_SUFFIX.equalsIgnoreCase(suffix)) {
+            result = TimeUnit.HOURS;
+        } else {
+            throw new IllegalArgumentException("Time Unit Suffix " + suffix + " is invalid. Valid values are:\n'" +
+                    SECONDS_SUFFIX + "' for seconds \n'" +
+                    MINUTES_SUFFIX + "' for minutes \n'" +
+                    HOURS_SUFFIX + "' for hours");
+        }
+        return result;
     }
 }

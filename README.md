@@ -10,7 +10,12 @@ search. TextUtils provides various getStacktrace methods that may drastically re
 way so all the important information is preserved. It sifts through "caused by" and "suppressed" parts of the stacktrace
 as well.<br>Other features include parsing String into most of the implementations of Number interface without having
 to catch NullPointerException of NumberFormatException. The methods take String value to parse, default value in case of
-failure and messages (optional) that will be printed into log if some error occurred.<br> Also class
+failure and messages (optional) that will be printed into log if some error occurred.<br> 
+Another useful feature is parsing String to time interval. It parses Strings with numerical value and optional time unit
+suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45"
+as 45 milliseconds.) This method may be very useful for parsing time interval properties such as timeouts or waiting
+periods from configuration files.<br>
+Also class
 StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-versa.<br> Finally WebUtils class provides
 a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
 server side and the reading speed of the server is faster then writing speed of the client. The utility allows for
@@ -20,18 +25,18 @@ and work with version as early as 5 and up. This library is available on Maven C
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.2&lt&#47;version&gt;<br>
+            &nbsp&ltversion&gt;1.1.0.3&lt&#47;version&gt;<br>
         &lt&#47;dependency&gt;<br><br>
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.2&lt&#47;version&gt;<br>
+            &nbsp&ltversion&gt;1.1.0.3&lt&#47;version&gt;<br>
             &nbsp&ltclassifier&gt;javadoc&lt&#47;classifier&gt;<br>
         &lt&#47;dependency&gt;<br><br>
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.2&lt&#47;version&gt;<br>
+            &nbsp&ltversion&gt;1.1.0.3&lt&#47;version&gt;<br>
             &nbsp&ltclassifier&gt;sources&lt&#47;classifier&gt;<br>
         &lt&#47;dependency&gt;<br>
 </p>

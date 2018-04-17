@@ -28,6 +28,12 @@ import java.util.concurrent.TimeUnit;
  * Examples of valid versions are: "1.6", "58", "  7.34.17  " etc. (Note that last example contains both leading and trailing white spaces and it is
  * still a valid version)
  * <p>
+ * Another useful feature is parsing String to time interval. It parses Strings with numerical value and optional time unit
+ * suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and
+ * "45" as 45 milliseconds.) This method may be very useful for parsing time interval properties such as timeouts or waiting
+ * periods from configuration files.
+ * </p>
+ * <p>
  *     Note that this class has a loose dependency on slf4J library. If in the project some other compatible logging library is present
  *     (such as Log4J) this class will still work without any ill effects
  * </p>
@@ -38,10 +44,11 @@ public class TextUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(TextUtils.class);
 
-    protected static final TimeUnit DEFAULT_TIMEOUT_TIME_UNIT = TimeUnit.MINUTES;
+    protected static final TimeUnit DEFAULT_TIMEOUT_TIME_UNIT = TimeUnit.MILLISECONDS;
     protected static final String SECONDS_SUFFIX = "s";
     protected static final String MINUTES_SUFFIX = "m";
     protected static final String HOURS_SUFFIX = "h";
+    protected static final String DAYS_SUFFIX = "d";
     private static final long INITIAL_PARSING_VALUE = -1L;
     /*
      * Strings defined bellow are for the use of methods getStacktrace() of this class
@@ -329,26 +336,42 @@ public class TextUtils {
     }
 
     /**
-     * This method parses String value into {@link TimeInterval}. This method supports time interval suffixes <b>"s"</b> for seconds,
-     * <b>"m"</b> for minutes and <b>"h"</b> for hours. If String parameter contains no suffix the default is minutes. So for example string
-     * "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "45" as 45 minutes. If the string parses to a
-     * negative numerical value or the string is not a valid numerical value then the {@code defaultValue} parameter is returned
-     * assuming it is a value in minutes. So invoking this method with say parameters ("hello", 10L) would return 10 minutes.
-     * Note that it is very convenient to extract time value from {@link TimeInterval}, See methods {@link TimeInterval#toMillis()},
-     * {@link TimeInterval#toSeconds()}, {@link TimeInterval#toMinutes()}, {@link TimeInterval#toHours()},
-     * {@link TimeInterval#toDays()}.  Various parsing errors if occur in this method are logged
+     * This method parses String value into {@link TimeInterval}. This method supports time interval suffixes <b>"s"</b>
+     * for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.
+     * If String parameter contains no suffix the default is milliseconds. So for example string "38s" will be parsed
+     * as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45" as 45 milliseconds. If the string parses
+     * to a negative numerical value or 0 or the string is not a valid numerical value then {@link IllegalArgumentException}
+     * is thrown. Note that it is very convenient to extract time value from {@link TimeInterval}, See methods
+     * {@link TimeInterval#toMillis()}, {@link TimeInterval#toSeconds()}, {@link TimeInterval#toMinutes()},
+     * {@link TimeInterval#toHours()}, {@link TimeInterval#toDays()}.
+     * <br><br>
+     * This method may be very useful for parsing time interval properties such as timeouts or waiting periods from
+     * configuration files. It eliminates unneeded calculations from different time scales to milliseconds back and forth.
+     * Consider that you have a {@code methodInvokingInterval} property that you need to set for 5 days. So in order to
+     * set the miliseconds value you will need to calculate that 5 days is 432000000 milliseconds (obviously not an
+     * impossible task but annoying and error prone) and then anyone else who sees the value 432000000 will have to
+     * calculate it back to 5 days which is frustrating. But using this method you will have a property value set to
+     * "5d" and invoking the code
+     * <br><br>
+     *     {@code long milliseconds = TextUtils.parsingStringToTimeInterval("5d").toMillis();}
+     * <br><br>
+     * will solve your conversion problem
+     *
      * @param valueStr String value to parse to {@link TimeInterval}
-     * @param defaultValue long default value in minutes (must be positive)
      * @return {@link TimeInterval} parsed from the String or {@code defaultValue} parameter in minutes if parsing failed
+     * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
      */
-    public static TimeInterval parsingStringToTimeInterval(String valueStr, long defaultValue) {
+    public static TimeInterval parsingStringToTimeInterval(String valueStr) throws IllegalArgumentException {
+        if(StringUtils.isBlank(valueStr)) {
+            throw new IllegalArgumentException("Attempt to parse null or blank String");
+        }
         TimeInterval result = new TimeInterval();
         String potentialSuffix = valueStr.substring(valueStr.length() - 1);
         boolean isLetter = Character.isLetter(potentialSuffix.codePointAt(0));
         String valueToParse = (isLetter) ? valueStr.substring(0, valueStr.length() - 1) : valueStr;
         result.setValue(INITIAL_PARSING_VALUE);
-        result = setTimeUnit(isLetter, potentialSuffix, defaultValue, result);
-        result = setTimeValue(valueToParse, defaultValue, result);
+        result = setTimeUnit(isLetter, potentialSuffix, result);
+        result = setTimeValue(valueToParse, result);
         return result;
     }
 
@@ -737,35 +760,19 @@ public class TextUtils {
         }
     }
 
-    private static TimeInterval setTimeValue(String valueToParse, long defaultValue, TimeInterval result) {
+    private static TimeInterval setTimeValue(String valueToParse, TimeInterval result) {
         if (result.getValue() == INITIAL_PARSING_VALUE) {
-            try {
-                result.setValue(Long.parseLong(valueToParse));
-                if(result.getValue() < 1) {
-                    throw new IllegalArgumentException("Negative value '" + result.getValue() + "' for time interval is illegal");
-                }
-            } catch (Exception e) {
-                logger.warn(
-                        "Error occurred while parsing String \"{}\" to Long for time interval value. Using default value ({} minutes) instead. {}",
-                        valueToParse, defaultValue, TextUtils.getStacktrace(e));
-                result.setValue(defaultValue);
-                result.setTimeUnit(DEFAULT_TIMEOUT_TIME_UNIT);
+            result.setValue(Long.parseLong(valueToParse));
+            if (result.getValue() < 1) {
+                throw new IllegalArgumentException("Negative or zero value '" + result.getValue() + "' for time interval is illegal");
             }
         }
         return result;
     }
 
-    private static TimeInterval setTimeUnit(boolean isLetter, String potentialSuffix, long defaultTimeValue, TimeInterval result) {
+    private static TimeInterval setTimeUnit(boolean isLetter, String potentialSuffix, TimeInterval result) {
         if (isLetter) {
-            try {
                 result.setTimeUnit(getTimeUnitBySuffix(potentialSuffix));
-            } catch (IllegalArgumentException iae) {
-                result.setValue(defaultTimeValue);
-                result.setTimeUnit(DEFAULT_TIMEOUT_TIME_UNIT);
-                logger.warn(
-                        "Error occurred while parsing suffix \"{}\" to TimeUnit. Using default value ({} minutes) instead. {}",
-                        potentialSuffix, defaultTimeValue, TextUtils.getStacktrace(iae));
-            }
         } else {
             result.setTimeUnit(DEFAULT_TIMEOUT_TIME_UNIT);
         }
@@ -774,17 +781,30 @@ public class TextUtils {
 
     private static TimeUnit getTimeUnitBySuffix(String suffix) {
         TimeUnit result;
-        if (SECONDS_SUFFIX.equalsIgnoreCase(suffix)) {
-            result = TimeUnit.SECONDS;
-        } else if (MINUTES_SUFFIX.equalsIgnoreCase(suffix)) {
-            result = TimeUnit.MINUTES;
-        } else if (HOURS_SUFFIX.equalsIgnoreCase(suffix)) {
-            result = TimeUnit.HOURS;
-        } else {
-            throw new IllegalArgumentException("Time Unit Suffix " + suffix + " is invalid. Valid values are:\n'" +
-                    SECONDS_SUFFIX + "' for seconds \n'" +
-                    MINUTES_SUFFIX + "' for minutes \n'" +
-                    HOURS_SUFFIX + "' for hours");
+        switch (suffix.toLowerCase()) {
+            case SECONDS_SUFFIX: {
+                result = TimeUnit.SECONDS;
+                break;
+            }
+            case MINUTES_SUFFIX: {
+                result = TimeUnit.MINUTES;
+                break;
+            }
+            case HOURS_SUFFIX: {
+                result = TimeUnit.HOURS;
+                break;
+            }
+            case DAYS_SUFFIX: {
+                result = TimeUnit.DAYS;
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException("Time Unit Suffix " + suffix + " is invalid. Valid values are:\n'" +
+                        SECONDS_SUFFIX + "' for seconds \n'" +
+                        MINUTES_SUFFIX + "' for minutes \n'" +
+                        HOURS_SUFFIX + "' for hours \n'" +
+                        DAYS_SUFFIX + "' for days");
+            }
         }
         return result;
     }

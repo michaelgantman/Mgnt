@@ -358,7 +358,7 @@ public class TextUtils {
      * will solve your conversion problem
      *
      * @param valueStr String value to parse to {@link TimeInterval}
-     * @return {@link TimeInterval} parsed from the String or {@code defaultValue} parameter in minutes if parsing failed
+     * @return {@link TimeInterval} parsed from the String
      * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
      */
     public static TimeInterval parsingStringToTimeInterval(String valueStr) throws IllegalArgumentException {

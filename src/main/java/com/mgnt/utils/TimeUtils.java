@@ -1,5 +1,7 @@
 package com.mgnt.utils;
 
+import com.mgnt.utils.entities.TimeInterval;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,5 +25,23 @@ public class TimeUtils {
             timeUnit.sleep(period);
         } catch (InterruptedException ie) {
         }
+    }
+
+    /**
+     * This is an overload for method {@link TimeUtils#sleepFor(long, TimeUnit)} which is provided for convenience.
+     * Method {@link TimeUtils#sleepFor(long, TimeUnit)} could be very readable if you use actual values, for example
+     <br><br>
+     * <p>{@code sleepFor(10, TimeUnit.SECONDS);}</p>
+     * <br>
+     * But it you have your values stored in variables or especially already in instance of {@link TimeInterval}, then
+     * it doesn't make it any more readable to write
+     * <br><br>
+     *     <p>{@code TimeUtils.sleepFor(timeInterval.getValue(), timeInterval.getTimeUnit());}</p>
+     * <br><br>
+     * Hence this convenience method is provided
+     * @param timeInterval {@link TimeInterval} instance that holds the time period to be waited for
+     */
+    public static void sleepFor(TimeInterval timeInterval) {
+        sleepFor(timeInterval.getValue(), timeInterval.getTimeUnit());
     }
 }

@@ -3,18 +3,18 @@ package com.mgnt.lifecycle.management.example;
 import com.mgnt.lifecycle.management.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 
-public abstract class BaseFormattedMessage extends BaseEntity<BaseFormattedMessage> implements FormattedMessage {
-    private static final String FACTORY_TYPE = BaseFormattedMessage.class.getSimpleName();
+public abstract class BaseInfoFormatter extends BaseEntity<BaseInfoFormatter> implements InfoFormatter {
+    private static final String FACTORY_TYPE = BaseInfoFormatter.class.getSimpleName();
 
     static {
-        init(FACTORY_TYPE, FormattedMessageFactory.getFactoryInstance());
+        init(FACTORY_TYPE, InfoFormatterFactory.getFactoryInstance());
     }
 
-    public BaseFormattedMessage() {
+    public BaseInfoFormatter() {
         super(FACTORY_TYPE);
     }
 
-    public BaseFormattedMessage(String customName) {
+    public BaseInfoFormatter(String customName) {
         super(FACTORY_TYPE, customName);
     }
 

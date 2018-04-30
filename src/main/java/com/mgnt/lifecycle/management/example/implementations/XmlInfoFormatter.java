@@ -1,12 +1,12 @@
 package com.mgnt.lifecycle.management.example.implementations;
 
-import com.mgnt.lifecycle.management.example.BaseFormattedMessage;
+import com.mgnt.lifecycle.management.example.BaseInfoFormatter;
 
-public class XmlFormattedMessage extends BaseFormattedMessage {
+public class XmlInfoFormatter extends BaseInfoFormatter {
 
     private final static String CUSTOM_NAME = "XML";
 
-    public XmlFormattedMessage() {
+    public XmlInfoFormatter() {
         super(CUSTOM_NAME);
     }
 

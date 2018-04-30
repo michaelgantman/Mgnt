@@ -1,9 +1,9 @@
 package com.mgnt.lifecycle.management.example.implementations.usage;
 
-import com.mgnt.lifecycle.management.example.FormattedMessage;
-import com.mgnt.lifecycle.management.example.FormattedMessageFactory;
-import com.mgnt.lifecycle.management.example.implementations.JsonFormattedMessage;
-import com.mgnt.lifecycle.management.example.implementations.XmlFormattedMessage;
+import com.mgnt.lifecycle.management.example.InfoFormatter;
+import com.mgnt.lifecycle.management.example.InfoFormatterFactory;
+import com.mgnt.lifecycle.management.example.implementations.JsonInfoFormatter;
+import com.mgnt.lifecycle.management.example.implementations.XmlInfoFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +17,17 @@ public class UsageExample {
    }
 
     private static void printFormattedGreetings() {
-       System.out.println("JSON greeting: " + FormattedMessageFactory.getInstance("JSON").getFormattedMessage(MESSAGE));
-        System.out.println("XML greeting: " + FormattedMessageFactory.getInstance("XML").getFormattedMessage(MESSAGE));
+       System.out.println("JSON greeting: " + InfoFormatterFactory.getInstance("JSON").getFormattedMessage(MESSAGE));
+        System.out.println("XML greeting: " + InfoFormatterFactory.getInstance("XML").getFormattedMessage(MESSAGE));
        List<String> allMessages = new ArrayList<>();
-       for(FormattedMessage formattedMessage : FormattedMessageFactory.getAllInstances()) {
+       for(InfoFormatter formattedMessage : InfoFormatterFactory.getAllInstances()) {
            allMessages.add(formattedMessage.getFormattedMessage(MESSAGE));
        }
         System.out.println("All greetings: " + allMessages);
     }
 
     private static void init() {
-       new JsonFormattedMessage();
-       new XmlFormattedMessage();
+       new JsonInfoFormatter();
+       new XmlInfoFormatter();
     }
 }

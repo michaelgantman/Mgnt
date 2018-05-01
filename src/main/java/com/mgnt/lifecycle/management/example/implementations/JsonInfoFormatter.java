@@ -10,7 +10,7 @@ public class JsonInfoFormatter extends BaseInfoFormatter {
     }
 
     @Override
-    protected String formatMessage(String messageContent) {
+    protected String doFormatMessage(String messageContent) {
         return "{\"value\" : \"" + messageContent + "\"}";
     }
 }

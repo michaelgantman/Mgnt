@@ -17,11 +17,11 @@ public class UsageExample {
    }
 
     private static void printFormattedGreetings() {
-       System.out.println("JSON greeting: " + InfoFormatterFactory.getInstance("JSON").getFormattedMessage(MESSAGE));
-        System.out.println("XML greeting: " + InfoFormatterFactory.getInstance("XML").getFormattedMessage(MESSAGE));
+       System.out.println("JSON greeting: " + InfoFormatterFactory.getInstance("JSON").formatMessage(MESSAGE));
+        System.out.println("XML greeting: " + InfoFormatterFactory.getInstance("XML").formatMessage(MESSAGE));
        List<String> allMessages = new ArrayList<>();
        for(InfoFormatter formattedMessage : InfoFormatterFactory.getAllInstances()) {
-           allMessages.add(formattedMessage.getFormattedMessage(MESSAGE));
+           allMessages.add(formattedMessage.formatMessage(MESSAGE));
        }
         System.out.println("All greetings: " + allMessages);
     }

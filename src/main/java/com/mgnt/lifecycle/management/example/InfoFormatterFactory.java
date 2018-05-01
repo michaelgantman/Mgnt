@@ -1,7 +1,6 @@
 package com.mgnt.lifecycle.management.example;
 
 import com.mgnt.lifecycle.management.BaseEntityFactory;
-
 import java.util.Collection;
 
 public class InfoFormatterFactory extends BaseEntityFactory<InfoFormatter> {

@@ -11,7 +11,7 @@ public class XmlInfoFormatter extends BaseInfoFormatter {
     }
 
     @Override
-    protected String formatMessage(String messageContent) {
+    protected String doFormatMessage(String messageContent) {
         return "<greetings><value>" + messageContent + "</value></greetings>";
     }
 }

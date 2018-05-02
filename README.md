@@ -15,6 +15,12 @@ Another useful feature is parsing String to time interval. It parses Strings wit
 suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45"
 as 45 milliseconds.) This method may be very useful for parsing time interval properties such as timeouts or waiting
 periods from configuration files.<br>
+<p>
+ Also there is a feature that converts String to preserve indentation formatting for html without use of escape
+ characters. It converts a String in such a way that its spaces are not modified by HTML renderer i.e. it replaces
+ regular space characters with non-breaking spaces known as '&amp;nbsp;' but they look in your source as regular space
+ '  ' and not as '&amp;nbsp;' It also replaces new line character with '&lt;br&gt;'.
+</p>
 Also class
 StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-versa.<br> Finally WebUtils class provides
 a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
@@ -25,18 +31,18 @@ and work with version as early as 5 and up. This library is available on Maven C
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.3&lt&#47;version&gt;<br>
+            &nbsp&ltversion&gt;1.1.0.4&lt&#47;version&gt;<br>
         &lt&#47;dependency&gt;<br><br>
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.3&lt&#47;version&gt;<br>
+            &nbsp&ltversion&gt;1.1.0.4&lt&#47;version&gt;<br>
             &nbsp&ltclassifier&gt;javadoc&lt&#47;classifier&gt;<br>
         &lt&#47;dependency&gt;<br><br>
         &ltdependency&gt;<br>
             &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
             &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.3&lt&#47;version&gt;<br>
+            &nbsp&ltversion&gt;1.1.0.4&lt&#47;version&gt;<br>
             &nbsp&ltclassifier&gt;sources&lt&#47;classifier&gt;<br>
         &lt&#47;dependency&gt;<br>
 </p>

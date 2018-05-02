@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * This class provides various utilities for work with String that represents some other type. In current version this class provides methods for
- * converting a String into its numeric value of various types (Integer, Float, Byte, Double, Long, Short). There are 2 methods for retrieving
+ * converting a String into its numeric value of various types (Integer, Float, Byte, Double, Long, Short). There are several methods for retrieving
  * Exception stacktrace as a String in full or shortened version. Shortened version of the stacktrace will contain concise information focusing on
  * specific package or subpackage while removing long parts of irrelevant stacktrace. This could be very useful for logging in web-based architecture
  * where stacktrace may contain long parts of server provided classes trace that could be eliminated with the methods of this class while retaining
@@ -32,6 +32,12 @@ import java.util.concurrent.TimeUnit;
  * suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and
  * "45" as 45 milliseconds.) This method may be very useful for parsing time interval properties such as timeouts or waiting
  * periods from configuration files.
+ * </p>
+ * <p>
+ *  Also in this class there is a method that converts String to preserve indentation formatting for html without use of escape
+ *  characters. It converts a String in such a way that its spaces are not modified by HTML renderer i.e. it replaces
+ *  regular space characters with non-breaking spaces known as '&amp;nbsp;' but they look in your source as regular space
+ *  '  ' and not as '&amp;nbsp;' It also replaces new line character with '&lt;br&gt;'.
  * </p>
  * <p>
  *     Note that this class has a loose dependency on slf4J library. If in the project some other compatible logging library is present
@@ -60,6 +66,8 @@ public class TextUtils {
     private static final String SUPPRESED_STAKTRACE_PREFIX = "Suppressed:";
     private static final String RELEVANT_PACKAGE_SYSTEM_EVIRONMENT_VARIABLE = "MGNT_RELEVANT_PACKAGE";
     private static final String RELEVANT_PACKAGE_SYSTEM_PROPERTY = "mgnt.relevant.package";
+    private static final String HTML_NON_BREAKING_SPACE_CHARACTER = StringUnicodeEncoderDecoder.decodeUnicodeSequenceToString("\\u00A0");
+    private static final String HTML_NEW_LINE = "<br>";
 
     static {
         initRelevantPackageFromSystemProperty();
@@ -710,6 +718,64 @@ public class TextUtils {
      */
     public static void setRelevantPackage(String relevantPackage) {
         RELEVANT_PACKAGE = relevantPackage;
+    }
+
+    /**
+     * This method converts a String in such a way that its spaces are not modified by HTML renderer i.e. it replaces
+     * regular space characters with non-breaking spaces known as '&amp;nbsp;' but they look in your source as regular
+     * space '&nbsp;&nbsp;' and not as '&amp;nbsp;' It also replaces new line character with '&lt;br&gt;'.
+     * Here is an example. Lets say that you would like to write a text that has indentations So you can not simply write
+     * something like
+     * <p><br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is non-indented line<br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is 2 spaces indented line<br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is 4 spaces indented line<br>
+     * </p><br>
+     * Such a text after rendered by html would result into single non-indented line:<br><br>
+     * <p>
+     * This is non-indented line This is 2 spaces indented line This is 4 spaces indented line
+     *
+     * </p><br>
+     * The solution would be to write your text as follows:
+     * <p>
+     *     <br>
+     *     This is non-indented line&lt;br&gt;<br>
+     *     &amp;nbsp;&amp;nbsp;This is 2 spaces indented line&lt;br&gt;<br>
+     *     &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;This is 4 spaces indented line<br>
+     * </p><br>
+     * That works just fine once rendered in HTML but your source now is not very readable and difficult to maintain
+     * if you want to modify your indentations. So in order to remedy this you can pass your original string to this
+     * method, say the string looks like this:
+     * <p><br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is non-indented line<br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is 2 spaces indented line<br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is 4 spaces indented line<br>
+     * </p><br>
+     * And it will return you the string that looks like this:
+     *<p><br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is non-indented line&lt;br&gt;<br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is 2 spaces indented line&lt;br&gt;<br>
+     *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is 4 spaces indented line&lt;br&gt;<br>
+     *</p><br>
+     * Except, that besides visible addition of &lt;br&gt; at the end of the lines your regular spaces (U+0020) have been
+     * replaced with non-breaking spaces (U+00A0) but they look the same in your source. So if you just place this
+     * modified string into your HTML source code your indentation will be preserved and you source code is readable.
+     * <br><b>IMPORTANT NOTE:</b> if you want to modify indentations later you can NOT just type additional spaces.
+     * You will have to either use this method again after you modified your string or you can copy-pace those "normal
+     * looking" but actually non-breaking spaces. Also this was tested and found to be working with just regular HTML, but
+     * in combination with javascript it could sometimes produce unexpected results and instead of "normal-looking" space
+     * may show an 'Â' symbol. So, this method has its limitations. Test your results before you deliver. Use this method
+     * at your own risk.  &#x263a
+     * @param rawText to be converted
+     * @return String that is converted as described above
+     */
+    public static String formatStringToPreserveIndentationForHtml(String rawText) {
+        String result = rawText;
+        if(StringUtils.isNotEmpty(rawText)) {
+            result = rawText.replaceAll(" ", HTML_NON_BREAKING_SPACE_CHARACTER)
+                    .replaceAll("\n", HTML_NEW_LINE + "\n");
+        }
+        return result;
     }
 
     private static void warn(String message, Throwable t) {

@@ -13,7 +13,7 @@ import java.util.Map;
  * The abstract class should also extend this class. Also a Factory that will hold the instances of that Interface
  * needs to be created. The factory should extend {@link BaseEntityFactory}. After that user may create any number of
  * classes that extend the abstract class. Each of these concrete implementations will self-insert itself into its
- * factory. See the javadoc for the {@link com.mgnt.lifecycle.management} and source code in package
+ * factory. See the javadoc for the {@link com.mgnt.lifecycle.management} package and source code in package
  * {@code com.mgnt.lifecycle.management.example} for detailed explanation on how to use this class
  * @param <I>
  */
@@ -35,7 +35,7 @@ public abstract class BaseEntity<I> {
 
     /**
      * Constructor that places the instance into the factory with default key value which is the class name
-     * @param factoryKey
+     * @param factoryKey the key to extract corresponding factory from factory map
      */
     public BaseEntity(String factoryKey) {
         this(factoryKey, null);

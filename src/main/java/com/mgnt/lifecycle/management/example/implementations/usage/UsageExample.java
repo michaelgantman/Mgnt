@@ -1,5 +1,6 @@
 package com.mgnt.lifecycle.management.example.implementations.usage;
 
+import com.mgnt.lifecycle.management.example.BaseInfoFormatter;
 import com.mgnt.lifecycle.management.example.InfoFormatter;
 import com.mgnt.lifecycle.management.example.InfoFormatterFactory;
 import com.mgnt.lifecycle.management.example.implementations.JsonInfoFormatter;
@@ -17,8 +18,10 @@ public class UsageExample {
    }
 
     private static void printFormattedGreetings() {
-       System.out.println("JSON greeting: " + InfoFormatterFactory.getInstance("JSON").formatMessage(MESSAGE));
-        System.out.println("XML greeting: " + InfoFormatterFactory.getInstance("XML").formatMessage(MESSAGE));
+        InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON");
+       System.out.println("JSON greeting: " + formatter.formatMessage(MESSAGE));
+       formatter = InfoFormatterFactory.getInstance("XML");
+        System.out.println("XML greeting: " + formatter.formatMessage(MESSAGE));
        List<String> allMessages = new ArrayList<>();
        for(InfoFormatter formattedMessage : InfoFormatterFactory.getAllInstances()) {
            allMessages.add(formattedMessage.formatMessage(MESSAGE));

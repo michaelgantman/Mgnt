@@ -6,13 +6,14 @@
 
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.1.0.4</version>
+    <version>1.5.0.0</version>
     <name>MgntUtils</name>
     <description>
         Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, Silent String parsing
-        to Integer and other numeric types, Parsing String to time intervals with support fpr time unit suffixes,
+        to Integer and other numeric types, Parsing String to time intervals with support for time unit suffixes,
         Version comparator and Version ranges operations, Self-throttling binary
-        reader from Http request, File reader.
+        reader from Http request, File reader, A utility that automatically initiates a Factory with instances of all
+        classes that implement user provided interface
     </description>
     <url>https://github.com/michaelgantman/Mgnt</url>
     <licenses>

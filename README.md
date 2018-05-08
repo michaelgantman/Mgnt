@@ -21,6 +21,16 @@ periods from configuration files.<br>
  regular space characters with non-breaking spaces known as '&amp;nbsp;' but they look in your source as regular space
  '  ' and not as '&amp;nbsp;' It also replaces new line character with '&lt;br&gt;'.
 </p>
+<p>
+Another feature is some small infrastructure that simplifies and automates working with Factories that provide concrete 
+implementations of an Interface. The package contains just 2 classes: BaseEntityFactory and BaseEntity. In short what 
+this infrastructure does is that if you create a factory that extends BaseEntityFactory and some Interface with all its 
+concrete implementations extending BaseEntity then each your concrete implementation class instances will be 
+automatically inserted into your factory. You won't have to worry about how and when to populate your factory. 
+The infrastructure will do it for you when the constructor of your concrete implementation class is invoked. So all you 
+will have to do is to create any number of concrete implementation classes and make sure that for each one constructor 
+is invoked. After that you can use your factory to get any of your concrete implementation classes anywhere in your code. 
+</p>
 Also class
 StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-versa.<br> Finally WebUtils class provides
 a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
@@ -28,23 +38,23 @@ server side and the reading speed of the server is faster then writing speed of 
 auto throttle to adjust to the client. This package was tested with Java versions 1.8 and 1.7 but probably would compile
 and work with version as early as 5 and up. This library is available on Maven Central. Here are the artifacts:<br>
 <p>
-        &ltdependency&gt;<br>
-            &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
-            &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.4&lt&#47;version&gt;<br>
-        &lt&#47;dependency&gt;<br><br>
-        &ltdependency&gt;<br>
-            &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
-            &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.4&lt&#47;version&gt;<br>
-            &nbsp&ltclassifier&gt;javadoc&lt&#47;classifier&gt;<br>
-        &lt&#47;dependency&gt;<br><br>
-        &ltdependency&gt;<br>
-            &nbsp&ltgroupId&gt;com.github.michaelgantman&lt&#47;groupId&gt;<br>
-            &nbsp&ltartifactId&gt;MgntUtils&lt&#47;artifactId&gt;<br>
-            &nbsp&ltversion&gt;1.1.0.4&lt&#47;version&gt;<br>
-            &nbsp&ltclassifier&gt;sources&lt&#47;classifier&gt;<br>
-        &lt&#47;dependency&gt;<br>
+        &lt;dependency&gt;<br>
+            &nbsp&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
+            &nbsp&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
+            &nbsp&lt;version&gt;1.5.0.0&lt;&#47;version&gt;<br>
+        &lt;&#47;dependency&gt;<br><br>
+        &lt;dependency&gt;<br>
+            &nbsp&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
+            &nbsp&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
+            &nbsp&lt;version&gt;1.5.0.0&lt;&#47;version&gt;<br>
+            &nbsp&lt;classifier&gt;javadoc&lt;&#47;classifier&gt;<br>
+        &lt;&#47;dependency&gt;<br><br>
+        &lt;dependency&gt;<br>
+            &nbsp&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
+            &nbsp&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
+            &nbsp&lt;version&gt;1.5.0.0&lt;&#47;version&gt;<br>
+            &nbsp&lt;classifier&gt;sources&lt;&#47;classifier&gt;<br>
+        &lt;&#47;dependency&gt;<br>
 </p>
 
 If have any feedback feel free to drop me a note at michael_gantman@yahoo.com

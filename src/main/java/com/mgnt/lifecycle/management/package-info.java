@@ -29,7 +29,7 @@
  * import com.mgnt.lifecycle.management.BaseEntityFactory;<br>
  * import java.util.Collection;<br>
  *<br>
- * public class InfoFormatterFactory extends BaseEntityFactory<InfoFormatter> {<br>
+ * public class InfoFormatterFactory extends BaseEntityFactory&lt;InfoFormatter&gt; {<br>
  *     &#x00A0&#x00A0private static InfoFormatterFactory FACTORY = new InfoFormatterFactory();<br>
  *<br>
  *     &#x00A0&#x00A0private InfoFormatterFactory() {<br>
@@ -59,7 +59,7 @@
  * This class should look like this:
  * <p><br><code>
  *
- *&nbsp&nbsp public abstract class BaseInfoFormatter extends BaseEntity<BaseInfoFormatter> implements InfoFormatter {<br>
+ *&nbsp&nbsp public abstract class BaseInfoFormatter extends BaseEntity&lt;BaseInfoFormatter&gt; implements InfoFormatter {<br>
  *<br>
  *    &nbsp&nbsp&nbsp&nbsp // This is mandatory part of the code for the infrastructure to work<br>
  *    &nbsp&nbsp&nbsp&nbsp private static final String FACTORY_TYPE = BaseInfoFormatter.class.getSimpleName();<br>

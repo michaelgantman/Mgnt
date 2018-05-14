@@ -13,6 +13,22 @@ public class TimeInterval {
     private TimeUnit timeUnit;
 
     /**
+     * Default constructor
+     */
+    public TimeInterval() {
+    }
+
+    /**
+     * Constructor that allows to create initialized instance
+     * @param interval time value
+     * @param timeUnit TimeUnit that defines scale
+     */
+    public TimeInterval(long interval, TimeUnit timeUnit) {
+        setValue(interval);
+        setTimeUnit(timeUnit);
+    }
+
+    /**
      * Time interval numerical value getter (without time unit)
      * @return Time Interval numerical value
      */

@@ -15,6 +15,15 @@ public class BackgroundThreadsRunner {
     private final static Logger LOGGER = LoggerFactory.getLogger(BackgroundThreadsRunner.class);
     private ScheduledExecutorService executorService;
 
+    public BackgroundThreadsRunner() {
+    }
+
+    public BackgroundThreadsRunner(boolean isSelfInitializing) {
+        if(isSelfInitializing) {
+            init();
+        }
+    }
+
     @PostConstruct
     private void init() {
         Collection<BackgroundRunnable> taskCollection = BackgroundRunnableFactory.getAllInstances();

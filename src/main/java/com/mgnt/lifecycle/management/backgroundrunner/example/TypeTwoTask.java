@@ -55,5 +55,4 @@ public class TypeTwoTask extends BaseBackgroundRunnable {
     public void setExecutionTimeIntervalTypeTwo(TimeInterval executionTimeIntervalTypeTwo) {
         this.executionTimeIntervalTypeTwo = executionTimeIntervalTypeTwo;
     }
-
 }

@@ -31,6 +31,11 @@ The infrastructure will do it for you when the constructor of your concrete impl
 will have to do is to create any number of concrete implementation classes and make sure that for each one constructor 
 is invoked. After that you can use your factory to get any of your concrete implementation classes anywhere in your code. 
 </p>
+<p>
+An infrastructure that can run user implemented Task classes in a separate thread at configured 
+time interval. The interval could be parsed from String in human readable format such as "9h" for 9 hours. This is based 
+on use of the parsing String to time interval feature mentioned above 
+</p>
 Also class
 StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-versa.<br> Finally WebUtils class provides
 a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
@@ -41,18 +46,18 @@ and work with version as early as 5 and up. This library is available on Maven C
         &lt;dependency&gt;<br>
             &nbsp&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp&lt;version&gt;1.5.0.0&lt;&#47;version&gt;<br>
+            &nbsp&lt;version&gt;1.5.0.1&lt;&#47;version&gt;<br>
         &lt;&#47;dependency&gt;<br><br>
         &lt;dependency&gt;<br>
             &nbsp&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp&lt;version&gt;1.5.0.0&lt;&#47;version&gt;<br>
+            &nbsp&lt;version&gt;1.5.0.1&lt;&#47;version&gt;<br>
             &nbsp&lt;classifier&gt;javadoc&lt;&#47;classifier&gt;<br>
         &lt;&#47;dependency&gt;<br><br>
         &lt;dependency&gt;<br>
             &nbsp&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp&lt;version&gt;1.5.0.0&lt;&#47;version&gt;<br>
+            &nbsp&lt;version&gt;1.5.0.1&lt;&#47;version&gt;<br>
             &nbsp&lt;classifier&gt;sources&lt;&#47;classifier&gt;<br>
         &lt;&#47;dependency&gt;<br>
 </p>

@@ -8,8 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * This is the base class for any user defined periodic Task classes See source code example in package
+ * <b>{@code com.mgnt.lifecycle.management.backgroundrunner.example}</b> that demonstrates how it is done
+ */
 public abstract class BaseBackgroundRunnable extends BaseEntity<BaseBackgroundRunnable> implements BackgroundRunnable {
     private static final String FACTORY_TYPE = BaseBackgroundRunnable.class.getSimpleName();
     private final static Logger LOGGER = LoggerFactory.getLogger(BaseBackgroundRunnable.class);
@@ -36,8 +39,21 @@ public abstract class BaseBackgroundRunnable extends BaseEntity<BaseBackgroundRu
         }
     }
 
+    /**
+     * A hook method to be implemented by user extensions of this class. See source code example in package
+     * <b>{@code com.mgnt.lifecycle.management.backgroundrunner.example}</b>
+     */
     protected abstract void initParamsForSpecificImplementation();
 
+    /**
+     * This method parses String value into a {@link TimeInterval} and then invokes method
+     * {@link #setParamValue(TimeInterval, String)} to set required property value. If parsing failed then default value
+     * is used.
+     * @param valueStr String that contains a Time interval value such as "9h", "3m", "10s" etc
+     * @param defaultValue {@link TimeInterval} that holds a default value for the property should parsing of <b>valueStr</b>
+     * parameter fails
+     * @param propertyName The name of the property to be set
+     */
     @Override
     public void initTimeIntervalParam(String valueStr, TimeInterval defaultValue, String propertyName) {
         if (StringUtils.isNotBlank(valueStr)) {

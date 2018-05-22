@@ -1,6 +1,6 @@
 /**
- * This package contains infrastructure that can run supplied Tasks in a separate thread at configured time interval.
- * in order to create such task user will need to create a class that extends
+ * This package contains infrastructure that can run user implemented Task classes in a separate thread at configured
+ * time interval. In order to create such task user will need to create a class that extends
  * {@link com.mgnt.lifecycle.management.backgroundrunner.BaseBackgroundRunnable} and override 4 methods:
  * {@link com.mgnt.lifecycle.management.backgroundrunner.BaseBackgroundRunnable#initParamsForSpecificImplementation()}<br>,
  * {@link com.mgnt.lifecycle.management.backgroundrunner.BackgroundRunnable#getTaskExecutionInterval()}<br>,

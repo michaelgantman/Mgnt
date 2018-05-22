@@ -4,6 +4,9 @@ import com.mgnt.lifecycle.management.BaseEntityFactory;
 
 import java.util.Collection;
 
+/**
+ * This class is part of the framework and probably will not be accessed externally
+ */
 public class BackgroundRunnableFactory  extends BaseEntityFactory<BackgroundRunnable> {
     private static BackgroundRunnableFactory FACTORY = new BackgroundRunnableFactory();
 

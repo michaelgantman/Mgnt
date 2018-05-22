@@ -1,7 +1,7 @@
 /**
  * This package contains infrastructure that can run user implemented Task classes in a separate thread at configured
  * time interval. In order to create such task user will need to create a class that extends
- * {@link com.mgnt.lifecycle.management.backgroundrunner.BaseBackgroundRunnable} and override 4 methods:
+ * {@link com.mgnt.lifecycle.management.backgroundrunner.BaseBackgroundRunnable} class and override 4 methods:
  * {@link com.mgnt.lifecycle.management.backgroundrunner.BaseBackgroundRunnable#initParamsForSpecificImplementation()}<br>,
  * {@link com.mgnt.lifecycle.management.backgroundrunner.BackgroundRunnable#getTaskExecutionInterval()}<br>,
  * {@link com.mgnt.lifecycle.management.backgroundrunner.BackgroundRunnable#setParamValue(com.mgnt.utils.entities.TimeInterval,
@@ -16,9 +16,9 @@
  * would look like <b>{@code @Scheduled(fixedRate = 32400000)}</b>. (32400000 is number of milliseconds in 9 hours) This is
  * hardly intuitive... What if you could write <b>{@code @Scheduled(fixedRate = 9h)}</b>? Well, that would be great, but you
  * can not (at least with currently available latest versions). This is what this infrastructure provides. Especially
- * if you annotate one of your properties with annotation <b>{@code @Value("${task.retry.interval}")}</b> and then you will
- * have a properties file that will have a property <b>{@code task.retry.interval=9h}</b> instead of
- * <b>{@code task.retry.interval=32400000}</b>. So there is a tradeof here. This infrastructure definitely requires more effort
+ * if you annotate one of your properties with annotation <b>{@code @Value("${task.execution.interval}")}</b> and then you will
+ * have a properties file that will have a property <b>{@code task.execution.interval=9h}</b> instead of
+ * <b>{@code task.execution.interval=32400000}</b>. So there is a trade-off here. This infrastructure definitely requires more effort
  * from a programmer then mere method annotation with <b>{@code @Scheduled}</b>, but provides very intuitive and humanly readable
  * way to define time interval properties. Internally this framework uses utility provided by this library to parse those
  * time intervals. (For details see {@link com.mgnt.utils.TextUtils#parsingStringToTimeInterval(java.lang.String)}) Also

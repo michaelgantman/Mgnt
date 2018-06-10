@@ -100,7 +100,7 @@ public class HttpClient {
         this.contentType = contentType;
     }
 
-    public HttpURLConnection openHttpUrlConnection(String url, HttpMethod method) throws IOException {
+    protected HttpURLConnection openHttpUrlConnection(String url, HttpMethod method) throws IOException {
         return openHttpUrlConnection(url, method, false);
     }
 
@@ -112,7 +112,7 @@ public class HttpClient {
      * @return
      * @throws IOException
      */
-    public HttpURLConnection openHttpUrlConnection(String url, HttpMethod method, boolean doOutput) throws IOException {
+    protected HttpURLConnection openHttpUrlConnection(String url, HttpMethod method, boolean doOutput) throws IOException {
         URL requestUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
         connection.setDoOutput(doOutput);

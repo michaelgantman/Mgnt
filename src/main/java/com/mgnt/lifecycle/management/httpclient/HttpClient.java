@@ -10,6 +10,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * This class is meant to be a parent class to any class that wants to implement an http access to a particular
+ * cite. In this case The class may inherit from this class, set a predefined {@link #connectionUrl} property and then
+ * simply add some methods that would be used to contact some different sub-urls with the same url base. Those methods
+ * may receive some parameters that would enable to build final url based on pre-set base url. However this
+ * class may be used on its own as well. All you will need to do is to set a value for content type using method
+ * {@link #setContentType(String)} if needed and then just call method {@link #sendHttpRequest(String, HttpMethod)}
+ * or {@link #sendHttpRequest(String, HttpMethod, String)}
+ */
 public class HttpClient {
 
     private String connectionUrl;

@@ -1,8 +1,9 @@
-# Mgnt
+# MgntUtils
 Mgnt Utilities
 This utility package provides some convenience Utilities That provide some manipulations with several data types.
 It introduces a new type "Version" as well as "VersionRange" and provides tools for version comparison, conversion from
 and to String as well as work with Version ranges.<br>
+The Javadoc API could be found here: <a href="http://michaelgantman.github.io/Mgnt/docs/">MgntUtils javadoc API</a>
 Probably the most interesting and useful feature is stacktrace extractor that allows to extract full or shortened
 version of stacktrace. In particular it is very useful in J2EE environment. Exceptions on the server side usually
 come with <b>HUGE</b> tail of application server related packages. That makes logs very verbose and hard to read and

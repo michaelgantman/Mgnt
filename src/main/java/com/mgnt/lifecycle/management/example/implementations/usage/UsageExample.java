@@ -1,13 +1,12 @@
 package com.mgnt.lifecycle.management.example.implementations.usage;
 
-import com.mgnt.lifecycle.management.example.BaseInfoFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mgnt.lifecycle.management.example.InfoFormatter;
 import com.mgnt.lifecycle.management.example.InfoFormatterFactory;
 import com.mgnt.lifecycle.management.example.implementations.JsonInfoFormatter;
 import com.mgnt.lifecycle.management.example.implementations.XmlInfoFormatter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UsageExample {
     private static final String MESSAGE = "Hello World";

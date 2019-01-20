@@ -1,14 +1,20 @@
 package com.mgnt.utils;
 
-import com.mgnt.utils.entities.TimeInterval;
-import com.mgnt.utils.textutils.InvalidVersionFormatException;
-import com.mgnt.utils.textutils.Version;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.concurrent.TimeUnit;
+import com.mgnt.utils.entities.TimeInterval;
+import com.mgnt.utils.textutils.InvalidVersionFormatException;
+import com.mgnt.utils.textutils.Version;
 
 /**
  * This class provides various utilities for work with String that represents some other type. In current version this class provides methods for
@@ -463,56 +469,12 @@ public class TextUtils {
      * @return String with stacktrace value
      */
     public static String getStacktrace(Throwable e, boolean cutTBS, String relevantPackage) {
-        StringBuilder result = new StringBuilder("\n");
 
         // retrieve full stacktrace as byte array
         ByteArrayOutputStream stacktraceContent = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(stacktraceContent));
 
-        // Determine the value of relevant package prefix
-        String relPack = (relevantPackage != null && !relevantPackage.isEmpty()) ? relevantPackage : RELEVANT_PACKAGE;
-        /*
-		 * If the relevant package prefix was not set neither locally nor globally revert to retrieving full stacktrace even if shortening was
-		 * requested
-		 */
-        if (relPack == null || "".equals(relPack)) {
-            if (cutTBS) {
-                cutTBS = false;
-                logger.warn("Relevant package was not set for the method. Stacktrace can not be shortened. Returning full stacktrace");
-            }
-        }
-        if (cutTBS) {
-            if (stacktraceContent.size() > 0) {
-                try (BufferedReader reader =
-                             new BufferedReader(new InputStreamReader(new ByteArrayInputStream(stacktraceContent.toByteArray())))) {
-					/*
-					 * First line from stacktrace is an actual error message and is always printed. If it happens to be null (which should never
-					 * occur) it won't cause any problems as appending null to StringBuilder (within method traverseSingularStacktrace()) will be a
-					 * no-op and subsequent readLine will still return null and will be detected in the method traverseSingularStacktrace()
-					 */
-                    String line = reader.readLine();
-                    do {
-						/*
-						 * Process singular stacktraces until all are processed.
-						 */
-                        line = traverseSingularStacktrace(result, relPack, reader, line);
-                    } while (line != null);
-                } catch (IOException ioe) {
-					/*
-					 * In the very unlikely event of any error just fall back on printing the full stacktrace
-					 */
-                    error("Error occurred while reading and shortening stacktrace of an exception. Printing the original stacktrace", ioe);
-                    result.delete(0, result.length()).append(new String(stacktraceContent.toByteArray()));
-                }
-            }
-
-        } else {
-			/*
-			 * This is the branch that prints full stacktrace
-			 */
-            result.append(new String(stacktraceContent.toByteArray()));
-        }
-        return result.toString();
+        return extractStackTrace(cutTBS, relevantPackage, stacktraceContent);
     }
 
     /**
@@ -590,8 +552,73 @@ public class TextUtils {
     public static String getStacktrace(Throwable e, String relevantPackage) {
         return getStacktrace(e, true, relevantPackage);
     }
+    
+    public static String getStacktrace(CharSequence stacktrace, String relevantPackage) {
+    	return extractStackTrace(true, relevantPackage, convertToByteArray(stacktrace));
+    }
 
-    /**
+    public static String getStacktrace(CharSequence stacktrace) {
+    	return extractStackTrace(true, null, convertToByteArray(stacktrace));
+    }
+
+	private static ByteArrayOutputStream convertToByteArray(CharSequence stacktrace) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] content = stacktrace.toString().getBytes();
+		baos.write(content, 0, content.length);
+		return baos;
+	}
+
+	private static String extractStackTrace(boolean cutTBS, String relevantPackage,
+			ByteArrayOutputStream stacktraceContent) {
+		StringBuilder result = new StringBuilder("\n");
+
+        // Determine the value of relevant package prefix
+        String relPack = (relevantPackage != null && !relevantPackage.isEmpty()) ? relevantPackage : RELEVANT_PACKAGE;
+        /*
+		 * If the relevant package prefix was not set neither locally nor globally revert to retrieving full stacktrace even if shortening was
+		 * requested
+		 */
+        if (relPack == null || "".equals(relPack)) {
+            if (cutTBS) {
+                cutTBS = false;
+                logger.warn("Relevant package was not set for the method. Stacktrace can not be shortened. Returning full stacktrace");
+            }
+        }
+        if (cutTBS) {
+            if (stacktraceContent.size() > 0) {
+                try (BufferedReader reader =
+                             new BufferedReader(new InputStreamReader(new ByteArrayInputStream(stacktraceContent.toByteArray())))) {
+					/*
+					 * First line from stacktrace is an actual error message and is always printed. If it happens to be null (which should never
+					 * occur) it won't cause any problems as appending null to StringBuilder (within method traverseSingularStacktrace()) will be a
+					 * no-op and subsequent readLine will still return null and will be detected in the method traverseSingularStacktrace()
+					 */
+                    String line = reader.readLine();
+                    do {
+						/*
+						 * Process singular stacktraces until all are processed.
+						 */
+                        line = traverseSingularStacktrace(result, relPack, reader, line);
+                    } while (line != null);
+                } catch (IOException ioe) {
+					/*
+					 * In the very unlikely event of any error just fall back on printing the full stacktrace
+					 */
+                    error("Error occurred while reading and shortening stacktrace of an exception. Printing the original stacktrace", ioe);
+                    result.delete(0, result.length()).append(new String(stacktraceContent.toByteArray()));
+                }
+            }
+
+        } else {
+			/*
+			 * This is the branch that prints full stacktrace
+			 */
+            result.append(new String(stacktraceContent.toByteArray()));
+        }
+        return result.toString();
+	}
+
+	/**
      * This method traverses through Singular stacktrace and skips irrelevant lines from it replacing them by line "..." The resulting shortened
      * stacktrace is appended into {@link StringBuilder} The stacktrace is viewed as consisting possibly of several parts. If stacktrace contains
      * {@code "caused by"} or {@code "Suppressed"} section, each such section for the purposes of this utility is called "Singular stacktrace". For

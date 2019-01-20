@@ -1,16 +1,20 @@
 package com.mgnt.lifecycle.management.httpclient;
 
-import com.mgnt.utils.WebUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.mgnt.utils.WebUtils;
 
 /**
  * This class is meant to be a parent class to any class that wants to implement an http access to a particular

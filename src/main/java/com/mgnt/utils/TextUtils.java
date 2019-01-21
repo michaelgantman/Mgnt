@@ -138,8 +138,6 @@ public class TextUtils {
      * @param ver2 Version for comparison
      * @return negative integer (-1) if the first version is lesser then the second, 0 if the versions are equal and positive integer (1) if the first
      *         version is greater than second
-     * @throws com.mgnt.utils.textutils.InvalidVersionFormatException
-     *          if the String parameter is not a valid Version
      */
     public static int compareVersions(Version ver1, Version ver2) {
         return ver1.compareTo(ver2);
@@ -552,22 +550,71 @@ public class TextUtils {
     public static String getStacktrace(Throwable e, String relevantPackage) {
         return getStacktrace(e, true, relevantPackage);
     }
-    
+
+    /**
+     * This method retrieves a stacktrace  in shortened format from source stactrace provided as  {@link CharSequence}. 
+     * This is convenience method that invokes method
+     * {@link #extractStackTrace(boolean, String, ByteArrayOutputStream)} with first parameter set to {@code 'true'}.
+     * Since this method receives stacktrace as a String, it is assumed that it is always desirable to get shortened
+     * format since the full stacktrace is already available as a String
+     * @param stacktrace {@link CharSequence} that holds full stacktrace text
+     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
+     *                        "packag_name1.[package_name2.[...]]."
+     * @return Stacktrace string in shortened format 
+     * @see #getStacktrace(Throwable, boolean, String)
+     */
     public static String getStacktrace(CharSequence stacktrace, String relevantPackage) {
     	return extractStackTrace(true, relevantPackage, convertToByteArray(stacktrace));
     }
 
+    /**
+     * This method retrieves a stacktrace  in shortened format from source stactrace provided as  {@link CharSequence}. 
+     * This is convenience method that invokes method
+     * {@link #extractStackTrace(boolean, String, ByteArrayOutputStream)} with first parameter set to {@code 'true'}
+     * and second one set to {@code null}. It relies on relevant package prefix to have been set by method 
+     * {@link #setRelevantPackage(String)}. There are several options to pre-set this value. For detailed explanation
+     * of these options see method {@link #getStacktrace(Throwable, boolean)}. Since this method receives stacktrace as a 
+     * String, it is assumed that it is always desirable to get shortened format since the full stacktrace is already 
+     * available as a String
+     * 
+     * @param stacktrace
+     * @return Stacktrace string in shortened format 
+     * @see #getStacktrace(Throwable, boolean)
+     */
     public static String getStacktrace(CharSequence stacktrace) {
     	return extractStackTrace(true, null, convertToByteArray(stacktrace));
     }
 
+    /**
+     * This method simply takes a {@link CharSequence} parameter and converts it to {@link ByteArrayOutputStream}.
+     * If the parameter is null then blank {@link ByteArrayOutputStream} is returned
+     * @param stacktrace {@link CharSequence} that supposed to contain the stacktrace text
+     * @return {@link ByteArrayOutputStream} that contains the contents of <b>stacktrace</b> parameter converted
+     * to bytes or blank {@link ByteArrayOutputStream} if <b>stacktrace</b> parameter is {@code null} or blank
+     */
 	private static ByteArrayOutputStream convertToByteArray(CharSequence stacktrace) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] content = stacktrace.toString().getBytes();
-		baos.write(content, 0, content.length);
+		if(stacktrace != null) {
+			byte[] content = stacktrace.toString().getBytes();
+			baos.write(content, 0, content.length);
+		}
 		return baos;
 	}
 
+	/**
+	 * This method receives the stacktrace content as {@link ByteArrayOutputStream} and processes it exactly as
+	 * described in method {@link #getStacktrace(Throwable, boolean, String)}. Except that it receives the 
+	 * stacktrace content as byte array so it is agnostic of the fact whether it came from actual exception in
+	 * real time of from a log file or any other source. This method allows to work with stacktraces extracted
+	 * on the fly at runtime or taken from some static sources (such as log files)
+     * @param cutTBS          boolean that specifies if stacktrace should be shortened. The stacktrace should be shortened if this flag is set to {@code true}.
+     *                        Note that if this parameter set to {@code false} the stacktrace will be printed in full and parameter <b>relevantPackage</b> becomes
+     *                        irrelevant.
+     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
+     *                        "packag_name1.[package_name2.[...]]."
+	 * @param stacktraceContent {@link ByteArrayOutputStream} that contains the stacktrace content
+	 * @return
+	 */
 	private static String extractStackTrace(boolean cutTBS, String relevantPackage,
 			ByteArrayOutputStream stacktraceContent) {
 		StringBuilder result = new StringBuilder("\n");

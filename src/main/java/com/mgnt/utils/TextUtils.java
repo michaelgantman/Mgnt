@@ -553,15 +553,17 @@ public class TextUtils {
 
     /**
      * This method retrieves a stacktrace  in shortened format from source stactrace provided as  {@link CharSequence}. 
-     * This is convenience method that invokes method
-     * {@link #extractStackTrace(boolean, String, ByteArrayOutputStream)} with first parameter set to {@code 'true'}.
-     * Since this method receives stacktrace as a String, it is assumed that it is always desirable to get shortened
-     * format since the full stacktrace is already available as a String
+     * Since this method receives stacktrace as a {@link CharSequence}, it is assumed that it is always desirable to get 
+     * shortened format since the full stacktrace is already available as a {@link CharSequence}. To shorten the original 
+     * stacktrace this method processes the stacktrace exactly as described in method 
+     * {@link #getStacktrace(Throwable, boolean, String)}.
      * @param stacktrace {@link CharSequence} that holds full stacktrace text
-     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
-     *                        "packag_name1.[package_name2.[...]]."
+     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is 
+     * recommended to be in the following format "packag_name1.[package_name2.[...]]." (Again for full explanation
+     * on how this parameter (and the entire method) works see the method {@link #getStacktrace(Throwable, boolean, String)}.
      * @return Stacktrace string in shortened format 
      * @see #getStacktrace(Throwable, boolean, String)
+     * @since 1.5.0.3
      */
     public static String getStacktrace(CharSequence stacktrace, String relevantPackage) {
     	return extractStackTrace(true, relevantPackage, convertToByteArray(stacktrace));
@@ -569,17 +571,17 @@ public class TextUtils {
 
     /**
      * This method retrieves a stacktrace  in shortened format from source stactrace provided as  {@link CharSequence}. 
-     * This is convenience method that invokes method
-     * {@link #extractStackTrace(boolean, String, ByteArrayOutputStream)} with first parameter set to {@code 'true'}
-     * and second one set to {@code null}. It relies on relevant package prefix to have been set by method 
-     * {@link #setRelevantPackage(String)}. There are several options to pre-set this value. For detailed explanation
-     * of these options see method {@link #getStacktrace(Throwable, boolean)}. Since this method receives stacktrace as a 
-     * String, it is assumed that it is always desirable to get shortened format since the full stacktrace is already 
-     * available as a String
+     * This is convenience method that works the same way as method 
+     * {@link #getStacktrace(CharSequence, String)} with second parameter set to {@code null}. It relies on relevant 
+     * package prefix to have been set by method {@link #setRelevantPackage(String)}. There are several options to 
+     * pre-set this value. For detailed explanation of these options see method {@link #getStacktrace(Throwable, boolean)}. 
+     * Since this method receives stacktrace as a {@link CharSequence}, it is assumed that it is always desirable to get 
+     * shortened format since the full stacktrace is already available as a {@link CharSequence}
      * 
-     * @param stacktrace
+     * @param stacktrace {@link CharSequence} that holds full stacktrace text
      * @return Stacktrace string in shortened format 
      * @see #getStacktrace(Throwable, boolean)
+     * @since 1.5.0.3
      */
     public static String getStacktrace(CharSequence stacktrace) {
     	return extractStackTrace(true, null, convertToByteArray(stacktrace));

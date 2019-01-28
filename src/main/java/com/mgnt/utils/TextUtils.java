@@ -17,12 +17,19 @@ import com.mgnt.utils.textutils.InvalidVersionFormatException;
 import com.mgnt.utils.textutils.Version;
 
 /**
- * This class provides various utilities for work with String that represents some other type. In current version this class provides methods for
- * converting a String into its numeric value of various types (Integer, Float, Byte, Double, Long, Short). There are several methods for retrieving
+ * This class provides various utilities for work with String that represents some other type. 
+ * <p>In current version this class provides methods for
+ * converting a String into its numeric value of various types (Integer, Float, Byte, Double, Long, Short).
+ * </p> 
+ * <p>
+ * There are several methods for retrieving
  * Exception stacktrace as a String in full or shortened version. Shortened version of the stacktrace will contain concise information focusing on
  * specific package or subpackage while removing long parts of irrelevant stacktrace. This could be very useful for logging in web-based architecture
  * where stacktrace may contain long parts of server provided classes trace that could be eliminated with the methods of this class while retaining
- * important parts of the stacktrace relating to user's packages. Also this class provides methods that work with textual representation of versions.
+ * important parts of the stacktrace relating to user's packages. Also the same utility (starting from version 1.5.0.3) allows to filter and shorten 
+ * stacktrace as a string the same way as the stacktrace extracted from exception. So, essentially stacktraces could be filtered "on the fly" at run time 
+ * or later on from any text source such as log.</p>
+ * <p>Also this class provides methods that work with textual representation of versions.
  * Valid version is a String of the following format:<br>
  * <br>
  * <p/>
@@ -32,7 +39,7 @@ import com.mgnt.utils.textutils.Version;
  * <br>
  * where X is a zero or positive integer not larger than 2147483647. Leading or trailing white spaces in this string are permitted and are ignored.
  * Examples of valid versions are: "1.6", "58", "  7.34.17  " etc. (Note that last example contains both leading and trailing white spaces and it is
- * still a valid version)
+ * still a valid version)</p>
  * <p>
  * Another useful feature is parsing String to time interval. It parses Strings with numerical value and optional time unit
  * suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and

@@ -30,7 +30,7 @@ public abstract class BaseInfoFormatter extends BaseEntity<BaseInfoFormatter> im
     }
 
     /*
-     * This is constructor for registering your concrete implementations with custom names (as done in our example
+     * This is constructor for registering your concrete implementations with custom names (as done in our example)
      */
     public BaseInfoFormatter(String customName) {
         super(FACTORY_TYPE, customName);

@@ -42,7 +42,7 @@ public class TypeOneTask extends BaseBackgroundRunnable {
 
     /*
      * Method init does manual initialization which in real life should be done by reading from configuration. In other
-     * words it reads and initialises String property values. In our case all three require special "non-trivial"
+     * words it reads and initializes String property values. In our case all three require special "non-trivial"
      * parsing
      */
     private void init() {

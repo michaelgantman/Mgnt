@@ -4,7 +4,7 @@ import com.mgnt.lifecycle.management.BaseEntityFactory;
 import java.util.Collection;
 
 /*
- * This is the factory class, and it should look similar for any implementationn
+ * This is the factory class, and it should look similar for any implementation
  */
 public class InfoFormatterFactory extends BaseEntityFactory<InfoFormatter> {
     private static InfoFormatterFactory FACTORY = new InfoFormatterFactory();

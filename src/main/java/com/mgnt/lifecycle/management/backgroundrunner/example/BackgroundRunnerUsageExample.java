@@ -5,7 +5,7 @@ import com.mgnt.lifecycle.management.backgroundrunner.BackgroundThreadsRunner;
 public class BackgroundRunnerUsageExample {
     static {
         /*
-         * This static block performs what Spring framework whould have done for us if this infrastructure would have
+         * This static block performs what Spring framework would have done for us if this infrastructure would have
          * been used within Spring framework context. Method init initializes our "beans" in particular order
          */
         init();

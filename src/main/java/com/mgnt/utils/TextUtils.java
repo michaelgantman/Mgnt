@@ -372,7 +372,7 @@ public class TextUtils {
      * calculate it back to 5 days which is frustrating. But using this method you will have a property value set to
      * "5d" and invoking the code
      * <br><br>
-     *     {@code long milliseconds = TextUtils.parsingStringToTimeInterval("5d").toMillis();}
+     *     {@code long milliseconds = TextUtils.parseStringToTimeInterval("5d").toMillis();}
      * <br><br>
      * will solve your conversion problem
      *
@@ -380,7 +380,7 @@ public class TextUtils {
      * @return {@link TimeInterval} parsed from the String
      * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
      */
-    public static TimeInterval parsingStringToTimeInterval(String valueStr) throws IllegalArgumentException {
+    public static TimeInterval parseStringToTimeInterval(String valueStr) throws IllegalArgumentException {
         if(StringUtils.isBlank(valueStr)) {
             throw new IllegalArgumentException("Attempt to parse null or blank String");
         }
@@ -392,6 +392,17 @@ public class TextUtils {
         result = setTimeUnit(isLetter, potentialSuffix, result);
         result = setTimeValue(valueToParse, result);
         return result;
+    }
+
+    /**
+     * @deprecated Use {@link #parseStringToTimeInterval(String)} instead. The new method the same as this one except the name change. 
+     * This method is left for backwards compatibility only and will be removed in future versions.
+     * @param valueStr String value to parse to {@link TimeInterval}
+     * @return {@link TimeInterval} parsed from the String
+     * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
+     */
+    public static TimeInterval parsingStringToTimeInterval(String valueStr) throws IllegalArgumentException {
+    	return parseStringToTimeInterval(valueStr);
     }
 
 

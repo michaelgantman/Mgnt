@@ -64,7 +64,7 @@ public class TypeTwoTask extends BaseBackgroundRunnable {
     @Override
     public void setParamValue(TimeInterval value, String property) {
         /*
-         * Here we may ignore propery parameter, since in this siplistic implementation we know that the only
+         * Here we may ignore property parameter, since in this simplistic implementation we know that the only
          * parameter of TimeInterval type we have is our required parameter. SO we always know which setter to call
          */
         setExecutionTimeIntervalTypeTwo(value);

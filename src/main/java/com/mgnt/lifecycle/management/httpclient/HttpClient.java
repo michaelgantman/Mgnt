@@ -59,7 +59,7 @@ public class HttpClient {
      * that is expected to be textual such as a String. This method does not send any info through request body.
      * It may send parameters through URL. So this method fits perfectly for using HTTP GET method. If HTTP request
      * uses method POST, PUT or any other methods that allow passing info in the request body and there is some info
-     * to be sent then use method {@link #sendHttpRequest(String, HttpMethod, String)}
+     * to be sent then use method {@link #sendHttpRequest(HttpMethod, String)}
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
      * @return String that holds response from the URL
      * @throws IOException
@@ -90,7 +90,7 @@ public class HttpClient {
      * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
      * POST, PUT or any other methods that allow passing info in the body request and there is some info to be sent.
      * If you don't need to send any info as request body, consider using method
-     * {@link #sendHttpRequest(String, HttpMethod)}
+     * {@link #sendHttpRequest(HttpMethod)}
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
      * @param data String that holds the data to be sent as request body
      * @return String that holds response from the URL
@@ -120,6 +120,9 @@ public class HttpClient {
     }
 
     /**
+     * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses 
+     * specified HTTP method. Obviously it is expected that user should set connectionUrl property by invoking method 
+     * {@link #setConnectionUrl(String)} beforehand.
      * This method is the same as {@link #sendHttpRequest(HttpMethod)} except that it returns {@link ByteBuffer}
      * that holds binary info. So this methods fits for retrieving binary response such as Image, Video, Audio or any
      * other info in binary format.
@@ -145,6 +148,9 @@ public class HttpClient {
     }
 
     /**
+     * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses 
+     * specified HTTP method. Obviously it is expected that user should set connectionUrl property by invoking method 
+     * {@link #setConnectionUrl(String)} beforehand.     
      * This method is the same as {@link #sendHttpRequest(HttpMethod, String)} except that it returns
      * {@link ByteBuffer} that holds binary info. So this methods fits for retrieving binary response such as Image,
      * Video, Audio or any other info in binary format.

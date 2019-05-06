@@ -30,22 +30,22 @@
  * import java.util.Collection;<br>
  *<br>
  * public class InfoFormatterFactory extends BaseEntityFactory&lt;InfoFormatter&gt; {<br>
- *     &#x00A0&#x00A0private static InfoFormatterFactory FACTORY = new InfoFormatterFactory();<br>
+ *     &#x00A0;&#x00A0;private static InfoFormatterFactory FACTORY = new InfoFormatterFactory();<br>
  *<br>
- *     &#x00A0&#x00A0private InfoFormatterFactory() {<br>
- *     &#x00A0&#x00A0}<br>
+ *     &#x00A0;&#x00A0;private InfoFormatterFactory() {<br>
+ *     &#x00A0;&#x00A0;}<br>
  *<br>
- *     &#x00A0&#x00A0public static InfoFormatterFactory getFactoryInstance() {<br>
- *         &#x00A0&#x00A0&#x00A0&#x00A0return FACTORY;<br>
- *     &#x00A0&#x00A0}<br>
+ *     &#x00A0;&#x00A0;public static InfoFormatterFactory getFactoryInstance() {<br>
+ *         &#x00A0;&#x00A0;&#x00A0;&#x00A0;return FACTORY;<br>
+ *     &#x00A0;&#x00A0;}<br>
  *<br>
- *     &#x00A0&#x00A0public static InfoFormatter getInstance(String key) {<br>
- *         &#x00A0&#x00A0&#x00A0&#x00A0return FACTORY.getEntity(key);<br>
- *     &#x00A0&#x00A0}<br>
+ *     &#x00A0;&#x00A0;public static InfoFormatter getInstance(String key) {<br>
+ *         &#x00A0;&#x00A0;&#x00A0;&#x00A0;return FACTORY.getEntity(key);<br>
+ *     &#x00A0;&#x00A0;}<br>
  *<br>
- *     &#x00A0&#x00A0&#x00A0&#x00A0public static Collection<InfoFormatter> getAllInstances() {<br>
- *         &#x00A0&#x00A0&#x00A0&#x00A0return FACTORY.getAllEntities();<br>
- *     &#x00A0&#x00A0}<br>
+ *     &#x00A0;&#x00A0;public static Collection&#x3C;InfoFormatter&#x3E; getAllInstances() {<br>
+ *         &#x00A0;&#x00A0;&#x00A0;&#x00A0;return FACTORY.getAllEntities();<br>
+ *     &#x00A0;&#x00A0;}<br>
  * }<br>
  * </code><br>
  * </p>
@@ -59,31 +59,31 @@
  * This class should look like this:
  * <p><br><code>
  *
- *&nbsp&nbsp public abstract class BaseInfoFormatter extends BaseEntity&lt;BaseInfoFormatter&gt; implements InfoFormatter {<br>
+ *&nbsp;&nbsp; public abstract class BaseInfoFormatter extends BaseEntity&lt;BaseInfoFormatter&gt; implements InfoFormatter {<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp // This is mandatory part of the code for the infrastructure to work<br>
- *    &nbsp&nbsp&nbsp&nbsp private static final String FACTORY_TYPE = BaseInfoFormatter.class.getSimpleName();<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; // This is mandatory part of the code for the infrastructure to work<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; private static final String FACTORY_TYPE = BaseInfoFormatter.class.getSimpleName();<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp static {<br>
- *        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp init(FACTORY_TYPE, InfoFormatterFactory.getFactoryInstance());<br>
- *    &nbsp&nbsp&nbsp&nbsp }<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; static {<br>
+ *        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; init(FACTORY_TYPE, InfoFormatterFactory.getFactoryInstance());<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; }<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp public BaseInfoFormatter() {<br>
- *        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp super(FACTORY_TYPE);<br>
- *    &nbsp&nbsp&nbsp&nbsp }<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; public BaseInfoFormatter() {<br>
+ *        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super(FACTORY_TYPE);<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; }<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp public BaseInfoFormatter(String customName) {<br>
- *        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp super(FACTORY_TYPE, customName);<br>
- *    &nbsp&nbsp&nbsp&nbsp }<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; public BaseInfoFormatter(String customName) {<br>
+ *        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super(FACTORY_TYPE, customName);<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; }<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp // The end of mandatory part<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; // The end of mandatory part<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp // Some business logic methods that are common to all concrete implementations<br>
- * 	  &nbsp&nbsp&nbsp&nbsp //...<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; // Some business logic methods that are common to all concrete implementations<br>
+ * 	  &nbsp;&nbsp;&nbsp;&nbsp; //...<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp //Implementation of interface declared method<br>
- * 	  &nbsp&nbsp&nbsp&nbsp //...<br>
- *&nbsp&nbsp }<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; //Implementation of interface declared method<br>
+ * 	  &nbsp;&nbsp;&nbsp;&nbsp; //...<br>
+ *&nbsp;&nbsp; }<br>
  *<br></code></p>
  *
  * Then  we have 2 concrete implementations: {@link com.mgnt.lifecycle.management.example.implementations.JsonInfoFormatter}
@@ -91,15 +91,15 @@
  * parent class {@link com.mgnt.lifecycle.management.example.BaseInfoFormatter}). Here is how one of them might look,
  * (the second looks very similar so it is ommitted here)
  * <p><br><code>
- *&nbsp&nbsp public class JsonInfoFormatter extends BaseInfoFormatter {<br>
- *    &nbsp&nbsp&nbsp&nbsp private final static String CUSTOM_NAME = "JSON";<br>
+ *&nbsp;&nbsp; public class JsonInfoFormatter extends BaseInfoFormatter {<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; private final static String CUSTOM_NAME = "JSON";<br>
  *<br>
- *    &nbsp&nbsp&nbsp&nbsp public JsonInfoFormatter() {<br>
- *        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp super(CUSTOM_NAME);<br>
- *    &nbsp&nbsp&nbsp&nbsp }<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; public JsonInfoFormatter() {<br>
+ *        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super(CUSTOM_NAME);<br>
+ *    &nbsp;&nbsp;&nbsp;&nbsp; }<br>
  *<br>
- * &nbsp&nbsp&nbsp&nbsp	//Implementation of abstract method or overriding methods goes here<br>
- *&nbsp&nbsp }<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;	//Implementation of abstract method or overriding methods goes here<br>
+ *&nbsp;&nbsp; }<br>
  *<br></code></p>
  *
  * So this is our row material so to speak.
@@ -108,27 +108,27 @@
  * {@link com.mgnt.lifecycle.management.example.implementations.usage.UsageExample#init()} (that is invoked in the main()
  * method) and looks as folllows
  * <p><br><code>
- *    &nbsp&nbsp private static void init() { <br>
- *       &nbsp&nbsp&nbsp&nbsp new JsonInfoFormatter();<br>
- *       &nbsp&nbsp&nbsp&nbsp new XmlInfoFormatter();<br>
- *    &nbsp&nbsp }<br>
+ *    &nbsp;&nbsp; private static void init() { <br>
+ *       &nbsp;&nbsp;&nbsp;&nbsp; new JsonInfoFormatter();<br>
+ *       &nbsp;&nbsp;&nbsp;&nbsp; new XmlInfoFormatter();<br>
+ *    &nbsp;&nbsp; }<br>
  * </code>
  * </p><br>
  * and
  * {@link com.mgnt.lifecycle.management.example.implementations.usage.UsageExample#printFormattedGreetings()} that looks
  * as follows
  * <p><br><code>
- *    &nbsp&nbsp private static void printFormattedGreetings() { <br>
- *     &nbsp&nbsp&nbsp&nbsp InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON"); <br>
- *     &nbsp&nbsp&nbsp&nbsp System.out.println("JSON greeting: " + formatter.formatMessage(MESSAGE)); <br>
- *     &nbsp&nbsp&nbsp&nbsp formatter = InfoFormatterFactory.getInstance("XML"); <br>
- *     &nbsp&nbsp&nbsp&nbsp System.out.println("XML greeting: " + formatter.formatMessage(MESSAGE)); <br>
- *     &nbsp&nbsp&nbsp&nbsp List<String> allMessages = new ArrayList<>(); <br>
- *     &nbsp&nbsp&nbsp&nbsp for(InfoFormatter formattedMessage : InfoFormatterFactory.getAllInstances()) { <br>
- *       &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp allMessages.add(formattedMessage.formatMessage(MESSAGE)); <br>
- *     &nbsp&nbsp&nbsp&nbsp } <br>
- *     &nbsp&nbsp&nbsp&nbsp System.out.println("All greetings: " + allMessages);<br>
- *  &nbsp&nbsp } <br>
+ *    &nbsp;&nbsp; private static void printFormattedGreetings() { <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON"); <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; System.out.println("JSON greeting: " + formatter.formatMessage(MESSAGE)); <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; formatter = InfoFormatterFactory.getInstance("XML"); <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; System.out.println("XML greeting: " + formatter.formatMessage(MESSAGE)); <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; List&#x3C;String&#x3E; allMessages = new ArrayList&#x3C;&#x3E;(); <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; for(InfoFormatter formattedMessage : InfoFormatterFactory.getAllInstances()) { <br>
+ *       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; allMessages.add(formattedMessage.formatMessage(MESSAGE)); <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; } <br>
+ *     &nbsp;&nbsp;&nbsp;&nbsp; System.out.println("All greetings: " + allMessages);<br>
+ *  &nbsp;&nbsp; } <br>
  * </code>
  * </p>
  * Note that we simply use {@link com.mgnt.lifecycle.management.example.InfoFormatterFactory#getInstance(java.lang.String)}

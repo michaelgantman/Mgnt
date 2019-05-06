@@ -32,11 +32,12 @@ import com.mgnt.utils.textutils.Version;
  * <p>Also this class provides methods that work with textual representation of versions.
  * Valid version is a String of the following format:<br>
  * <br>
- * <p/>
+ * <p>
  * X[.X[.X[...]]]
- * <p/>
+ * </p>
  * <br>
  * <br>
+ * <p>
  * where X is a zero or positive integer not larger than 2147483647. Leading or trailing white spaces in this string are permitted and are ignored.
  * Examples of valid versions are: "1.6", "58", "  7.34.17  " etc. (Note that last example contains both leading and trailing white spaces and it is
  * still a valid version)</p>
@@ -407,13 +408,14 @@ public class TextUtils {
 
 
     /**
+     * <p>
      * This method retrieves a stacktrace from {@link Throwable} as a String in full or shortened format. Shortened format skips the lines in the
      * stacktrace that do not start with a configurable package prefix and replaces them with "..." line. The stacktrace is viewed as consisting
      * possibly of several parts. If stacktrace contains {@code "caused by"} or {@code "Suppressed"} section, each such section for the purposes of
      * this utility is called "Singular stacktrace". For example the stacktrace bellow contains 2 singular stacktraces: First is 4 top lines and the
      * second starting from the line {@code "Caused by: ..."} and to the end.<br>
      * <br>
-     * <p/>
+     * </p>
      * java.lang.Exception: Bad error<br>
      * &emsp; at com.plain.analytics.v2.utils.test.UtilsTester.TestGetStackTrace(UtilsTester.java:80)<br>
      * &emsp; at com.plain.analytics.v2.utils.test.UtilsTester.run(UtilsTester.java:30)<br>
@@ -429,7 +431,7 @@ public class TextUtils {
      * &emsp; at com.plain.analytics.v2.utils.test.UtilsTester.TestGetStackTrace(UtilsTester.java:76)<br>
      * &emsp; ... 2 more<br>
      * <br>
-     * <p/>
+     * <p>
      * The way this method shortens the stacktrace is as follows. Each "singular" stacktraces are analyzed and shortened separately. For each singular
      * stacktrace the error message is always printed. Then all the lines that follow are printed even if they do not start with prefix specified by
      * <b>relevantPackage</b>. Once the first line with the prefix is found this line and all immediately following lines that start with the relevant
@@ -441,7 +443,7 @@ public class TextUtils {
      * that prefix are the important or "relevant" lines. (Also the parameter <b>cutTBS</b> set to true which means that stacktrace should be
      * shortened at all. In this case the result of this method should be as follows:<br>
      * <br>
-     * <p/>
+     * </p>
      * java.lang.Exception: Bad error<br>
      * &emsp; at com.plain.analytics.v2.utils.test.UtilsTester.TestGetStackTrace(UtilsTester.java:80)<br>
      * &emsp; at com.plain.analytics.v2.utils.test.UtilsTester.run(UtilsTester.java:30)<br>
@@ -457,7 +459,7 @@ public class TextUtils {
      * &emsp; at com.plain.analytics.v2.utils.test.UtilsTester.TestGetStackTrace(UtilsTester.java:76)<br>
      * &emsp; ... 2 more<br>
      * <br>
-     * <p/>
+     * <p>
      * Note that the first singular stacktrace is printed in full because all the lines start with the required prefix. The second singular stacktrace
      * prints the first 7 lines because at first all the lines are printed until the first line with relevant prefix is found, and then all the lines
      * with the prefix (one in our case) are printed + plus one following line without the prefix. And then the second line without the prefix (3d
@@ -467,7 +469,7 @@ public class TextUtils {
      * classes this method could be very effective in removing irrelevant lines and leaving only application related lines making log files more
      * concise and clear.<br>
      * <br>
-     * <p/>
+     * </p>
      * <b>Important Note:</b> Parameter <b>relevantPackage</b> may be left null. In this case the value of relevant package prefix will be taken from
      * <b>RelevantPackage</b> property (See the methods {@link #setRelevantPackage(String)} and {@link #getRelevantPackage()}). Using method
      * {@link #setRelevantPackage(String)} to set the value will preset the value of relevant package prefix for all calls for which parameter
@@ -859,7 +861,7 @@ public class TextUtils {
      * looking" but actually non-breaking spaces. Also this was tested and found to be working with just regular HTML, but
      * in combination with javascript it could sometimes produce unexpected results and instead of "normal-looking" space
      * may show an 'Â' symbol. So, this method has its limitations. Test your results before you deliver. Use this method
-     * at your own risk.  &#x263a
+     * at your own risk.  &#x263a;
      * @param rawText to be converted
      * @return String that is converted as described above
      */

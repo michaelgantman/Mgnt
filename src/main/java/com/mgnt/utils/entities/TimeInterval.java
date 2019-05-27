@@ -3,7 +3,7 @@ package com.mgnt.utils.entities;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This is convenience class that holds time interval as numerical value and its associated  {@link TimeUnit}
+ * This is convenience class that holds time interval as numerical value and its associated  {@link TimeUnit}.
  * The class also provides methods of retrieval of its value as a long in needed scale (nanoseconds, milliseconds, 
  * seconds, minutes, hours or days) see methods {@link #toNanos()}, {@link #toMillis()}, {@link #toSeconds()}, 
  * {@link #toMinutes()}, {@link #toHours()}, {@link #toDays()}
@@ -132,6 +132,9 @@ public class TimeInterval {
         return result;
     }
 
+    /**
+     * Provides String representation of the value such as "3 MILLISECONDS".
+     */
 	@Override
 	public String toString() {
 		String result;

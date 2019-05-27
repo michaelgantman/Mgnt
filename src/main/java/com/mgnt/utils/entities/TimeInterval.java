@@ -4,9 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * This is convenience class that holds time interval as numerical value and its associated  {@link TimeUnit}
- * The class also provides methods of retrieval of its value as a long in needed scale (milliseconds, seconds, minutes,
- * hours or days) see methods {@link #toMillis()}, {@link #toSeconds()} , {@link #toMinutes()} , {@link #toHours()} ,
- * {@link #toDays()},
+ * The class also provides methods of retrieval of its value as a long in needed scale (nanoseconds, milliseconds, 
+ * seconds, minutes, hours or days) see methods {@link #toNanos()}, {@link #toMillis()}, {@link #toSeconds()}, 
+ * {@link #toMinutes()}, {@link #toHours()}, {@link #toDays()}
  */
 public class TimeInterval {
     private long value;
@@ -60,6 +60,18 @@ public class TimeInterval {
         this.timeUnit = timeUnit;
     }
 
+    /**
+     * returns long value of this TimeInterval in nanoseconds
+     * @return long
+     */
+    public long toNanos() {
+        long result = 0;
+        if(timeUnit != null) {
+            result = getTimeUnit().toNanos(getValue());
+        }
+        return result;
+    }
+    
     /**
      * returns long value of this TimeInterval in milliseconds
      * @return long
@@ -119,4 +131,15 @@ public class TimeInterval {
         }
         return result;
     }
+
+	@Override
+	public String toString() {
+		String result;
+		if(timeUnit != null) {
+			result = "" + getValue() + " " + timeUnit.toString();
+		} else {
+			result = super.toString();
+		}
+		return result;
+	}
 }

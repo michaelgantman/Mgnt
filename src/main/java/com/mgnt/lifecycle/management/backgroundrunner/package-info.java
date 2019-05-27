@@ -21,7 +21,7 @@
  * <b>{@code task.execution.interval=32400000}</b>. So there is a trade-off here. This infrastructure definitely requires more effort
  * from a programmer then mere method annotation with <b>{@code @Scheduled}</b>, but provides very intuitive and humanly readable
  * way to define time interval properties. Internally this framework uses utility provided by this library to parse those
- * time intervals. (For details see {@link com.mgnt.utils.TextUtils#parsingStringToTimeInterval(java.lang.String)}) Also
+ * time intervals. (For details see {@link com.mgnt.utils.TextUtils#parseStringToTimeInterval(java.lang.String)}) Also
  * this infrastructure allows you to parse other time interval properties (if you class has any) with the same format.
  * <p>
  *     package <b>{@code com.mgnt.lifecycle.management.backgroundrunner.example}</b> contains working source code that demonstrates

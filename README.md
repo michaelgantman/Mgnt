@@ -58,18 +58,18 @@ and work with version as early as 5 and up. This library is available on Maven C
         &lt;dependency&gt;<br>
             &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.5.0.4&lt;&#47;version&gt;<br>
+            &nbsp;&nbsp;&lt;version&gt;1.5.0.5&lt;&#47;version&gt;<br>
         &lt;&#47;dependency&gt;<br><br>
         &lt;dependency&gt;<br>
             &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.5.0.4&lt;&#47;version&gt;<br>
+            &nbsp;&nbsp;&lt;version&gt;1.5.0.5&lt;&#47;version&gt;<br>
             &nbsp;&nbsp;&lt;classifier&gt;javadoc&lt;&#47;classifier&gt;<br>
         &lt;&#47;dependency&gt;<br><br>
         &lt;dependency&gt;<br>
             &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.5.0.4&lt;&#47;version&gt;<br>
+            &nbsp;&nbsp;&lt;version&gt;1.5.0.5&lt;&#47;version&gt;<br>
             &nbsp;&nbsp;&lt;classifier&gt;sources&lt;&#47;classifier&gt;<br>
         &lt;&#47;dependency&gt;<br>
 </p>

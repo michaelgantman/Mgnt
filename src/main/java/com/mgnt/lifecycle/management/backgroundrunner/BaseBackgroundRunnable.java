@@ -59,7 +59,7 @@ public abstract class BaseBackgroundRunnable extends BaseEntity<BaseBackgroundRu
         if (StringUtils.isNotBlank(valueStr)) {
             TimeInterval timeInterval;
             try {
-                timeInterval = TextUtils.parsingStringToTimeInterval(valueStr);
+                timeInterval = TextUtils.parseStringToTimeInterval(valueStr);
                 setParamValue(timeInterval, propertyName);
             } catch (IllegalArgumentException iae) {
                 LOGGER.error("Error occurred while parsing time interval string: '{}'{}", valueStr, TextUtils.getStacktrace(iae));

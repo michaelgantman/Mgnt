@@ -9,8 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,15 +24,17 @@ import com.mgnt.utils.WebUtils;
  * and then simply add some methods that would be used to contact some different sub-urls with the same url base. Those
  * methods may receive some parameters that would enable to build final url based on pre-set base url. However this
  * class may be used on its own as well. All you will need to do is to set a value for content type using method
- * {@link #setContentType(String)} if needed and then just call method {@link #sendHttpRequest(String, HttpMethod)}
+ * {@link #setContentType(String)} if needed, or/and any other request property using method 
+ * {@link #setRequestProperty(String, String)} and then just call method {@link #sendHttpRequest(String, HttpMethod)}
  * or {@link #sendHttpRequest(String, HttpMethod, String)} (or if the reply is expected to be binary such as image then
  * call the methods {@link #sendHttpRequestForBinaryResponse(String, HttpMethod)} or
  * {@link #sendHttpRequestForBinaryResponse(String, HttpMethod, String)})
  */
 public class HttpClient {
-
+	
+	private static final String CONTENT_TYPE_HEADER_KEY = "Content-Type";
+	private Map<String, String> requestPropertiesMap = new HashMap<>();
     private String connectionUrl;
-    private String contentType;
 
     /**
      * This method is a getter for connectionUrl property which only makes sense if that property was set. Setting
@@ -251,7 +255,7 @@ public class HttpClient {
     /**
      * This method is intended to be overridden by extending classes if those classes provide methods that send
      * requests with the same content type
-     * @return default content type (See {@link #getContentType()}
+     * @return default content type (See {@link #getContentType()})
      */
     protected String getDefaultContentType() {
         return null;
@@ -263,15 +267,53 @@ public class HttpClient {
      * @return content type property value or default value if the property was not set
      */
     public String getContentType() {
-        return StringUtils.isNotBlank(contentType) ? contentType : getDefaultContentType();
+    	String contentType = requestPropertiesMap.get(CONTENT_TYPE_HEADER_KEY);
+    	if(StringUtils.isBlank(contentType)) {
+    		contentType = getDefaultContentType();
+    		if(StringUtils.isNotBlank(contentType)) { 
+    			requestPropertiesMap.put(CONTENT_TYPE_HEADER_KEY, contentType);
+    		}
+    	}
+        return contentType;
+    }
+    
+    /**
+     * This method is a general request property setter.
+     * @param propertyName if the value of property name is blank or null this method does nothing
+     * @param value Holds the value for the property
+     */
+    public void setRequestProperty(String propertyName, String value) {
+    	if(StringUtils.isNotBlank(propertyName)) {
+    		requestPropertiesMap.put(propertyName, value);
+    	}
+    }
+    
+    /**
+     * This method removes request property
+     * @param propertyName if the value of propertyName is blank or null this method does nothing and returns null 
+     * @return the value that has been removed or null if the propertyName key was not present in the properties
+     */
+    public String removeRequestProperty(String propertyName) {
+    	String result = null;
+    	if(StringUtils.isNotBlank(propertyName)) {
+    		result = requestPropertiesMap.remove(propertyName);
+    	}
+    	return result;
+    }
+    
+    /**
+     * This method clears all request properties.
+     */
+    public void clearAllRequestProperties() {
+    	requestPropertiesMap.clear();
     }
 
     /**
      * This is setter method for content type property. This method intended for use in extending classes
-     * @param contentType
+     * @param contentType holds content type value
      */
     public void setContentType(String contentType) {
-        this.contentType = contentType;
+    	requestPropertiesMap.put(CONTENT_TYPE_HEADER_KEY, contentType);
     }
 
     /**
@@ -299,7 +341,9 @@ public class HttpClient {
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
         connection.setDoOutput(doOutput);
         connection.setRequestMethod(method.toString());
-        connection.setRequestProperty("Content-Type", getContentType());
+        for(String requestProperty : requestPropertiesMap.keySet()) {
+        	connection.setRequestProperty(requestProperty, requestPropertiesMap.get(requestProperty));
+        }
         return connection;
     }
 

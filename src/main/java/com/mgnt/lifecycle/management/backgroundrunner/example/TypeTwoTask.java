@@ -77,7 +77,8 @@ public class TypeTwoTask extends BaseBackgroundRunnable {
      */
     @Override
     public void run() {
-        System.out.println(new Date() + " TypeTwoTask is been executed.");
+        System.out.println(new Date() + " TypeTwoTask is been executed." + " Thread name: " +
+                Thread.currentThread().getName());
     }
 
     public String getExecutionTimeIntervalTypeTwoStr() {

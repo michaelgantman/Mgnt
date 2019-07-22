@@ -158,10 +158,10 @@ public class TextUtils {
      * project that uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty
      * Strings than the correlating error will not be printed.
      *
-     * @param num                        CharSequence to be parsed
-     * @param defaultValue                  value that will be returned by this method if parsing of the String failed
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
      * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
+     * @param numberFormatErrorMessage String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
     public static int parseStringToInt(CharSequence num, int defaultValue,
@@ -186,16 +186,28 @@ public class TextUtils {
     }
 
     /**
+     * This method parses a String to its Numeric value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToInt(CharSequence, int, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static int parseStringToInt(CharSequence num, int defaultValue) {
+    	return parseStringToInt(num, defaultValue, null, null);
+    }
+    
+    /**
      * This method parses a String to Numeric value. If parsing does not succeed because the String is not of appropriate number format the default
      * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
      * and appropriate error message is printed into log. Note that logging relies on slf4j being present and appropriately configured by project that
      * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
      * correlating error will not be printed.
      *
-     * @param num                        CharSequence to be parsed
-     * @param defaultValue                  value that will be returned by this method if parsing of the String failed
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
      * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
-     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
+     * @param numberFormatErrorMessage String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
      * @return numeric value parsed from the String
      */
     public static float parseStringToFloat(CharSequence num, float defaultValue,
@@ -219,6 +231,18 @@ public class TextUtils {
         return result;
     }
 
+    /**
+     * This method parses a String to its Numeric value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToFloat(CharSequence, float, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static float parseStringToFloat(CharSequence num, float defaultValue) {
+    	return parseStringToFloat(num, defaultValue, null, null);
+    }
+    
     /**
      * This method parses a String to Numeric value. If parsing does not succeed because the String is not of appropriate number format the default
      * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
@@ -254,6 +278,18 @@ public class TextUtils {
     }
 
     /**
+     * This method parses a String to its Numeric value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToByte(CharSequence, byte, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static Byte parseStringToByte(CharSequence num, byte defaultValue) {
+    	return parseStringToByte(num, defaultValue, null, null);
+    }
+    
+    /**
      * This method parses a String to Numeric value. If parsing does not succeed because the String is not of appropriate number format the default
      * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
      * and appropriate error message is printed into log. Note that logging relies on slf4j being present and appropriately configured by project that
@@ -287,6 +323,18 @@ public class TextUtils {
         return result;
     }
 
+    /**
+     * This method parses a String to its Numeric value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToDouble(CharSequence, double, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static double parseStringToDouble(CharSequence num, double defaultValue) {
+    	return parseStringToDouble(num, defaultValue, null, null);
+    }
+    
     /**
      * This method parses a String to Numeric value. If parsing does not succeed because the String is not of appropriate number format the default
      * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
@@ -322,6 +370,18 @@ public class TextUtils {
     }
 
     /**
+     * This method parses a String to its Numeric value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToLong(CharSequence, long, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static long parseStringToLong(CharSequence num, long defaultValue) {
+    	return parseStringToLong(num, defaultValue, null, null);
+    }
+    
+    /**
      * This method parses a String to Numeric value. If parsing does not succeed because the String is not of appropriate number format the default
      * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
      * and appropriate error message is printed into log. Note that logging relies on slf4j being present and appropriately configured by project that
@@ -355,6 +415,18 @@ public class TextUtils {
         return result;
     }
 
+    /**
+     * This method parses a String to its Numeric value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToShort(CharSequence, short, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static Short parseStringToShort(CharSequence num, short defaultValue) {
+    	return parseStringToShort(num, defaultValue, null, null);
+    }
+    
     /**
      * This method parses String value into {@link TimeInterval}. This method supports time interval suffixes <b>"s"</b>
      * for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.

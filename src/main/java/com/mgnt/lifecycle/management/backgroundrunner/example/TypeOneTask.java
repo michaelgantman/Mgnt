@@ -132,7 +132,8 @@ public class TypeOneTask extends BaseBackgroundRunnable {
     public void run() {
         System.out.println(new Date() + " TypeOneTask is been executed. TimeInterval property is: " +
                 getTimeIntervalProperty().getValue() + " " + getTimeIntervalProperty().getTimeUnit() +
-                " Parsed integer property: " + getParsedIntegerProperty());
+                " Parsed integer property: " + getParsedIntegerProperty() + " Thread name: " +
+                Thread.currentThread().getName());
     }
 
     public String getExecutionTimeIntervalStr() {

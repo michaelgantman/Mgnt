@@ -13,10 +13,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.mgnt.utils.TextUtils;
 import com.mgnt.utils.WebUtils;
+import com.mgnt.utils.entities.TimeInterval;
 
 /**
  * This class is meant to be a parent class to any class that wants to implement an http access to a particular
@@ -35,6 +38,10 @@ public class HttpClient {
 	private static final String CONTENT_TYPE_HEADER_KEY = "Content-Type";
 	private Map<String, String> requestPropertiesMap = new HashMap<>();
     private String connectionUrl;
+    private int lastResponseCode = -1;
+    private String lastResponseMessage = null;
+    private TimeInterval connectTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
+    private TimeInterval readTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
 
     /**
      * This method is a getter for connectionUrl property which only makes sense if that property was set. Setting
@@ -180,85 +187,10 @@ public class HttpClient {
     public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, String data) throws IOException {
         HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
         ByteBuffer response = readBinaryResponse(connection);
+        setLastResponseCode(connection.getResponseCode());
+        setLastResponseMessage(connection.getResponseMessage());
         connection.disconnect();
         return response;
-    }
-
-    /**
-     * This method reads response from {@link HttpURLConnection} expecting response to be in Textual format
-     * @param connection {@link HttpURLConnection} from which to read the response
-     * @return String that holds the response
-     * @throws IOException
-     */
-    private String readResponse(HttpURLConnection connection) throws IOException {
-        String response = "";
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            response = sb.toString();
-        }
-        return response;
-    }
-
-    /**
-     * This method reads response from {@link HttpURLConnection} and returns it in raw binary format
-     * @param connection {@link HttpURLConnection} from which to read the response
-     * @return {@link ByteBuffer} that contains the response
-     * @throws IOException
-     */
-    private ByteBuffer readBinaryResponse(HttpURLConnection connection) throws IOException {
-        List<ByteBuffer> content = new LinkedList<>();
-        int totalLength = 0;
-        try (InputStream is = connection.getInputStream()) {
-            while(true) {
-                byte[] buff = new byte[WebUtils.DEFAULT_BUFFER_SIZE];
-                int length = is.read(buff);
-                if(length >= 0) {
-                    content.add(ByteBuffer.wrap(buff, 0, length));
-                    totalLength += length;
-                } else {
-                    break;
-                }
-            }
-        }
-        ByteBuffer result = ByteBuffer.allocate(totalLength);
-        for(ByteBuffer byteBuffer : content) {
-            result.put(byteBuffer);
-        }
-        return result;
-    }
-
-    /**
-     * This method sends the HTTP request and returns opened {@link HttpURLConnection}. If <b><i>data</i></b>
-     * parameter is not null or empty it sends it as request body content
-     * @param url URL to which request is sent
-     * @param method {@link HttpMethod} that specifies which HTTP Method to use
-     * @param data request body content. May be <b>NULL</b> if no request body needs to be sent
-     * @return open {@link HttpURLConnection}
-     * @throws IOException
-     */
-    private HttpURLConnection sendRequest(String url, HttpMethod method, String data) throws IOException {
-        boolean doOutput = StringUtils.isNotBlank(data);
-        HttpURLConnection httpURLConnection = openHttpUrlConnection(url, method, doOutput);
-        if (doOutput) {
-            try (DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream())) {
-                dataOutputStream.write(StandardCharsets.UTF_8.encode(data).array());
-                dataOutputStream.flush();
-            }
-        }
-        return httpURLConnection;
-    }
-
-    /**
-     * This method is intended to be overridden by extending classes if those classes provide methods that send
-     * requests with the same content type
-     * @return default content type (See {@link #getContentType()})
-     */
-    protected String getDefaultContentType() {
-        return null;
     }
 
     /**
@@ -316,7 +248,60 @@ public class HttpClient {
     	requestPropertiesMap.put(CONTENT_TYPE_HEADER_KEY, contentType);
     }
 
-    /**
+    public int getLastResponseCode() {
+		return lastResponseCode;
+	}
+
+	public String getLastResponseMessage() {
+		return lastResponseMessage;
+	}
+
+	public TimeInterval getConnectTimeout() {
+		return connectTimeout;
+	}
+
+	public void setConnectTimeout(TimeInterval connectTimeout) {
+		this.connectTimeout = connectTimeout;
+	}
+
+	public void setConnectTimeout(String timeIntervalStr) throws IllegalArgumentException {
+		this.connectTimeout = TextUtils.parseStringToTimeInterval(timeIntervalStr);
+	}
+	
+	public void setConnectTimeout(long timeValue, TimeUnit timeUnit) throws IllegalArgumentException {
+		if(timeValue < 0) {
+			throw new IllegalArgumentException("Negative value for timeout");
+		}
+		if(timeUnit == null) {
+			throw new IllegalArgumentException("Null Time Unit value for timeout");
+		}
+		this.connectTimeout = new TimeInterval(timeValue, timeUnit);
+	}
+
+	public TimeInterval getReadTimeout() {
+		return readTimeout;
+	}
+
+	public void setReadTimeout(TimeInterval readTimeout) {
+		this.readTimeout = readTimeout;
+	}
+
+
+	public void setReadTimeout(String timeIntervalStr) throws IllegalArgumentException {
+		this.readTimeout = TextUtils.parseStringToTimeInterval(timeIntervalStr);
+	}
+	
+	public void setReadTimeout(long timeValue, TimeUnit timeUnit) throws IllegalArgumentException {
+		if(timeValue < 0) {
+			throw new IllegalArgumentException("Negative value for timeout");
+		}
+		if(timeUnit == null) {
+			throw new IllegalArgumentException("Null Time Unit value for timeout");
+		}
+		this.readTimeout = new TimeInterval(timeValue, timeUnit);
+	}
+	
+	/**
      * This method creates and opens {@link HttpURLConnection} to specified URL The connection's property
      * doOutput is set to false
      * @param url Url to be connected to
@@ -339,6 +324,8 @@ public class HttpClient {
     protected HttpURLConnection openHttpUrlConnection(String url, HttpMethod method, boolean doOutput) throws IOException {
         URL requestUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+        setConnectionTimeout(connection);
+        setReadTimeout(connection);
         connection.setDoOutput(doOutput);
         connection.setRequestMethod(method.toString());
         for(String requestProperty : requestPropertiesMap.keySet()) {
@@ -346,8 +333,110 @@ public class HttpClient {
         }
         return connection;
     }
+    
+    /**
+     * This method is intended to be overridden by extending classes if those classes provide methods that send
+     * requests with the same content type
+     * @return default content type (See {@link #getContentType()})
+     */
+    protected String getDefaultContentType() {
+    	return null;
+    }
+	
+	private void setLastResponseCode(int lastResponseCode) {
+		this.lastResponseCode = lastResponseCode;
+	}
 
-    public static enum HttpMethod {
+	private void setLastResponseMessage(String lastResponseMessage) {
+		this.lastResponseMessage = lastResponseMessage;
+	}
+
+    /**
+     * This method reads response from {@link HttpURLConnection} expecting response to be in Textual format
+     * @param connection {@link HttpURLConnection} from which to read the response
+     * @return String that holds the response
+     * @throws IOException
+     */
+    private String readResponse(HttpURLConnection connection) throws IOException {
+    	String response = "";
+    	try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+    		StringBuilder sb = new StringBuilder();
+    		String line;
+    		while ((line = br.readLine()) != null) {
+    			sb.append(line);
+    		}
+    		response = sb.toString();
+    	}
+    	return response;
+    }
+    
+    /**
+     * This method reads response from {@link HttpURLConnection} and returns it in raw binary format
+     * @param connection {@link HttpURLConnection} from which to read the response
+     * @return {@link ByteBuffer} that contains the response
+     * @throws IOException
+     */
+    private ByteBuffer readBinaryResponse(HttpURLConnection connection) throws IOException {
+    	List<ByteBuffer> content = new LinkedList<>();
+    	int totalLength = 0;
+    	try (InputStream is = connection.getInputStream()) {
+    		while(true) {
+    			byte[] buff = new byte[WebUtils.DEFAULT_BUFFER_SIZE];
+    			int length = is.read(buff);
+    			if(length >= 0) {
+    				content.add(ByteBuffer.wrap(buff, 0, length));
+    				totalLength += length;
+    			} else {
+    				break;
+    			}
+    		}
+    	}
+    	ByteBuffer result = ByteBuffer.allocate(totalLength);
+    	for(ByteBuffer byteBuffer : content) {
+    		result.put(byteBuffer);
+    	}
+    	return result;
+    }
+    
+    /**
+     * This method sends the HTTP request and returns opened {@link HttpURLConnection}. If <b><i>data</i></b>
+     * parameter is not null or empty it sends it as request body content
+     * @param url URL to which request is sent
+     * @param method {@link HttpMethod} that specifies which HTTP Method to use
+     * @param data request body content. May be <b>NULL</b> if no request body needs to be sent
+     * @return open {@link HttpURLConnection}
+     * @throws IOException
+     */
+    private HttpURLConnection sendRequest(String url, HttpMethod method, String data) throws IOException {
+    	boolean doOutput = StringUtils.isNotBlank(data);
+    	HttpURLConnection httpURLConnection = openHttpUrlConnection(url, method, doOutput);
+    	if (doOutput) {
+    		try (DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream())) {
+    			dataOutputStream.write(StandardCharsets.UTF_8.encode(data).array());
+    			dataOutputStream.flush();
+    		}
+    	}
+    	return httpURLConnection;
+    }
+
+	private HttpURLConnection setConnectionTimeout(HttpURLConnection connection) {
+		int connectionTimeoutMs = Long.valueOf((getConnectTimeout().toMillis())).intValue();
+        if(connectionTimeoutMs > 0L) {
+        	connection.setConnectTimeout(connectionTimeoutMs);
+        }
+        return connection;
+	}
+
+
+	private HttpURLConnection setReadTimeout(HttpURLConnection connection) {
+		int readTimeoutMs = Long.valueOf((getReadTimeout().toMillis())).intValue();
+        if(readTimeoutMs > 0L) {
+        	connection.setReadTimeout(readTimeoutMs);
+        }
+        return connection;
+	}
+
+	public static enum HttpMethod {
         GET,
         PUT,
         POST,

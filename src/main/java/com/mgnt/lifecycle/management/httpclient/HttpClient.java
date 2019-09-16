@@ -126,6 +126,8 @@ public class HttpClient {
     public String sendHttpRequest(String requestUrl, HttpMethod callMethod, String data) throws IOException {
         HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
         String response = readResponse(connection);
+        setLastResponseCode(connection.getResponseCode());
+        setLastResponseMessage(connection.getResponseMessage());
         connection.disconnect();
         return response;
     }

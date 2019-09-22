@@ -250,10 +250,24 @@ public class HttpClient {
     	requestPropertiesMap.put(CONTENT_TYPE_HEADER_KEY, contentType);
     }
 
+    /**
+     * This method returns the status code from the last HTTP response message. If two or more separate requests
+     * where executed this method returns the status code from the last response. The codes from previous responses are lost if they
+     * were not read after the respective request was executed and before the next one is executed. This method returns -1 if no 
+     * request was executed yet by this instance of the class or response was't received. 
+     * @return the HTTP Status-Code, or -1
+     */
     public int getLastResponseCode() {
 		return lastResponseCode;
 	}
 
+    /**
+     * This method returns the last HTTP response message. If two or more separate requests
+     * where executed this method returns the HTTP response message from the last response. The messages from previous responses 
+     * are lost if they were not read after the respective request was executed and before the next one is executed. This method 
+     * returns null if no request was executed yet by this instance of the class or response was't received. 
+     * @return the HTTP response message, or null
+     */
 	public String getLastResponseMessage() {
 		return lastResponseMessage;
 	}

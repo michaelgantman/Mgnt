@@ -272,18 +272,44 @@ public class HttpClient {
 		return lastResponseMessage;
 	}
 
+	/**
+	 * This method returns connection timeout currently in effect. The default value (if timeout was never set) is 0 which means 
+	 * that the option is disabled (i.e., timeout of infinity). The timeout value remains in effect for all the following
+	 * connection requests until changed
+	 * @return returns current timeout value in {@link TimeInterval}
+	 */
 	public TimeInterval getConnectTimeout() {
 		return connectTimeout;
 	}
 
+	/**
+	 * This method sets the connection timeout that will remain in effect for all subsequent connection requests until it is
+	 * changed by invocation of this or other connection timeout setter methods: {@link #setConnectTimeout(String)}, 
+	 * {@link #setConnectTimeout(long, TimeUnit)}
+	 * @see {@link #setConnectTimeout(String)}, {@link #setConnectTimeout(long, TimeUnit)}
+	 * @param connectTimeout
+	 */
 	public void setConnectTimeout(TimeInterval connectTimeout) {
 		this.connectTimeout = connectTimeout;
 	}
 
+	/**
+	 * This is convenience method that allows to set connection timeout from a string that is parsed to {@link TimeInterval}.
+	 * @param timeIntervalStr that represents time interval. (See {@link TextUtils#parseStringToTimeInterval(String)} to see
+	 * what is expected string format) 
+	 * @throws IllegalArgumentException if string parameter could not be parsed to {@link TimeInterval}
+	 */
 	public void setConnectTimeout(String timeIntervalStr) throws IllegalArgumentException {
-		this.connectTimeout = TextUtils.parseStringToTimeInterval(timeIntervalStr);
+		setConnectTimeout(TextUtils.parseStringToTimeInterval(timeIntervalStr));
 	}
 	
+	/**
+	 * This is convenience method that allows to set connection timeout from timeValue and TimeUnit parameters that are used
+	 * to instantiate   {@link TimeInterval}
+	 * @param timeValue numeric time value
+	 * @param timeUnit time unit to interpret time value unit
+	 * @throws IllegalArgumentException if timeValue is negative or TimeUnit is null
+	 */
 	public void setConnectTimeout(long timeValue, TimeUnit timeUnit) throws IllegalArgumentException {
 		if(timeValue < 0) {
 			throw new IllegalArgumentException("Negative value for timeout");
@@ -291,22 +317,48 @@ public class HttpClient {
 		if(timeUnit == null) {
 			throw new IllegalArgumentException("Null Time Unit value for timeout");
 		}
-		this.connectTimeout = new TimeInterval(timeValue, timeUnit);
+		setConnectTimeout(new TimeInterval(timeValue, timeUnit));
 	}
 
+	/**
+	 * This method returns read timeout currently in effect. The default value (if timeout was never set) is 0 which means 
+	 * that the option is disabled (i.e., timeout of infinity). The timeout value remains in effect for all the following
+	 * connection requests until changed
+	 * @return returns current timeout value in {@link TimeInterval}
+	 */
 	public TimeInterval getReadTimeout() {
 		return readTimeout;
 	}
 
+	/**
+	 * This method sets the read timeout that will remain in effect for all subsequent connection requests until it is
+	 * changed by invocation of this or other read timeout setter methods: {@link #setReadTimeout(String)}, 
+	 * {@link #setReadTimeout(long, TimeUnit)}
+	 * @see {@link #setReadTimeout(String)}, {@link #setReadTimeout(long, TimeUnit)}
+	 * @param readTimeout
+	 */
 	public void setReadTimeout(TimeInterval readTimeout) {
 		this.readTimeout = readTimeout;
 	}
 
 
+	/**
+	 * This is convenience method that allows to set read timeout from a string that is parsed to {@link TimeInterval}.
+	 * @param timeIntervalStr that represents time interval. (See {@link TextUtils#parseStringToTimeInterval(String)} to see
+	 * what is expected string format) 
+	 * @throws IllegalArgumentException if string parameter could not be parsed to {@link TimeInterval}
+	 */
 	public void setReadTimeout(String timeIntervalStr) throws IllegalArgumentException {
-		this.readTimeout = TextUtils.parseStringToTimeInterval(timeIntervalStr);
+		setReadTimeout(TextUtils.parseStringToTimeInterval(timeIntervalStr));
 	}
 	
+	/**
+	 * This is convenience method that allows to set read timeout from timeValue and TimeUnit parameters that are used
+	 * to instantiate   {@link TimeInterval}
+	 * @param timeValue numeric time value
+	 * @param timeUnit time unit to interpret time value unit
+	 * @throws IllegalArgumentException if timeValue is negative or TimeUnit is null
+	 */
 	public void setReadTimeout(long timeValue, TimeUnit timeUnit) throws IllegalArgumentException {
 		if(timeValue < 0) {
 			throw new IllegalArgumentException("Negative value for timeout");
@@ -314,7 +366,7 @@ public class HttpClient {
 		if(timeUnit == null) {
 			throw new IllegalArgumentException("Null Time Unit value for timeout");
 		}
-		this.readTimeout = new TimeInterval(timeValue, timeUnit);
+		setReadTimeout(new TimeInterval(timeValue, timeUnit));
 	}
 	
 	/**
@@ -437,7 +489,7 @@ public class HttpClient {
 
 	private HttpURLConnection setConnectionTimeout(HttpURLConnection connection) {
 		int connectionTimeoutMs = Long.valueOf((getConnectTimeout().toMillis())).intValue();
-        if(connectionTimeoutMs > 0L) {
+        if(connectionTimeoutMs >= 0L) {
         	connection.setConnectTimeout(connectionTimeoutMs);
         }
         return connection;
@@ -446,7 +498,7 @@ public class HttpClient {
 
 	private HttpURLConnection setReadTimeout(HttpURLConnection connection) {
 		int readTimeoutMs = Long.valueOf((getReadTimeout().toMillis())).intValue();
-        if(readTimeoutMs > 0L) {
+        if(readTimeoutMs >= 0L) {
         	connection.setReadTimeout(readTimeoutMs);
         }
         return connection;

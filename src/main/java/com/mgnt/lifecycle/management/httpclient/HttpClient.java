@@ -286,7 +286,6 @@ public class HttpClient {
 	 * This method sets the connection timeout that will remain in effect for all subsequent connection requests until it is
 	 * changed by invocation of this or other connection timeout setter methods: {@link #setConnectTimeout(String)}, 
 	 * {@link #setConnectTimeout(long, TimeUnit)}
-	 * @see {@link #setConnectTimeout(String)}, {@link #setConnectTimeout(long, TimeUnit)}
 	 * @param connectTimeout
 	 */
 	public void setConnectTimeout(TimeInterval connectTimeout) {
@@ -334,7 +333,6 @@ public class HttpClient {
 	 * This method sets the read timeout that will remain in effect for all subsequent connection requests until it is
 	 * changed by invocation of this or other read timeout setter methods: {@link #setReadTimeout(String)}, 
 	 * {@link #setReadTimeout(long, TimeUnit)}
-	 * @see {@link #setReadTimeout(String)}, {@link #setReadTimeout(long, TimeUnit)}
 	 * @param readTimeout
 	 */
 	public void setReadTimeout(TimeInterval readTimeout) {

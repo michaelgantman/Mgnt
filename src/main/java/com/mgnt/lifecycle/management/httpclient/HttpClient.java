@@ -124,11 +124,18 @@ public class HttpClient {
      * @throws IOException
      */
     public String sendHttpRequest(String requestUrl, HttpMethod callMethod, String data) throws IOException {
+    	String response;
         HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
-        String response = readResponse(connection);
         setLastResponseCode(connection.getResponseCode());
         setLastResponseMessage(connection.getResponseMessage());
-        connection.disconnect();
+		try {
+			response = readResponse(connection);
+		} catch (IOException ioe) {
+			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" + 
+				ioe.getMessage() + ")", ioe);
+		} finally {
+			connection.disconnect();
+		}
         return response;
     }
 
@@ -187,11 +194,18 @@ public class HttpClient {
      * @throws IOException
      */
     public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, String data) throws IOException {
-        HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
-        ByteBuffer response = readBinaryResponse(connection);
+        ByteBuffer response;
+    	HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
         setLastResponseCode(connection.getResponseCode());
         setLastResponseMessage(connection.getResponseMessage());
-        connection.disconnect();
+        try {
+	        response = readBinaryResponse(connection);
+		} catch (IOException ioe) {
+			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" + 
+					ioe.getMessage() + ")", ioe);
+		} finally {
+			connection.disconnect();
+		}
         return response;
     }
 

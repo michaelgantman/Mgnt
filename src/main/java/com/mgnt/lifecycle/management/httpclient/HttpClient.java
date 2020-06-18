@@ -440,15 +440,35 @@ public class HttpClient {
     private String readResponse(HttpURLConnection connection) throws IOException {
     	String response = "";
     	try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-    		StringBuilder sb = new StringBuilder();
-    		String line;
-    		while ((line = br.readLine()) != null) {
-    			sb.append(line);
+    		response = doReadResponse(br);
+    	} catch(IOException ioe) {
+    		InputStream errorInputStream = connection.getErrorStream();
+    		if(errorInputStream == null) {
+    			throw ioe;
+    		} else {
+    			BufferedReader br = new BufferedReader(new InputStreamReader(errorInputStream, StandardCharsets.UTF_8));
+        		response = doReadResponse(br);
     		}
-    		response = sb.toString();
     	}
     	return response;
     }
+
+    /**
+     * This method reads response from {@link BufferedReader} that wraps an {@link InputStream} obtained from the server.
+     * @param br {@link BufferedReader} that wraps an {@link InputStream} obtained from the server
+     * @return read content as a {@link String}
+     * @throws IOException
+     */
+	private String doReadResponse(BufferedReader br) throws IOException {
+		String response;
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		response = sb.toString();
+		return response;
+	}
     
     /**
      * This method reads response from {@link HttpURLConnection} and returns it in raw binary format

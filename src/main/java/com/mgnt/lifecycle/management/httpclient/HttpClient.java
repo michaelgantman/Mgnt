@@ -40,6 +40,7 @@ public class HttpClient {
     private String connectionUrl;
     private int lastResponseCode = -1;
     private String lastResponseMessage = null;
+    private Map<String, List<String>> lastResponseHeaders;
     private TimeInterval connectTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
     private TimeInterval readTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
 
@@ -128,6 +129,7 @@ public class HttpClient {
         HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
         setLastResponseCode(connection.getResponseCode());
         setLastResponseMessage(connection.getResponseMessage());
+        setLastResponseHeaders(connection.getHeaderFields());
 		try {
 			response = readResponse(connection);
 		} catch (IOException ioe) {
@@ -198,6 +200,7 @@ public class HttpClient {
     	HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
         setLastResponseCode(connection.getResponseCode());
         setLastResponseMessage(connection.getResponseMessage());
+        setLastResponseHeaders(connection.getHeaderFields());
         try {
 	        response = readBinaryResponse(connection);
 		} catch (IOException ioe) {
@@ -284,6 +287,10 @@ public class HttpClient {
      */
 	public String getLastResponseMessage() {
 		return lastResponseMessage;
+	}
+
+	public Map<String, List<String>> getLastResponseHeaders() {
+		return lastResponseHeaders;
 	}
 
 	/**
@@ -429,6 +436,10 @@ public class HttpClient {
 
 	private void setLastResponseMessage(String lastResponseMessage) {
 		this.lastResponseMessage = lastResponseMessage;
+	}
+	
+	private void setLastResponseHeaders(Map<String, List<String>> lastResponseHeaders) {
+		this.lastResponseHeaders = lastResponseHeaders;
 	}
 
     /**

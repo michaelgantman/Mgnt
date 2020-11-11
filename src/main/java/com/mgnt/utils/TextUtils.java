@@ -501,7 +501,7 @@ public class TextUtils {
     			result = new BigDecimal(num.toString());
     			} catch (NumberFormatException nfe) {
     				if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
-    					logger.warn(numberFormatErrorMessage + "{}", TextUtils.getStacktrace(nfe));
+    					warn(numberFormatErrorMessage, nfe);
     				}
     			result = defaultValue;
     			}
@@ -543,7 +543,7 @@ public class TextUtils {
     			result = new BigInteger(num.toString()); 
     			} catch (NumberFormatException nfe) {
     				if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
-    					logger.warn(numberFormatErrorMessage + "{}", TextUtils.getStacktrace(nfe));
+    					warn(numberFormatErrorMessage, nfe);
     				}
     			result = defaultValue;
     			}

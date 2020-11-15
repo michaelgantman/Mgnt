@@ -9,10 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +42,7 @@ public class HttpClient {
     private String connectionUrl;
     private int lastResponseCode = -1;
     private String lastResponseMessage = null;
-    private Map<String, List<String>> lastResponseHeaders;
+    private Map<String, List<String>> lastResponseHeaders = null;
     private TimeInterval connectTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
     private TimeInterval readTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
 
@@ -289,8 +291,40 @@ public class HttpClient {
 		return lastResponseMessage;
 	}
 
+	/**
+	 * This method returns header fields from last executed http request as unmodifiable map. If two or more separate requests
+     * where executed this method returns header fields from the last response. The headers from previous responses 
+     * are lost if they were not read after the respective request was executed and before the next one is executed. This method 
+     * returns null if no request was executed yet by this instance of the class or response was't received.
+     * @return An unmodifiable Map of Header fields of last response
+	 */
 	public Map<String, List<String>> getLastResponseHeaders() {
 		return lastResponseHeaders;
+	}
+	
+	/**
+	 * This method returns header fields names from last executed http request as unmodifiable set. If two or more separate requests
+     * where executed this method returns header field names from the last response. The header names from previous responses 
+     * are lost if they were not read after the respective request was executed and before the next one is executed. This method 
+     * returns null if no request was executed yet by this instance of the class or response was't received.
+     * @return An unmodifiable Set of Header field names of last response
+	 */
+	public Set<String> getLastResponseHeaderNames() {
+		return (lastResponseHeaders != null) ? Collections.unmodifiableSet(lastResponseHeaders.keySet()) : null;
+	}
+	
+	/**
+	 * This method returns the values of the header field by field name from last executed http request as unmodifiable list. 
+	 * If two or more separate requests where executed this method returns header field value from the last response. The header 
+	 * values from previous responses are lost if they were not read after the respective request was executed and before the 
+	 * next one is executed. This method returns null if no request was executed yet by this instance of the class or response 
+	 * was't received.
+	 * @param fieldName - the name of the header field to be retrieved
+	 * @return An unmodifiable list of values of the requested header field
+	 */
+	public List<String> getLastResponseHeader(String fieldName) {
+		return (lastResponseHeaders != null && StringUtils.isNotBlank(fieldName)) ? 
+			Collections.unmodifiableList(lastResponseHeaders.get(fieldName)) : null;
 	}
 
 	/**

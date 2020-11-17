@@ -6,6 +6,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -477,8 +479,90 @@ public class TextUtils {
     public static TimeInterval parsingStringToTimeInterval(String valueStr) throws IllegalArgumentException {
     	return parseStringToTimeInterval(valueStr);
     }
+    
+    /**
+     * This method parses a String to its BigDecimal value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToBigDecimal(CharSequence, bigDecimal, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static BigDecimal parseStringToBigDecimal(CharSequence num, BigDecimal defaultValue,
+            String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
+    		BigDecimal result = null;
+    		if (num == null || "".equals(num.toString())) {
+    			if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
+    			logger.warn(nullOrEmptyStringErrorMessage);
+    			}
+    		result = defaultValue;
+    		} else {
+    			try {
+    			result = new BigDecimal(num.toString());
+    			} catch (NumberFormatException nfe) {
+    				if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
+    					warn(numberFormatErrorMessage, nfe);
+    				}
+    			result = defaultValue;
+    			}
+    		}
+    		return result;
+    }
 
 
+    /**
+     * This method parses a String to its BigDecimal value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToBigDecimal(CharSequence, bigDecimal, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static BigDecimal parseStringToBigDecimal(CharSequence num, BigDecimal defaultValue) {
+    	return parseStringToBigDecimal(num, defaultValue, null, null);
+    }
+    
+    /**
+     * This method parses a String to its BigInteger value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToBigInteger(CharSequence, bigInteger, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static BigInteger parseStringToBigInteger(CharSequence num, BigInteger defaultValue,
+            String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
+    		BigInteger result = null;
+    		if (num == null || "".equals(num.toString())) {
+    			if (nullOrEmptyStringErrorMessage != null && !"".equals(nullOrEmptyStringErrorMessage)) {
+    			logger.warn(nullOrEmptyStringErrorMessage);
+    			}
+    		result = defaultValue;
+    		} else {
+    			try {
+    			result = new BigInteger(num.toString()); 
+    			} catch (NumberFormatException nfe) {
+    				if (numberFormatErrorMessage != null && !"".equals(numberFormatErrorMessage)) {
+    					warn(numberFormatErrorMessage, nfe);
+    				}
+    			result = defaultValue;
+    			}
+    		}
+    		return result;
+    }
+    
+    /**
+     * This method parses a String to its BigInteger value silently. If parsing does not succeed because the String is not of appropriate number 
+     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
+     * is equivalent to calling method {@link #parseStringToBigInteger(CharSequence, bigInteger, String, String)} with 2 last parameters set to null
+     * @param num CharSequence to be parsed
+     * @param defaultValue value that will be returned by this method if parsing of the String failed
+     * @return numeric value parsed from the String
+     */
+    public static BigInteger parseStringToBigInteger(CharSequence num, BigInteger defaultValue) {
+    	return parseStringToBigInteger(num, defaultValue, null, null);
+    }
+    
     /**
      * <p>
      * This method retrieves a stacktrace from {@link Throwable} as a String in full or shortened format. Shortened format skips the lines in the

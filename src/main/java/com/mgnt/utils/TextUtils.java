@@ -481,12 +481,17 @@ public class TextUtils {
     }
     
     /**
-     * This method parses a String to its BigDecimal value silently. If parsing does not succeed because the String is not of appropriate number 
-     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
-     * is equivalent to calling method {@link #parseStringToBigDecimal(CharSequence, bigDecimal, String, String)} with 2 last parameters set to null
-     * @param num CharSequence to be parsed
-     * @param defaultValue value that will be returned by this method if parsing of the String failed
-     * @return numeric value parsed from the String
+     * This method parses a String to BigDecimal value. If parsing does not succeed because the String is not of appropriate number format the default
+     * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
+     * and appropriate error message is printed into log. Note that logging relies on slf4j being present and appropriately configured by project that
+     * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
+     * correlating error will not be printed.
+     *
+     * @param num                        CharSequence to be parsed
+     * @param defaultValue                  value that will be returned by this method if parsing of the String failed
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
+     * @return BigDecimal value parsed from the String
      */
     public static BigDecimal parseStringToBigDecimal(CharSequence num, BigDecimal defaultValue,
             String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {
@@ -523,12 +528,17 @@ public class TextUtils {
     }
     
     /**
-     * This method parses a String to its BigInteger value silently. If parsing does not succeed because the String is not of appropriate number 
-     * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
-     * is equivalent to calling method {@link #parseStringToBigInteger(CharSequence, bigInteger, String, String)} with 2 last parameters set to null
-     * @param num CharSequence to be parsed
-     * @param defaultValue value that will be returned by this method if parsing of the String failed
-     * @return numeric value parsed from the String
+     * This method parses a String to BigInteger value. If parsing does not succeed because the String is not of appropriate number format the default
+     * numeric value is returned and appropriate error message is printed into log. Also if the String is blank or null the default value is returned
+     * and appropriate error message is printed into log. Note that logging relies on slf4j being present and appropriately configured by project that
+     * uses this utility. If {@code nullOrEmptyStringErrorMessage} or {@code numberFormatErrorMessage} parameters are null or empty Strings than the
+     * correlating error will not be printed.
+     *
+     * @param num                        CharSequence to be parsed
+     * @param defaultValue                  value that will be returned by this method if parsing of the String failed
+     * @param nullOrEmptyStringErrorMessage String that holds an error message that will printed into log if parameter {@code num} is null or blank
+     * @param numberFormatErrorMessage      String that holds an error message that will printed into log if parameter {@code num} is not in appropriate format
+     * @return BigInteger value parsed from the String
      */
     public static BigInteger parseStringToBigInteger(CharSequence num, BigInteger defaultValue,
             String nullOrEmptyStringErrorMessage, String numberFormatErrorMessage) {

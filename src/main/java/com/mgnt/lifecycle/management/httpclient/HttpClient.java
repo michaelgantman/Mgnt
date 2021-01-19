@@ -231,16 +231,27 @@ public class HttpClient {
     }
     
     /**
-     * This method is a general request property setter.
-     * @param propertyName if the value of property name is blank or null this method does nothing
-     * @param value Holds the value for the property
+     * This method is a general request header setter. This method is deprecated due to wrong name.
+     * @param headerName if the value of header name is blank or null this method does nothing
+     * @param headerValue Holds the value for the header
+     * @See {@link #setRequestHeader(String, String)}
      */
-    public void setRequestProperty(String propertyName, String value) {
-    	if(StringUtils.isNotBlank(propertyName)) {
-    		requestPropertiesMap.put(propertyName, value);
-    	}
+    @Deprecated
+    public void setRequestProperty(String headerName, String headerValue) {
+    	setRequestHeader(headerName, headerValue);
     }
     
+    /**
+     * This method is a general request header setter.
+     * @param headerName if the value of header name is blank or null this method does nothing
+     * @param headerValue headerValue Holds the value for the header
+     */
+    public void setRequestHeader(String headerName, String headerValue) {
+    	if(StringUtils.isNotBlank(headerName)) {
+    		requestPropertiesMap.put(headerName, headerValue);
+    	}
+    }
+
     /**
      * This method removes request property
      * @param propertyName if the value of propertyName is blank or null this method does nothing and returns null 

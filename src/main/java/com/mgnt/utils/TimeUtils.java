@@ -11,13 +11,16 @@ import java.util.concurrent.TimeUnit;
 public class TimeUtils {
 
     /**
-     * This method is a convenience method for sleep that catches {@link InterruptedException} interrupts current thread
-     * so, that Interruption mechanism continues to work for this thread. This method 
-     * has {@link TimeUnit} parameter in addition to time period so it makes it very convenient. So with
+     * This method is a convenience method for method sleep() of classes Thread or TimeUnit. This method 
+     * catches {@link InterruptedException} 
+     * So when this method is used, there is no need to worry about catching {@link InterruptedException}
+     * This method has {@link TimeUnit} parameter in addition to time period so it makes it very convenient. So with
      * this method there is no need to convert the time into milliseconds. Just simply write
      * <br><br>
      * <p>{@code sleepFor(10, TimeUnit.SECONDS);}</p>
-     * <br> No Exception catching needed
+     * <br> No Exception catching needed.<br>
+     * <b>IMPORTANT NOTE</b>: When this method catches {@link InterruptedException} it interrupts current thread
+     * so, that Thread Interruption mechanism continues to work when this method is used
      * @param period time period to sleep
      * @param timeUnit {@link TimeUnit} that specifies in which units the time period is measured
      */

@@ -29,8 +29,8 @@ import com.mgnt.utils.entities.TimeInterval;
  * and then simply add some methods that would be used to contact some different sub-urls with the same url base. Those
  * methods may receive some parameters that would enable to build final url based on pre-set base url. However this
  * class may be used on its own as well. All you will need to do is to set a value for content type using method
- * {@link #setContentType(String)} if needed, or/and any other request property using method 
- * {@link #setRequestProperty(String, String)} and then just call method {@link #sendHttpRequest(String, HttpMethod)}
+ * {@link #setContentType(String)} if needed, or/and any other request header using method 
+ * {@link #setRequestHeader(String, String)} and then just call method {@link #sendHttpRequest(String, HttpMethod)}
  * or {@link #sendHttpRequest(String, HttpMethod, String)} (or if the reply is expected to be binary such as image then
  * call the methods {@link #sendHttpRequestForBinaryResponse(String, HttpMethod)} or
  * {@link #sendHttpRequestForBinaryResponse(String, HttpMethod, String)})
@@ -232,6 +232,7 @@ public class HttpClient {
     
     /**
      * This method is a general request header setter. This method is deprecated due to wrong name.
+     * Use method {@link #setRequestHeader(String, String)} instead
      * @param headerName if the value of header name is blank or null this method does nothing
      * @param headerValue Holds the value for the header
      * @See {@link #setRequestHeader(String, String)}

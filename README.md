@@ -52,23 +52,23 @@ StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-v
 a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
 server side and the reading speed of the server is faster then writing speed of the client. The utility allows for
 auto throttle to adjust to the client. </p>
-This package was tested with Java versions 7 and 8. This library is available on Maven Central. Here are the artifacts:<br>
+This library is available on Maven Central. Here are the artifacts:<br>
 <p>
         &lt;dependency&gt;<br>
             &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.5.1.1&lt;&#47;version&gt;<br>
+            &nbsp;&nbsp;&lt;version&gt;1.5.1.2&lt;&#47;version&gt;<br>
         &lt;&#47;dependency&gt;<br><br>
         &lt;dependency&gt;<br>
             &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.5.1.1&lt;&#47;version&gt;<br>
+            &nbsp;&nbsp;&lt;version&gt;1.5.1.2&lt;&#47;version&gt;<br>
             &nbsp;&nbsp;&lt;classifier&gt;javadoc&lt;&#47;classifier&gt;<br>
         &lt;&#47;dependency&gt;<br><br>
         &lt;dependency&gt;<br>
             &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
             &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.5.1.1&lt;&#47;version&gt;<br>
+            &nbsp;&nbsp;&lt;version&gt;1.5.1.2&lt;&#47;version&gt;<br>
             &nbsp;&nbsp;&lt;classifier&gt;sources&lt;&#47;classifier&gt;<br>
         &lt;&#47;dependency&gt;<br>
 </p>

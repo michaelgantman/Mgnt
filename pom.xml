@@ -6,11 +6,11 @@
 
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.5.1.2</version>
+    <version>1.6.0.0</version>
     <name>MgntUtils</name>
     <description>
-        Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, Silent String parsing
-        to Integer and other numeric types, Parsing String to time intervals with support for time unit suffixes,
+        Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, simple Http client JSON parser/serializer, 
+        Silent String parsing to Integer and other numeric types, Parsing String to time intervals with support for time unit suffixes,
         Version comparator and Version ranges operations, Self-throttling binary
         reader from Http request, File reader, A utility that automatically initiates a Factory with instances of all
         classes that implement user provided interface. An infrastructure for writing Scheduled Task classes where time
@@ -43,18 +43,33 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>4.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
+            <version>1.7.30</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
+            <version>3.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+			<version>2.12.3</version>        
+		</dependency>
+		<dependency>
+		  <groupId>com.fasterxml.jackson.core</groupId>
+		  <artifactId>jackson-databind</artifactId>
+		  <version>2.12.3</version>
+		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+		  <version>2.12.3</version>
         </dependency>
     </dependencies>
     <build>

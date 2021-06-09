@@ -7,7 +7,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.jsontype.DefaultBaseTypeLimitingValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class JsonUtils {
@@ -18,15 +20,15 @@ public class JsonUtils {
 	private static final ObjectWriter disabledDefaultTypingObjectWriter;
 	
 	static {
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = JsonMapper.builder().build();
 		objectMapper.registerModules(new JavaTimeModule());
 		disabledDefaultTypingObjectReader = objectMapper.reader();
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		disabledDefaultTypingObjectWriter = objectMapper.writer();
 
-		objectMapper = new ObjectMapper();
+		PolymorphicTypeValidator ptv = new DefaultBaseTypeLimitingValidator();
+		objectMapper =  JsonMapper.builder().activateDefaultTyping(ptv).build();
 		objectMapper.registerModules(new JavaTimeModule());
-		objectMapper.activateDefaultTyping(new DefaultBaseTypeLimitingValidator());
 		enabledDefaultTypingObjectReader = objectMapper.reader();
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		enabledDefaultTypingObjectWriter = objectMapper.writer();

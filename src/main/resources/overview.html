@@ -16,6 +16,12 @@ way so all the important information is preserved. It sifts through "caused by" 
 as well. Also the same utility (starting from version 1.5.0.3) allows to filter and shorten stacktrace as a string the same way 
 as the stacktrace extracted from exception. So, essentially stacktraces could be filtered "on the fly" at run time or later on from 
 any text source such as log.</p>
+<p>
+Another important feature (since 1.6.0.0) is JSON parser (JsonUtils class) that provides some simple methods to serialize
+any object into JSON String and parse (deserialize) JSON string back into the instance of the class. This class is a simplifying wrapper 
+over basic functionality of Jason-Jackson library. It provides simplicity but doesn't handle well deserialization of List/Set/Map of Objects.
+If that functionality is needed than just use the original Json-Jackson library (or any other JSON library) 
+</p>
 Other features include parsing String into most of the implementations of Number interface without having
 to catch NullPointerException of NumberFormatException. The methods take String value to parse, default value in case of
 failure and messages (optional) that will be printed into log if some error occurred.<p>

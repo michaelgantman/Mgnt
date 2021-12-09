@@ -235,7 +235,7 @@ public class HttpClient {
      * Use method {@link #setRequestHeader(String, String)} instead
      * @param headerName if the value of header name is blank or null this method does nothing
      * @param headerValue Holds the value for the header
-     * @See {@link #setRequestHeader(String, String)}
+     * @See #setRequestHeader(String, String)
      */
     @Deprecated
     public void setRequestProperty(String headerName, String headerValue) {

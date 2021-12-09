@@ -51,7 +51,7 @@ public class JsonUtils {
 	 * {@code com.fasterxml.jackson.databind.jsontype.DefaultBaseTypeLimitingValidator}.
 	 * If you are not familiar with default typing concept in JASON-JACKSON library than simply use helper method
 	 * {@link #writeObjectToJsonString(Object)}. It will do the job in most cases
-	 * @see {@link #writeObjectToJsonString(Object)}
+	 * @see #writeObjectToJsonString(Object)
 	 * @param object an Object to be deserialized
 	 * @param enableDefaultTyping boolean flag that determines if default typing is allowed
 	 * @return valid JSON string that is the result of the Object deserialization
@@ -89,7 +89,7 @@ public class JsonUtils {
 	 * String. And now there is a need to deserialize it back. So the code to do so would look like this: <br><br>
 	 * {@code Person person = JSONUtils.readObjectFromJsonString(jsonString, Person.class, false);}
 	 * </p>
-	 * @see {@link #readObjectFromJsonString(String, Class)}
+	 * @see #readObjectFromJsonString(String, Class)
 	 * @param <T> A class instance of which will be returned if deserialization succeeds.
 	 * @param jsonString JSON string to be deserialized
 	 * @param type deserialization target class

@@ -6,13 +6,13 @@
 
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.6.0.0</version>
+    <version>1.6.0.1</version>
     <name>MgntUtils</name>
     <description>
         Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, simple Http client JSON parser/serializer, 
         Silent String parsing to Integer and other numeric types, Parsing String to time intervals with support for time unit suffixes,
-        Version comparator and Version ranges operations, Self-throttling binary
-        reader from Http request, File reader, A utility that automatically initiates a Factory with instances of all
+        JSON parser that provides serialization/deserialization of classes to JSON, Version comparator and Version ranges operations, 
+        Self-throttling binary reader from Http request, File reader, A utility that automatically initiates a Factory with instances of all
         classes that implement user provided interface. An infrastructure for writing Scheduled Task classes where time
         interval for task execution is provided in humanly readable format (such as "9h" for 9 hours)
     </description>

@@ -48,9 +48,12 @@ public class JsonUtils {
 	/**
 	 * This method writes (serializes) an Object into JSON String with option to allow or disallow default typing.
 	 * If Default typing is enabled then the type validator used is class 
-	 * {@code com.fasterxml.jackson.databind.jsontype.DefaultBaseTypeLimitingValidator}
-	 * @param object - an Object to be deserialized
-	 * @param enableDefaultTyping - boolean flag that determines if default typing is allowed
+	 * {@code com.fasterxml.jackson.databind.jsontype.DefaultBaseTypeLimitingValidator}.
+	 * If you are not familiar with default typing concept in JASON-JACKSON library than simply use helper method
+	 * {@link #writeObjectToJsonString(Object)}. It will do the job in most cases
+	 * @see {@link #writeObjectToJsonString(Object)}
+	 * @param object an Object to be deserialized
+	 * @param enableDefaultTyping boolean flag that determines if default typing is allowed
 	 * @return valid JSON string that is the result of the Object deserialization
 	 * @throws JsonProcessingException
 	 */
@@ -67,8 +70,8 @@ public class JsonUtils {
 	 * This is a helper method that invokes {@link #writeObjectToJsonString(Object, boolean)} with the second parameter set to 
 	 * {@code false}. In most cases (when you don't need to worry about default typing) this method should be used instead of 
 	 * invoking method {@link #writeObjectToJsonString(Object, boolean)}
-	 * @param object
-	 * @return
+	 * @param object an Object to be deserialized
+	 * @return valid JSON string that is the result of the Object deserialization
 	 * @throws JsonProcessingException
 	 */
 	public static String writeObjectToJsonString(Object object) throws JsonProcessingException {
@@ -78,23 +81,26 @@ public class JsonUtils {
 	/**
 	 * This method reads (deserializes) JSON string into specific Object type with option to allow or disallow default typing.
 	 * If Default typing is enabled then the type validator used is class 
-	 * {@code com.fasterxml.jackson.databind.jsontype.DefaultBaseTypeLimitingValidator} 
+	 * {@code com.fasterxml.jackson.databind.jsontype.DefaultBaseTypeLimitingValidator}.
+	 * If you are not familiar with default typing concept in JASON-JACKSON library than simply use helper method
+	 * {@link #readObjectFromJsonString(String, Class)}. It will do the job in most cases
 	 * <p>
 	 * Just a short example: Assume that there is a class {@code Person} and an instance of this class was serialized to JSON
 	 * String. And now there is a need to deserialize it back. So the code to do so would look like this: <br><br>
 	 * {@code Person person = JSONUtils.readObjectFromJsonString(jsonString, Person.class, false);}
 	 * </p>
-	 * @param <T> - A class instance of which will be returned if deserialization succeeds.
-	 * @param s - JSON string to be deserialized
-	 * @param type - deserialization target class
-	 * @param enableDefaultTyping - boolean flag that determines if default typing is allowed
+	 * @see {@link #readObjectFromJsonString(String, Class)}
+	 * @param <T> A class instance of which will be returned if deserialization succeeds.
+	 * @param jsonString JSON string to be deserialized
+	 * @param type deserialization target class
+	 * @param enableDefaultTyping boolean flag that determines if default typing is allowed
 	 * @return instance of class T deserialized from JSON string
 	 * @throws IOException
 	 */
-	public static <T> T readObjectFromJsonString(String s, Class<T> type, boolean enableDefaultTyping) throws IOException {
+	public static <T> T readObjectFromJsonString(String jsonString, Class<T> type, boolean enableDefaultTyping) throws IOException {
 		T data;
 		ObjectReader objectReader = (enableDefaultTyping) ? enabledDefaultTypingObjectReader : disabledDefaultTypingObjectReader;
-		data = objectReader.forType(type).readValue(s);
+		data = objectReader.forType(type).readValue(jsonString);
 		return data;
 	}
 	
@@ -107,13 +113,13 @@ public class JsonUtils {
 	 * String. And now there is a need to deserialize it back. So the code to do so would look like this: <br><br>
 	 * {@code Person person = JSONUtils.readObjectFromJsonString(jsonString, Person.class);}
 	 * </p>
-	 * @param <T> - A class instance of which will be returned if deserialization succeeds.
-	 * @param s - JSON string to be deserialized
-	 * @param type - deserialization target class
+	 * @param <T> A class instance of which will be returned if deserialization succeeds.
+	 * @param jsonString JSON string to be deserialized
+	 * @param type deserialization target class
 	 * @return instance of class T deserialized from JSON string
 	 * @throws IOException
 	 */
-	public static <T> T readObjectFromJsonString(String s, Class<T> type) throws IOException {
-		return readObjectFromJsonString(s, type, false);
+	public static <T> T readObjectFromJsonString(String jsonString, Class<T> type) throws IOException {
+		return readObjectFromJsonString(jsonString, type, false);
 	}
 }

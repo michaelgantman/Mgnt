@@ -518,7 +518,7 @@ public class TextUtils {
     /**
      * This method parses a String to its BigDecimal value silently. If parsing does not succeed because the String is not of appropriate number 
      * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
-     * is equivalent to calling method {@link #parseStringToBigDecimal(CharSequence, bigDecimal, String, String)} with 2 last parameters set to null
+     * is equivalent to calling method {@link #parseStringToBigDecimal(CharSequence, BigDecimal, String, String)} with 2 last parameters set to null
      * @param num CharSequence to be parsed
      * @param defaultValue value that will be returned by this method if parsing of the String failed
      * @return numeric value parsed from the String
@@ -564,7 +564,7 @@ public class TextUtils {
     /**
      * This method parses a String to its BigInteger value silently. If parsing does not succeed because the String is not of appropriate number 
      * format or if the String is blank or null the default numeric value is returned but nothing is printed into the log. This method
-     * is equivalent to calling method {@link #parseStringToBigInteger(CharSequence, bigInteger, String, String)} with 2 last parameters set to null
+     * is equivalent to calling method {@link #parseStringToBigInteger(CharSequence, BigInteger, String, String)} with 2 last parameters set to null
      * @param num CharSequence to be parsed
      * @param defaultValue value that will be returned by this method if parsing of the String failed
      * @return numeric value parsed from the String

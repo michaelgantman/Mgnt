@@ -565,16 +565,21 @@ public class HttpClient {
      * @throws IOException
      */
     private HttpURLConnection sendRequest(String url, HttpMethod method, String data) throws IOException {
-    	boolean doOutput = StringUtils.isNotBlank(data);
-    	HttpURLConnection httpURLConnection = openHttpUrlConnection(url, method, doOutput);
-    	if (doOutput) {
-    		try (DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream())) {
-    			dataOutputStream.write(StandardCharsets.UTF_8.encode(data).array());
-    			dataOutputStream.flush();
-    		}
-    	}
-    	return httpURLConnection;
+		ByteBuffer dataBuffer = (StringUtils.isNotBlank(data)) ? StandardCharsets.UTF_8.encode(data) : null;
+		return sendRequest(url, method, dataBuffer);
     }
+
+	private HttpURLConnection sendRequest(String url, HttpMethod method, ByteBuffer data) throws IOException {
+		boolean doOutput = (data != null && data.hasArray());
+		HttpURLConnection httpURLConnection = openHttpUrlConnection(url, method, doOutput);
+		if (doOutput) {
+			try (DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream())) {
+				dataOutputStream.write(data.array());
+				dataOutputStream.flush();
+			}
+		}
+		return httpURLConnection;
+	}
 
 	private HttpURLConnection setConnectionTimeout(HttpURLConnection connection) {
 		int connectionTimeoutMs = Long.valueOf((getConnectTimeout().toMillis())).intValue();

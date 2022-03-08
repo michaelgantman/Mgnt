@@ -79,7 +79,7 @@ public class HttpClient {
      * @throws IOException
      */
     public String sendHttpRequest(HttpMethod callMethod) throws IOException {
-        return sendHttpRequest(getConnectionUrl(), callMethod, null);
+        return sendHttpRequest(getConnectionUrl(), callMethod, (String)null);
     }
 
     /**
@@ -94,7 +94,7 @@ public class HttpClient {
      * @throws IOException
      */
     public String sendHttpRequest(String requestUrl, HttpMethod callMethod) throws IOException {
-        return sendHttpRequest(requestUrl, callMethod, null);
+        return sendHttpRequest(requestUrl, callMethod, (String)null);
     }
 
     /**
@@ -143,6 +143,22 @@ public class HttpClient {
         return response;
     }
 
+	public String sendHttpRequest(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws IOException {
+		String response;
+		HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
+		setLastResponseCode(connection.getResponseCode());
+		setLastResponseMessage(connection.getResponseMessage());
+		setLastResponseHeaders(connection.getHeaderFields());
+		try {
+			response = readResponse(connection);
+		} catch (IOException ioe) {
+			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" +
+					ioe.getMessage() + ")", ioe);
+		} finally {
+			connection.disconnect();
+		}
+		return response;
+	}
     /**
      * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses 
      * specified HTTP method. Obviously it is expected that user should set connectionUrl property by invoking method 

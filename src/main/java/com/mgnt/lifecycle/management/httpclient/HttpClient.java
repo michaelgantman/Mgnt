@@ -114,6 +114,22 @@ public class HttpClient {
     	return sendHttpRequest(getConnectionUrl(), callMethod, data);
     }
 
+	/**
+	 * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses
+	 * specified HTTP method and sends data through request body. Obviously it is expected that user should set connectionUrl
+	 * property by invoking method {@link #setConnectionUrl(String)} beforehand.
+	 * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
+	 * POST, PUT or any other methods that allow passing info in the body request and there is some info to be sent.
+	 * If you don't need to send any info as request body, consider using method
+	 * {@link #sendHttpRequest(HttpMethod)}
+	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
+	 * @param data ByteBuffer that holds the binary data to be sent as request body
+	 * @return String that holds response from the URL
+	 * @throws IOException
+	 */
+	public String sendHttpRequest(HttpMethod callMethod, ByteBuffer data) throws IOException {
+		return sendHttpRequest(getConnectionUrl(), callMethod, data);
+	}
     /**
      * This method sends HTTP request to specified URL, uses specified HTTP method and sends data through request body.
      * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
@@ -171,7 +187,7 @@ public class HttpClient {
      * @throws IOException
      */
     public ByteBuffer sendHttpRequestForBinaryResponse(HttpMethod callMethod) throws IOException {
-        return sendHttpRequestForBinaryResponse(getConnectionUrl(), callMethod, null);
+        return sendHttpRequestForBinaryResponse(getConnectionUrl(), callMethod, (String)null);
     }
 
     /**
@@ -184,7 +200,7 @@ public class HttpClient {
      * @throws IOException
      */
     public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod) throws IOException {
-        return sendHttpRequestForBinaryResponse(requestUrl, callMethod, null);
+        return sendHttpRequestForBinaryResponse(requestUrl, callMethod, (String)null);
     }
 
     /**
@@ -203,6 +219,21 @@ public class HttpClient {
     	return sendHttpRequestForBinaryResponse(getConnectionUrl(),callMethod, data);
     }
 
+	/**
+	 * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses
+	 * specified HTTP method. Obviously it is expected that user should set connectionUrl property by invoking method
+	 * {@link #setConnectionUrl(String)} beforehand.
+	 * This method is the same as {@link #sendHttpRequest(HttpMethod, ByteBuffer)} except that it returns
+	 * {@link ByteBuffer} that holds binary info. So this methods fits for retrieving binary response such as Image,
+	 * Video, Audio or any other info in binary format.
+	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
+	 * @param data ByteArray that holds some binary data to be sent as request body
+	 * @return {@link ByteBuffer} that holds response from URL
+	 * @throws IOException
+	 */
+	public ByteBuffer sendHttpRequestForBinaryResponse(HttpMethod callMethod, ByteBuffer data) throws IOException {
+		return sendHttpRequestForBinaryResponse(getConnectionUrl(),callMethod, data);
+	}
     /**
      * This method is the same as {@link #sendHttpRequest(String, HttpMethod, String)} except that it returns
      * {@link ByteBuffer} that holds binary info. So this methods fits for retrieving binary response such as Image,
@@ -229,6 +260,33 @@ public class HttpClient {
 		}
         return response;
     }
+
+	/**
+	 * This method is the same as {@link #sendHttpRequest(String, HttpMethod, ByteBuffer)} except that it returns
+	 * {@link ByteBuffer} that holds binary info. So this methods fits for retrieving binary response such as Image,
+	 * Video, Audio or any other info in binary format.
+	 * @param requestUrl URL to which request is to be sent
+	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
+	 * @param data ByteBuffer that holds the data to be sent as request body
+	 * @return {@link ByteBuffer} that holds response from URL
+	 * @throws IOException
+	 */
+	public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws IOException {
+		ByteBuffer response;
+		HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
+		setLastResponseCode(connection.getResponseCode());
+		setLastResponseMessage(connection.getResponseMessage());
+		setLastResponseHeaders(connection.getHeaderFields());
+		try {
+			response = readBinaryResponse(connection);
+		} catch (IOException ioe) {
+			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" +
+					ioe.getMessage() + ")", ioe);
+		} finally {
+			connection.disconnect();
+		}
+		return response;
+	}
 
     /**
      * This is getter method for content type property. Returns default value if the property was not set. This

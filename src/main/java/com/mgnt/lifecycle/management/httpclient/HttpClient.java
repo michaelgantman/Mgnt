@@ -116,10 +116,11 @@ public class HttpClient {
 
 	/**
 	 * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses
-	 * specified HTTP method and sends data through request body. Obviously it is expected that user should set connectionUrl
+	 * specified HTTP method and sends binary data through request body. Obviously it is expected that user should set connectionUrl
 	 * property by invoking method {@link #setConnectionUrl(String)} beforehand.
 	 * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
-	 * POST, PUT or any other methods that allow passing info in the body request and there is some info to be sent.
+	 * POST, PUT or any other methods that allow passing info in the body request and there is some binary info to be sent.
+	 * This method is useful for uploading files or any other binary info
 	 * If you don't need to send any info as request body, consider using method
 	 * {@link #sendHttpRequest(HttpMethod)}
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
@@ -159,6 +160,19 @@ public class HttpClient {
         return response;
     }
 
+	/**
+	 * This method sends HTTP request to specified URL, uses specified HTTP method and sends binary data through request body.
+	 * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
+	 * POST, PUT or any other methods that allow passing info in the body request and there is some binary info to be sent.
+	 * This method is useful for uploading files Image, Video, Audio or any other binary info
+	 * If you don't need to send any info as request body, consider using method
+	 * {@link #sendHttpRequest(String, HttpMethod)}
+	 * @param requestUrl URL to which request is to be sent
+	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
+	 * @param data String that holds the data to be sent as request body
+	 * @return String that holds response from the URL
+	 * @throws IOException
+	 */
 	public String sendHttpRequest(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws IOException {
 		String response;
 		HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
@@ -224,8 +238,10 @@ public class HttpClient {
 	 * specified HTTP method. Obviously it is expected that user should set connectionUrl property by invoking method
 	 * {@link #setConnectionUrl(String)} beforehand.
 	 * This method is the same as {@link #sendHttpRequest(HttpMethod, ByteBuffer)} except that it returns
-	 * {@link ByteBuffer} that holds binary info. So this methods fits for retrieving binary response such as Image,
-	 * Video, Audio or any other info in binary format.
+	 * {@link ByteBuffer} that holds binary info. So this method fits for sending binary info such as Image,
+	 * Video, Audio or any other info in binary format. and then retrieving binary response as well. So this method
+	 * might be a good fit for consuming API that receives and returns  binary info possibly for modifying images or
+	 * binary files such as adding a watermark to an Image for example
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
 	 * @param data ByteArray that holds some binary data to be sent as request body
 	 * @return {@link ByteBuffer} that holds response from URL
@@ -263,8 +279,10 @@ public class HttpClient {
 
 	/**
 	 * This method is the same as {@link #sendHttpRequest(String, HttpMethod, ByteBuffer)} except that it returns
-	 * {@link ByteBuffer} that holds binary info. So this methods fits for retrieving binary response such as Image,
-	 * Video, Audio or any other info in binary format.
+	 * {@link ByteBuffer} that holds binary info. So this method fits for sending binary info such as Image,
+	 * Video, Audio or any other info in binary format. and then retrieving binary response as well. So this method
+	 * might be a good fit for consuming API that receives and returns  binary info possibly for modifying images or
+	 * binary files such as adding a watermark to an Image for example
 	 * @param requestUrl URL to which request is to be sent
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
 	 * @param data ByteBuffer that holds the data to be sent as request body

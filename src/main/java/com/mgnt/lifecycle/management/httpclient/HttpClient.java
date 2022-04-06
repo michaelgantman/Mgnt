@@ -102,7 +102,7 @@ public class HttpClient {
      * specified HTTP method and sends data through request body. Obviously it is expected that user should set connectionUrl 
      * property by invoking method {@link #setConnectionUrl(String)} beforehand.      
      * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
-     * POST, PUT or any other methods that allow passing info in the body request and there is some info to be sent.
+     * POST, PUT or any other methods that allow passing info in the request body and there is some info to be sent.
      * If you don't need to send any info as request body, consider using method
      * {@link #sendHttpRequest(HttpMethod)}
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
@@ -119,7 +119,7 @@ public class HttpClient {
 	 * specified HTTP method and sends binary data through request body. Obviously it is expected that user should set connectionUrl
 	 * property by invoking method {@link #setConnectionUrl(String)} beforehand.
 	 * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
-	 * POST, PUT or any other methods that allow passing info in the body request and there is some binary info to be sent.
+	 * POST, PUT or any other methods that allow passing info in the request body and there is some binary info to be sent.
 	 * This method is useful for uploading files or any other binary info
 	 * If you don't need to send any info as request body, consider using method
 	 * {@link #sendHttpRequest(HttpMethod)}
@@ -134,7 +134,7 @@ public class HttpClient {
     /**
      * This method sends HTTP request to specified URL, uses specified HTTP method and sends data through request body.
      * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
-     * POST, PUT or any other methods that allow passing info in the body request and there is some info to be sent.
+     * POST, PUT or any other methods that allow passing info in the request body and there is some info to be sent.
      * If you don't need to send any info as request body, consider using method
      * {@link #sendHttpRequest(String, HttpMethod)}
      * @param requestUrl URL to which request is to be sent
@@ -163,7 +163,7 @@ public class HttpClient {
 	/**
 	 * This method sends HTTP request to specified URL, uses specified HTTP method and sends binary data through request body.
 	 * It returns response that is expected to be textual such as a String. This method fits for using HTTP  methods
-	 * POST, PUT or any other methods that allow passing info in the body request and there is some binary info to be sent.
+	 * POST, PUT or any other methods that allow passing info in the request body and there is some binary info to be sent.
 	 * This method is useful for uploading files Image, Video, Audio or any other binary info
 	 * If you don't need to send any info as request body, consider using method
 	 * {@link #sendHttpRequest(String, HttpMethod)}

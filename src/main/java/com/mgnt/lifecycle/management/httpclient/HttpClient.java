@@ -657,7 +657,7 @@ public class HttpClient {
      * @throws IOException
      */
     private HttpURLConnection sendRequest(String url, HttpMethod method, String data) throws IOException {
-		ByteBuffer dataBuffer = (StringUtils.isNotBlank(data)) ? StandardCharsets.UTF_8.encode(data) : null;
+		ByteBuffer dataBuffer = (StringUtils.isNotBlank(data)) ? ByteBuffer.wrap(data.getBytes(StandardCharsets.UTF_8)) : null;
 		return sendRequest(url, method, dataBuffer);
     }
 

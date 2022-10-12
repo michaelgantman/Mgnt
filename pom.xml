@@ -6,7 +6,7 @@
 
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.6.0.4</version>
+    <version>1.6.0.5</version>
     <name>MgntUtils</name>
     <description>
         Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, simple Http client JSON parser/serializer, 

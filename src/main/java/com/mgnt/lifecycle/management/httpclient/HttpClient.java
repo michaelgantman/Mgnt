@@ -327,50 +327,57 @@ public class HttpClient {
      * Use method {@link #setRequestHeader(String, String)} instead
      * @param headerName if the value of header name is blank or null this method does nothing
      * @param headerValue Holds the value for the header
+	 * @return instance of this HttpClient to support chaining
      * @See #setRequestHeader(String, String)
      */
     @Deprecated
-    public void setRequestProperty(String headerName, String headerValue) {
-    	setRequestHeader(headerName, headerValue);
+    public HttpClient setRequestProperty(String headerName, String headerValue) {
+    	return setRequestHeader(headerName, headerValue);
     }
     
     /**
      * This method is a general request header setter.
      * @param headerName if the value of header name is blank or null this method does nothing
      * @param headerValue headerValue Holds the value for the header
+	 * @return instance of this HttpClient to support chaining
      */
-    public void setRequestHeader(String headerName, String headerValue) {
+    public HttpClient setRequestHeader(String headerName, String headerValue) {
     	if(StringUtils.isNotBlank(headerName)) {
     		requestPropertiesMap.put(headerName, headerValue);
     	}
+		return this;
     }
 
     /**
      * This method removes request property
-     * @param propertyName if the value of propertyName is blank or null this method does nothing and returns null 
-     * @return the value that has been removed or null if the propertyName key was not present in the properties
+     * @param propertyName if the value of propertyName is blank or null this method does nothing
+	 * @return instance of this HttpClient to support chaining
      */
-    public String removeRequestProperty(String propertyName) {
+    public HttpClient removeRequestProperty(String propertyName) {
     	String result = null;
     	if(StringUtils.isNotBlank(propertyName)) {
     		result = requestPropertiesMap.remove(propertyName);
     	}
-    	return result;
+    	return this;
     }
     
     /**
      * This method clears all request properties.
-     */
-    public void clearAllRequestProperties() {
+	 * @return instance of this HttpClient to support chaining
+	 */
+    public HttpClient clearAllRequestProperties() {
     	requestPropertiesMap.clear();
+		return this;
     }
 
     /**
      * This is setter method for content type property. This method intended for use in extending classes
      * @param contentType holds content type value
-     */
-    public void setContentType(String contentType) {
+	 * @return instance of this HttpClient to support chaining
+	 */
+    public HttpClient setContentType(String contentType) {
     	requestPropertiesMap.put(CONTENT_TYPE_HEADER_KEY, contentType);
+		return this;
     }
 
     /**

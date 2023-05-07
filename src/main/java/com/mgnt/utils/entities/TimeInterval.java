@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  * seconds, minutes, hours or days) see methods {@link #toNanos()}, {@link #toMillis()}, {@link #toSeconds()}, 
  * {@link #toMinutes()}, {@link #toHours()}, {@link #toDays()}
  */
-public class TimeInterval {
+public class TimeInterval implements Comparable<TimeInterval> {
     private long value;
     private TimeUnit timeUnit;
 
@@ -145,4 +145,37 @@ public class TimeInterval {
 		}
 		return result;
 	}
+
+    @Override
+    public int compareTo(TimeInterval o) {
+        int result;
+        if(o != null) {
+            result = Long.compare(toMillis(), o.toMillis());
+            if(result == 0) {
+                result = Long.compare(toNanos(), o.toNanos());
+            }
+        } else {
+            result = 1;
+        }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean result = true;
+        if (this != o) {
+            if (o == null || getClass() != o.getClass()) {
+                result = false;
+            } else {
+                TimeInterval that = (TimeInterval) o;
+                result = (this.compareTo(that) == 0);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(toMillis()).hashCode();
+    }
 }

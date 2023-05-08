@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -75,7 +76,7 @@ public class TextUtils {
     /*
      * Strings defined bellow are for the use of methods getStacktrace() of this class
      */
-    private static String RELEVANT_PACKAGE = null;
+    private static String[] RELEVANT_PACKAGE_LIST = null;
     private static final String STANDARD_STAKTRACE_PREFIX = "at ";
     private static final String SKIPPING_LINES_STRING = "\t...";
     private static final String CAUSE_STAKTRACE_PREFIX = "Caused by:";
@@ -84,6 +85,7 @@ public class TextUtils {
     private static final String RELEVANT_PACKAGE_SYSTEM_PROPERTY = "mgnt.relevant.package";
     private static final String HTML_NON_BREAKING_SPACE_CHARACTER = StringUnicodeEncoderDecoder.decodeUnicodeSequenceToString("\\u00A0");
     private static final String HTML_NEW_LINE = "<br>";
+    private static final String RELEVANT_PACKAGE_DELIMETER = ";"; //TODO change it to be "; + all following white spaces"
 
     static {
         initRelevantPackageFromSystemProperty();
@@ -95,7 +97,7 @@ public class TextUtils {
             relevantPackage = System.getenv(RELEVANT_PACKAGE_SYSTEM_EVIRONMENT_VARIABLE);
         }
         if(StringUtils.isNotBlank(relevantPackage)) {
-            setRelevantPackage(relevantPackage);
+            setRelevantPackage(relevantPackage.split(RELEVANT_PACKAGE_DELIMETER));
         }
     }
 
@@ -576,7 +578,7 @@ public class TextUtils {
     /**
      * <p>
      * This method retrieves a stacktrace from {@link Throwable} as a String in full or shortened format. Shortened format skips the lines in the
-     * stacktrace that do not start with a configurable package prefix and replaces them with "..." line. The stacktrace is viewed as consisting
+     * stacktrace that do not start with one of the package prefixes in configurable package prefix list and replaces them with "..." line. The stacktrace is viewed as consisting
      * possibly of several parts. If stacktrace contains {@code "caused by"} or {@code "Suppressed"} section, each such section for the purposes of
      * this utility is called "Singular stacktrace". For example the stacktrace bellow contains 2 singular stacktraces: First is 4 top lines and the
      * second starting from the line {@code "Caused by: ..."} and to the end.<br>
@@ -598,14 +600,14 @@ public class TextUtils {
      * &emsp; ... 2 more<br>
      * <br>
      * <p>
-     * The way this method shortens the stacktrace is as follows. Each "singular" stacktraces are analyzed and shortened separately. For each singular
-     * stacktrace the error message is always printed. Then all the lines that follow are printed even if they do not start with prefix specified by
-     * <b>relevantPackage</b>. Once the first line with the prefix is found this line and all immediately following lines that start with the relevant
-     * package prefix are printed as well. The first line that does not start with the prefix after a section of the lines that did is also printed.
-     * But all the following lines that do not start with the prefix are skipped and replaced with a single line "...". If at some point within the
-     * stacktrace a line that starts with the prefix is encountered again this line and all the following line that start with the prefix + one
-     * following line that does not start with the prefix are printed in. And so on. Here is an example: Assume that exception above was passed as a
-     * parameter to this method and parameter <b>relevantPackage</b> is set to {@code "com.plain.analytics.v2.utils.test."} which means that the lines starting with
+     * The way this method shortens the stacktrace is as follows. Each "singular" stacktrace is analyzed and shortened separately. For each singular
+     * stacktrace the error message is always printed. Then all the lines that follow are printed even if they do not start with one of the prefixes specified by
+     * <b>relevantPackages</b>. Once the first line that starts with one of the prefixes is found this line and all immediately following lines that start with one of the relevant
+     * package prefixes are printed as well. The first line that does not start with any of the prefixes after a section of the lines that did is also printed.
+     * But all the following lines that do not start with any of the prefixes are skipped and replaced with a single line "...". If at some point within the
+     * stacktrace a line that starts with one of the prefixes is encountered again this line and all the following lines that start with one of the prefixes + one
+     * following line that does not start with any of the prefixes are printed in. And so on. Here is an example: Assume that exception above was passed as a
+     * parameter to this method and parameter <b>relevantPackages</b> is set to {@code ["com.plain.analytics.v2.utils.test."]} which means that the lines starting with
      * that prefix are the important or "relevant" lines. (Also the parameter <b>cutTBS</b> set to true which means that stacktrace should be
      * shortened at all. In this case the result of this method should be as follows:<br>
      * <br>
@@ -627,7 +629,7 @@ public class TextUtils {
      * <br>
      * <p>
      * Note that the first singular stacktrace is printed in full because all the lines start with the required prefix. The second singular stacktrace
-     * prints the first 7 lines because at first all the lines are printed until the first line with relevant prefix is found, and then all the lines
+     * prints the first 7 lines because at first all the lines are printed until the first line with one of the relevant prefixes is found, and then all the lines
      * with the prefix (one in our case) are printed + plus one following line without the prefix. And then the second line without the prefix (3d
      * from the bottom) is skipped and replaced with line "...". But then again we encounter a line with the prefix which is printed and finally the
      * last line is printed because it is the first line without prefix following the one with the prefix. In this particular example only one line
@@ -636,35 +638,35 @@ public class TextUtils {
      * concise and clear.<br>
      * <br>
      * </p>
-     * <b>Important Note:</b> Parameter <b>relevantPackage</b> may be left null. In this case the value of relevant package prefix will be taken from
-     * <b>RelevantPackage</b> property (See the methods {@link #setRelevantPackage(String)} and {@link #getRelevantPackage()}). Using method
-     * {@link #setRelevantPackage(String)} to set the value will preset the value of relevant package prefix for all calls for which parameter
-     * <b>relevantPackage</b> is null. In fact there is a convinience method {@link #getStacktrace(Throwable, boolean)} that invokes this method with
-     * parameter <b>relevantPackage</b> set to null and relies on the globally set property through method {@link #setRelevantPackage(String)}.
-     * However if the global property was not set and parameter <b>relevantPackage</b> was left null then the method will return stacktrace in full as
+     * <b>Important Note:</b> Parameter <b>relevantPackages</b> may be left null. In this case the value of relevant package prefix will be taken from
+     * <b>RelevantPackages</b> property (See the methods {@link #setRelevantPackage(String...)} and {@link #getRelevantPackage()}). Using method
+     * {@link #setRelevantPackage(String...)} to set the value will preset the values of relevant package prefixes for all calls for which parameter
+     * <b>relevantPackages</b> is null. In fact there is a convinience method {@link #getStacktrace(Throwable, boolean)} that invokes this method with
+     * parameter <b>relevantPackages</b> set to null and relies on the globally set property through method {@link #setRelevantPackage(String...)}.
+     * However if the global property was not set and parameter <b>relevantPackages</b> was left null then the method will return stacktrace in full as
      * if the parameter <b>cutTBS</b> was set to false<br>
      *
      * @param e               {@link Throwable} from which stacktrace should be retrieved
      * @param cutTBS          boolean that specifies if stacktrace should be shortened. The stacktrace should be shortened if this flag is set to {@code true}.
-     *                        Note that if this parameter set to {@code false} the stacktrace will be printed in full and parameter <b>relevantPackage</b> becomes
+     *                        Note that if this parameter set to {@code false} the stacktrace will be printed in full and parameter <b>relevantPackages</b> becomes
      *                        irrelevant.
-     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
+     * @param relevantPackages {@link String...} that contains the prefix or several prefixes specifying which lines are relevant. It is recommended to be in the following format
      *                        "packag_name1.[package_name2.[...]]." In the example above it should be "com.plain.analytics.v2.utils.test.".
      * @return String with stacktrace value
      */
-    public static String getStacktrace(Throwable e, boolean cutTBS, String relevantPackage) {
+    public static String getStacktrace(Throwable e, boolean cutTBS, String... relevantPackages) {
 
         // retrieve full stacktrace as byte array
         ByteArrayOutputStream stacktraceContent = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(stacktraceContent));
 
-        return extractStackTrace(cutTBS, relevantPackage, stacktraceContent);
+        return extractStackTrace(cutTBS, stacktraceContent, relevantPackages);
     }
 
     /**
      * This method retrieves a stacktrace from {@link Throwable} as a String in full or shortened format. This is convenience method that invokes
-     * method {@link #getStacktrace(Throwable, boolean, String)} with last parameter as {@code null}. It relies on relevant package prefix to have
-     * been set by method {@link #setRelevantPackage(String)}. There are several ways to pre-invoke method {@link #setRelevantPackage(String)}:<br>
+     * method {@link #getStacktrace(Throwable, boolean, String...)} with last parameter as {@code null}. It relies on relevant package prefix to have
+     * been set by method {@link #setRelevantPackage(String...)}. There are several ways to pre-invoke method {@link #setRelevantPackage(String...)}:<br>
      *     <ul>
      *     <li>Set system environment variable <b>"MGNT_RELEVANT_PACKAGE"</b> with relevant package value (for the purposes of our example
      *     it would be "com.plain.")</li>
@@ -687,7 +689,7 @@ public class TextUtils {
      * @param e      {@link Throwable} from which stacktrace should be retrieved
      * @param cutTBS boolean flag that specifies if stacktrace should be shortened or not. It is shortened if the flag value is {@code true}
      * @return String that contains the stacktrace
-     * @see #getStacktrace(Throwable, boolean, String)
+     * @see #getStacktrace(Throwable, boolean, String...)
      */
     public static String getStacktrace(Throwable e, boolean cutTBS) {
         return getStacktrace(e, cutTBS, null);
@@ -752,7 +754,7 @@ public class TextUtils {
      * @since 1.5.0.3
      */
     public static String getStacktrace(CharSequence stacktrace, String relevantPackage) {
-    	return extractStackTrace(true, relevantPackage, convertToByteArray(stacktrace));
+    	return extractStackTrace(true, convertToByteArray(stacktrace), relevantPackage);
     }
 
     /**
@@ -770,7 +772,7 @@ public class TextUtils {
      * @since 1.5.0.3
      */
     public static String getStacktrace(CharSequence stacktrace) {
-    	return extractStackTrace(true, null, convertToByteArray(stacktrace));
+    	return extractStackTrace(true, convertToByteArray(stacktrace), null);
     }
 
     /**
@@ -798,25 +800,24 @@ public class TextUtils {
      * @param cutTBS          boolean that specifies if stacktrace should be shortened. The stacktrace should be shortened if this flag is set to {@code true}.
      *                        Note that if this parameter set to {@code false} the stacktrace will be printed in full and parameter <b>relevantPackage</b> becomes
      *                        irrelevant.
+     * @param stacktraceContent {@link ByteArrayOutputStream} that contains the stacktrace content
      * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
      *                        "packag_name1.[package_name2.[...]]."
-	 * @param stacktraceContent {@link ByteArrayOutputStream} that contains the stacktrace content
 	 * @return
 	 */
-	private static String extractStackTrace(boolean cutTBS, String relevantPackage,
-			ByteArrayOutputStream stacktraceContent) {
+	private static String extractStackTrace(boolean cutTBS, ByteArrayOutputStream stacktraceContent, String... relevantPackage) {
 		StringBuilder result = new StringBuilder("\n");
 
         // Determine the value of relevant package prefix
-        String relPack = (relevantPackage != null && !relevantPackage.isEmpty()) ? relevantPackage : RELEVANT_PACKAGE;
+        String[] relPack = (relevantPackage != null && relevantPackage.length > 0) ? relevantPackage : RELEVANT_PACKAGE_LIST;
         /*
 		 * If the relevant package prefix was not set neither locally nor globally revert to retrieving full stacktrace even if shortening was
 		 * requested
 		 */
-        if (relPack == null || "".equals(relPack)) {
+        if (relPack == null || relPack.length == 0) {
             if (cutTBS) {
                 cutTBS = false;
-                logger.warn("Relevant package was not set for the method. Stacktrace can not be shortened. Returning full stacktrace");
+                logger.warn("Relevant package list was not set for the method. Stacktrace can not be shortened. Returning full stacktrace");
             }
         }
         if (cutTBS) {
@@ -857,10 +858,10 @@ public class TextUtils {
      * This method traverses through Singular stacktrace and skips irrelevant lines from it replacing them by line "..." The resulting shortened
      * stacktrace is appended into {@link StringBuilder} The stacktrace is viewed as consisting possibly of several parts. If stacktrace contains
      * {@code "caused by"} or {@code "Suppressed"} section, each such section for the purposes of this utility is called "Singular stacktrace". For
-     * more detailed explanation see method {@link #getStacktrace(Throwable, boolean, String)}
+     * more detailed explanation see method {@link #getStacktrace(Throwable, boolean, String...)}
      *
      * @param result  {@link StringBuilder} to which the resultant stacktrace will be appended
-     * @param relPack {@link String} that contains relevant package prefix
+     * @param relPackArray {@link String[]} that contains relevant package prefix array
      * @param reader  {@link BufferedReader} that contains the source from where the stacktrace may be read line by line. Current position in the reader
      *                is assumed to be at the beginning of the second line of the current singular stacktrace, following the line with the name of the
      *                exception and error message
@@ -868,9 +869,9 @@ public class TextUtils {
      *                error message
      * @return The first string of the next singular stacktrace or null if current singular stacktrace is the last one in the stacktrace
      * @throws IOException if any error occurs.
-     * @see #getStacktrace(Throwable, boolean, String)
+     * @see #getStacktrace(Throwable, boolean, String...)
      */
-    private static String traverseSingularStacktrace(StringBuilder result, String relPack, BufferedReader reader, String line)
+    private static String traverseSingularStacktrace(StringBuilder result, String[] relPackArray, BufferedReader reader, String line)
             throws IOException {
         result.append(line).append("\n");
 
@@ -894,8 +895,9 @@ public class TextUtils {
 				 * This "if" branch deals with lines that are standard satacktrace lines atarting with "at "
 				 */
 
-                //Check if the current line starts with thge prefix (after the "at " part)
-                isCurLineRelevantPack = trimmedLine.substring(STANDARD_STAKTRACE_PREFIX.length()).startsWith(relPack);
+                //Check if the current line starts with one of the prefixes (after the "at " part)
+                String lineContent = trimmedLine.substring(STANDARD_STAKTRACE_PREFIX.length());
+                isCurLineRelevantPack = Arrays.stream(relPackArray).anyMatch(relevantPackage -> lineContent.startsWith(relevantPackage));
                 if (!relevantPackageReached && isCurLineRelevantPack) {
 					/*
 					 * If the current line starts with the prefix but previous line did not we change the printing status. This case deals with the
@@ -965,21 +967,21 @@ public class TextUtils {
      *
      * @return String that holds the prefix value.
      */
-    public static String getRelevantPackage() {
-        return RELEVANT_PACKAGE;
+    public static String[] getRelevantPackage() {
+        return RELEVANT_PACKAGE_LIST;
     }
 
     /**
-     * This is a setter method for relevant package prefix property for method {@link #getStacktrace(Throwable, boolean)} Once the value has been set
+     * This is a setter method for relevant package prefix array property for method {@link #getStacktrace(Throwable, boolean)} Once the value has been set
      * the convenience method {@link #getStacktrace(Throwable, boolean)} could be used instead of method
-     * {@link #getStacktrace(Throwable, boolean, String)}
+     * {@link #getStacktrace(Throwable, boolean, String...)}
      *
-     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
-     *                        "packag_name1.[package_name2.[...]]."
-     * @see #getStacktrace(Throwable, boolean, String)
+     * @param relevantPackages {@link String[]} that contains the prefix array specifying which lines are relevant. It is recommended to be in the following format
+     *                        "package_name1.[package_name2.[...]]."
+     * @see #getStacktrace(Throwable, boolean, String...)
      */
-    public static void setRelevantPackage(String relevantPackage) {
-        RELEVANT_PACKAGE = relevantPackage;
+    public static void setRelevantPackage(String... relevantPackages) {
+        RELEVANT_PACKAGE_LIST = relevantPackages;
     }
 
     /**
@@ -1041,7 +1043,7 @@ public class TextUtils {
     }
 
     private static void warn(String message, Throwable t) {
-        if (RELEVANT_PACKAGE != null && !RELEVANT_PACKAGE.isEmpty()) {
+        if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.warn(message + getStacktrace(t));
         } else {
             logger.warn(message, t);
@@ -1049,7 +1051,7 @@ public class TextUtils {
     }
 
     private static void error(String message, Throwable t) {
-        if (RELEVANT_PACKAGE != null && !RELEVANT_PACKAGE.isEmpty()) {
+        if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.error(message + getStacktrace(t));
         } else {
             logger.error(message, t);
@@ -1057,7 +1059,7 @@ public class TextUtils {
     }
 
     private static void debug(String message, Throwable t) {
-        if (RELEVANT_PACKAGE != null && !RELEVANT_PACKAGE.isEmpty()) {
+        if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.debug(message + getStacktrace(t));
         } else {
             logger.debug(message, t);
@@ -1065,7 +1067,7 @@ public class TextUtils {
     }
 
     private static void fatal(String message, Throwable t) {
-        if (RELEVANT_PACKAGE != null && !RELEVANT_PACKAGE.isEmpty()) {
+        if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.error(message + getStacktrace(t));
         } else {
             logger.error(message, t);
@@ -1073,7 +1075,7 @@ public class TextUtils {
     }
 
     private static void info(String message, Throwable t) {
-        if (RELEVANT_PACKAGE != null && !RELEVANT_PACKAGE.isEmpty()) {
+        if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.info(message + getStacktrace(t));
         } else {
             logger.info(message, t);
@@ -1081,7 +1083,7 @@ public class TextUtils {
     }
 
     private static void trace(String message, Throwable t) {
-        if (RELEVANT_PACKAGE != null && !RELEVANT_PACKAGE.isEmpty()) {
+        if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.trace(message + getStacktrace(t));
         } else {
             logger.trace(message, t);

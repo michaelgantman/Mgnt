@@ -85,7 +85,7 @@ public class TextUtils {
     private static final String RELEVANT_PACKAGE_SYSTEM_PROPERTY = "mgnt.relevant.package";
     private static final String HTML_NON_BREAKING_SPACE_CHARACTER = StringUnicodeEncoderDecoder.decodeUnicodeSequenceToString("\\u00A0");
     private static final String HTML_NEW_LINE = "<br>";
-    private static final String RELEVANT_PACKAGE_DELIMETER = ";"; //TODO change it to be "; + all following white spaces"
+    private static final String RELEVANT_PACKAGE_DELIMITER = "\\s*;\\s*";
 
     static {
         initRelevantPackageFromSystemProperty();
@@ -97,7 +97,7 @@ public class TextUtils {
             relevantPackage = System.getenv(RELEVANT_PACKAGE_SYSTEM_EVIRONMENT_VARIABLE);
         }
         if(StringUtils.isNotBlank(relevantPackage)) {
-            setRelevantPackage(relevantPackage.split(RELEVANT_PACKAGE_DELIMETER));
+            setRelevantPackage(relevantPackage.split(RELEVANT_PACKAGE_DELIMITER));
         }
     }
 
@@ -641,7 +641,7 @@ public class TextUtils {
      * <b>Important Note:</b> Parameter <b>relevantPackages</b> may be left null. In this case the value of relevant package prefix will be taken from
      * <b>RelevantPackages</b> property (See the methods {@link #setRelevantPackage(String...)} and {@link #getRelevantPackage()}). Using method
      * {@link #setRelevantPackage(String...)} to set the value will preset the values of relevant package prefixes for all calls for which parameter
-     * <b>relevantPackages</b> is null. In fact there is a convinience method {@link #getStacktrace(Throwable, boolean)} that invokes this method with
+     * <b>relevantPackages</b> is null. In fact there is a convenience method {@link #getStacktrace(Throwable, boolean)} that invokes this method with
      * parameter <b>relevantPackages</b> set to null and relies on the globally set property through method {@link #setRelevantPackage(String...)}.
      * However if the global property was not set and parameter <b>relevantPackages</b> was left null then the method will return stacktrace in full as
      * if the parameter <b>cutTBS</b> was set to false<br>

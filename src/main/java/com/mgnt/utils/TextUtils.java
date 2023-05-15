@@ -97,7 +97,7 @@ public class TextUtils {
             relevantPackage = System.getenv(RELEVANT_PACKAGE_SYSTEM_EVIRONMENT_VARIABLE);
         }
         if(StringUtils.isNotBlank(relevantPackage)) {
-            setRelevantPackage(relevantPackage.split(RELEVANT_PACKAGE_DELIMITER));
+            setRelevantPackage(relevantPackage.trim().split(RELEVANT_PACKAGE_DELIMITER));
         }
     }
 
@@ -672,10 +672,11 @@ public class TextUtils {
      *     it would be "com.plain.")</li>
      *     <li>Run your code with System property <b>"mgnt.relevant.package"</b> set to relevant package value It could be done with
      *     -D: <b>"-Dmgnt.relevant.package=com.plain."</b> Note that System property value would take precedence over environment variable
-     *     if both are set</li>
+     *     if both are set. <br><b>IMOPRTANT:</b> Note that for both environment variable and system property if multiple prefixes needed to be set
+     *     than list them one after another separated by <b>semicolon (;)</b><br><b>For Example:</b> {@code "com.plain.;com.encrypted."}</li>
      *     <li>In case when Spring framework is used and system property and environment variable described above are not used then it is
      * recommended to add the following bean into your Spring configuration xml file. This will ensure an invocation of method
-     * {@link #setRelevantPackage(String)} which will appropriately initialize the package prefix and enable the use of this method
+     * {@link #setRelevantPackage(String...)} which will appropriately initialize the package prefix and enable the use of this method
      *
      * <p>
      *     &lt;bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"&gt;<br>
@@ -697,17 +698,18 @@ public class TextUtils {
 
     /**
      * This method retrieves a stacktrace from {@link Throwable} as a String in shortened format. This is convenience method that invokes method
-     * {@link #getStacktrace(Throwable, boolean, String)} with second parameter set to {@code 'true'} and last parameter as {@code null}. It relies on
-     * relevant package prefix to have been set by method {@link #setRelevantPackage(String)}. There are several ways to pre-invoke method {@link #setRelevantPackage(String)}:<br>
+     * {@link #getStacktrace(Throwable, boolean, String...)} with second parameter set to {@code 'true'} and last parameter as {@code null}. It relies on
+     * relevant package prefix to have been set by method {@link #setRelevantPackage(String...)}. There are several ways to pre-invoke method {@link #setRelevantPackage(String...)}:<br>
      *     <ul>
      *     <li>Set system environment variable <b>"MGNT_RELEVANT_PACKAGE"</b> with relevant package value (for the purposes of our example
      *     it would be "com.plain.")</li>
      *     <li>Run your code with System property <b>"mgnt.relevant.package"</b> set to relevant package value It could be done with
      *     -D: <b>"-Dmgnt.relevant.package=com.plain."</b> Note that System property value would take precedence over environment variable
-     *     if both are set</li>
+     *     if both are set. <br><b>IMOPRTANT:</b> Note that for both environment variable and system property if multiple prefixes needed to be set
+     *      *     than list them one after another separated by <b>semicolon (;)</b><br><b>For Example:</b> {@code "com.plain.;com.encrypted."}</li></li>
      *     <li>In case when Spring framework is used and system property and environment variable described above are not used then it is
      * recommended to add the following bean into your Spring configuration xml file. This will ensure an invocation of method
-     * {@link #setRelevantPackage(String)} which will appropriately initialize the package prefix and enable the use of this method
+     * {@link #setRelevantPackage(String...)} which will appropriately initialize the package prefix and enable the use of this method
      *
      * <p>
      *     &lt;bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"&gt;<br>
@@ -719,7 +721,7 @@ public class TextUtils {
      * </ul>
      * @param e {@link Throwable} from which stacktrace should be retrieved
      * @return String that contains the stacktrace
-     * @see #getStacktrace(Throwable, boolean, String)
+     * @see #getStacktrace(Throwable, boolean, String...)
      */
     public static String getStacktrace(Throwable e) {
         return getStacktrace(e, true, null);
@@ -727,16 +729,17 @@ public class TextUtils {
 
     /**
      * This method retrieves a stacktrace from {@link Throwable} as a String in shortened format. This is convenience method that invokes method
-     * {@link #getStacktrace(Throwable, boolean, String)} with second parameter set to {@code 'true'}.
+     * {@link #getStacktrace(Throwable, boolean, String...)} with second parameter set to {@code 'true'}.
      *
      * @param e               {@link Throwable} from which stacktrace should be retrieved
-     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
+     * @param relevantPackages {@link String...} that contains the prefix or several prefixes specifying which lines are relevant.
+     * It is recommended that each prefix should be in the following format
      *                        "packag_name1.[package_name2.[...]]."
      * @return String that contains the stacktrace
-     * @see #getStacktrace(Throwable, boolean, String)
+     * @see #getStacktrace(Throwable, boolean, String...)
      */
-    public static String getStacktrace(Throwable e, String relevantPackage) {
-        return getStacktrace(e, true, relevantPackage);
+    public static String getStacktrace(Throwable e, String... relevantPackages) {
+        return getStacktrace(e, true, relevantPackages);
     }
 
     /**
@@ -744,17 +747,17 @@ public class TextUtils {
      * Since this method receives stacktrace as a {@link CharSequence}, it is assumed that it is always desirable to get 
      * shortened format since the full stacktrace is already available as a {@link CharSequence}. To shorten the original 
      * stacktrace this method processes the stacktrace exactly as described in method 
-     * {@link #getStacktrace(Throwable, boolean, String)}.
+     * {@link #getStacktrace(Throwable, boolean, String...)}.
      * @param stacktrace {@link CharSequence} that holds full stacktrace text
-     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is 
-     * recommended to be in the following format "packag_name1.[package_name2.[...]]." (Again for full explanation
-     * on how this parameter (and the entire method) works see the method {@link #getStacktrace(Throwable, boolean, String)}.
+     * @param relevantPackages {@link String...} that contains the prefix or several prefixes specifying which lines are relevant. It is
+     * recommended that each prefix should be in the following format "packag_name1.[package_name2.[...]]." (Again for full explanation
+     * on how this parameter (and the entire method) works see the method {@link #getStacktrace(Throwable, boolean, String...)}.
      * @return Stacktrace string in shortened format 
-     * @see #getStacktrace(Throwable, boolean, String)
+     * @see #getStacktrace(Throwable, boolean, String...)
      * @since 1.5.0.3
      */
-    public static String getStacktrace(CharSequence stacktrace, String relevantPackage) {
-    	return extractStackTrace(true, convertToByteArray(stacktrace), relevantPackage);
+    public static String getStacktrace(CharSequence stacktrace, String relevantPackages) {
+    	return extractStackTrace(true, convertToByteArray(stacktrace), relevantPackages);
     }
 
     /**

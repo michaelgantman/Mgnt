@@ -756,14 +756,14 @@ public class TextUtils {
      * @see #getStacktrace(Throwable, boolean, String...)
      * @since 1.5.0.3
      */
-    public static String getStacktrace(CharSequence stacktrace, String relevantPackages) {
+    public static String getStacktrace(CharSequence stacktrace, String... relevantPackages) {
     	return extractStackTrace(true, convertToByteArray(stacktrace), relevantPackages);
     }
 
     /**
      * This method retrieves a stacktrace  in shortened format from source stacktrace provided as  {@link CharSequence}.
      * This is convenience method that works the same way as method 
-     * {@link #getStacktrace(CharSequence, String)} with second parameter set to {@code null}. It relies on relevant 
+     * {@link #getStacktrace(CharSequence, String...)} with second parameter set to {@code null}. It relies on relevant
      * package prefix to have been set by method {@link #setRelevantPackage(String...)}. There are several options to
      * pre-set this value. For detailed explanation of these options see method {@link #getStacktrace(Throwable, boolean)}. 
      * Since this method receives stacktrace as a {@link CharSequence}, it is assumed that it is always desirable to get 

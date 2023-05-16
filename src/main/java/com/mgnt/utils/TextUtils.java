@@ -761,10 +761,10 @@ public class TextUtils {
     }
 
     /**
-     * This method retrieves a stacktrace  in shortened format from source stactrace provided as  {@link CharSequence}. 
+     * This method retrieves a stacktrace  in shortened format from source stacktrace provided as  {@link CharSequence}.
      * This is convenience method that works the same way as method 
      * {@link #getStacktrace(CharSequence, String)} with second parameter set to {@code null}. It relies on relevant 
-     * package prefix to have been set by method {@link #setRelevantPackage(String)}. There are several options to 
+     * package prefix to have been set by method {@link #setRelevantPackage(String...)}. There are several options to
      * pre-set this value. For detailed explanation of these options see method {@link #getStacktrace(Throwable, boolean)}. 
      * Since this method receives stacktrace as a {@link CharSequence}, it is assumed that it is always desirable to get 
      * shortened format since the full stacktrace is already available as a {@link CharSequence}
@@ -796,15 +796,15 @@ public class TextUtils {
 
 	/**
 	 * This method receives the stacktrace content as {@link ByteArrayOutputStream} and processes it exactly as
-	 * described in method {@link #getStacktrace(Throwable, boolean, String)}. Except that it receives the 
-	 * stacktrace content as byte array so it is agnostic of the fact whether it came from actual exception in
-	 * real time of from a log file or any other source. This method allows to work with stacktraces extracted
+	 * described in method {@link #getStacktrace(Throwable, boolean, String...)}. Except that it receives the
+	 * stacktrace content as byte array, so it is agnostic of the fact whether it came from actual exception in
+	 * real time of from a log file or any other source. This method allows working with stacktraces extracted
 	 * on the fly at runtime or taken from some static sources (such as log files)
      * @param cutTBS          boolean that specifies if stacktrace should be shortened. The stacktrace should be shortened if this flag is set to {@code true}.
      *                        Note that if this parameter set to {@code false} the stacktrace will be printed in full and parameter <b>relevantPackage</b> becomes
      *                        irrelevant.
      * @param stacktraceContent {@link ByteArrayOutputStream} that contains the stacktrace content
-     * @param relevantPackage {@link String} that contains the prefix specifying which lines are relevant. It is recommended to be in the following format
+     * @param relevantPackage {@link String...} that contains the prefix or several prefixes specifying which lines are relevant. It is recommended to be in the following format
      *                        "packag_name1.[package_name2.[...]]."
 	 * @return
 	 */
@@ -979,7 +979,7 @@ public class TextUtils {
      * the convenience method {@link #getStacktrace(Throwable, boolean)} could be used instead of method
      * {@link #getStacktrace(Throwable, boolean, String...)}
      *
-     * @param relevantPackages {@link String[]} that contains the prefix array specifying which lines are relevant. It is recommended to be in the following format
+     * @param relevantPackages {@link String...} that contains the prefix or several prefixes specifying which lines are relevant. It is recommended to be in the following format
      *                        "package_name1.[package_name2.[...]]."
      * @see #getStacktrace(Throwable, boolean, String...)
      */

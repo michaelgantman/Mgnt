@@ -9,12 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,9 +38,6 @@ public class HttpClient {
 	private static final String CONTENT_TYPE_HEADER_KEY = "Content-Type";
 	private Map<String, String> requestPropertiesMap = new HashMap<>();
     private String connectionUrl;
-    private int lastResponseCode = -1;
-    private String lastResponseMessage = null;
-    private Map<String, List<String>> lastResponseHeaders = null;
     private TimeInterval connectTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
     private TimeInterval readTimeout = new TimeInterval(0, TimeUnit.MILLISECONDS);
 
@@ -75,10 +70,10 @@ public class HttpClient {
      * uses method POST, PUT or any other methods that allow passing info in the request body and there is some info
      * to be sent then use method {@link #sendHttpRequest(HttpMethod, String)}
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
-     * @return String that holds response from the URL
-     * @throws IOException
+     * @return {@link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public String sendHttpRequest(HttpMethod callMethod) throws IOException {
+    public ResponseHolder<String> sendHttpRequest(HttpMethod callMethod) throws HttpClientCommunicationException {
         return sendHttpRequest(getConnectionUrl(), callMethod, (String)null);
     }
 
@@ -90,10 +85,10 @@ public class HttpClient {
      * to be sent then use method {@link #sendHttpRequest(String, HttpMethod, String)}
      * @param requestUrl URL to which request is to be sent
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
-     * @return String that holds response from the URL
-     * @throws IOException
+     * @return {@Link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public String sendHttpRequest(String requestUrl, HttpMethod callMethod) throws IOException {
+    public ResponseHolder<String> sendHttpRequest(String requestUrl, HttpMethod callMethod) throws HttpClientCommunicationException {
         return sendHttpRequest(requestUrl, callMethod, (String)null);
     }
 
@@ -107,10 +102,10 @@ public class HttpClient {
      * {@link #sendHttpRequest(HttpMethod)}
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
      * @param data String that holds the data to be sent as request body
-     * @return String that holds response from the URL
-     * @throws IOException
+     * @return {@Link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public String sendHttpRequest(HttpMethod callMethod, String data) throws IOException {
+    public ResponseHolder<String> sendHttpRequest(HttpMethod callMethod, String data) throws HttpClientCommunicationException {
     	return sendHttpRequest(getConnectionUrl(), callMethod, data);
     }
 
@@ -125,10 +120,10 @@ public class HttpClient {
 	 * {@link #sendHttpRequest(HttpMethod)}
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
 	 * @param data ByteBuffer that holds the binary data to be sent as request body
-	 * @return String that holds response from the URL
-	 * @throws IOException
+	 * @return {@Link ResponseHolder} that holds response content and metadata from the URL
+	 * @throws HttpClientCommunicationException
 	 */
-	public String sendHttpRequest(HttpMethod callMethod, ByteBuffer data) throws IOException {
+	public ResponseHolder<String> sendHttpRequest(HttpMethod callMethod, ByteBuffer data) throws HttpClientCommunicationException {
 		return sendHttpRequest(getConnectionUrl(), callMethod, data);
 	}
     /**
@@ -140,22 +135,25 @@ public class HttpClient {
      * @param requestUrl URL to which request is to be sent
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
      * @param data String that holds the data to be sent as request body
-     * @return String that holds response from the URL
+     * @return {@Link ResponseHolder} that holds response content and metadata from the URL
      * @throws IOException
      */
-    public String sendHttpRequest(String requestUrl, HttpMethod callMethod, String data) throws IOException {
-    	String response;
-        HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
-        setLastResponseCode(connection.getResponseCode());
-        setLastResponseMessage(connection.getResponseMessage());
-        setLastResponseHeaders(connection.getHeaderFields());
+    public ResponseHolder<String> sendHttpRequest(String requestUrl, HttpMethod callMethod, String data) throws HttpClientCommunicationException {
+		ResponseHolder<String> response = new ResponseHolder<>();
+		HttpURLConnection connection = null;
 		try {
-			response = readResponse(connection);
+			connection = sendRequest(requestUrl, callMethod, data);
+			response.setResponseCode(connection.getResponseCode());
+			response.setResponseMessage(connection.getResponseMessage());
+			response.setResponseHeaders(connection.getHeaderFields());
+			response.setResponseContent(readResponse(connection));
 		} catch (IOException ioe) {
-			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" + 
-				ioe.getMessage() + ")", ioe);
+			String errorMessage = buildErrorMessage(response, ioe);
+			throw new HttpClientCommunicationException(errorMessage, ioe, response);
 		} finally {
-			connection.disconnect();
+			if(connection != null) {
+				connection.disconnect();
+			}
 		}
         return response;
     }
@@ -170,25 +168,27 @@ public class HttpClient {
 	 * @param requestUrl URL to which request is to be sent
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
 	 * @param data String that holds the data to be sent as request body
-	 * @return String that holds response from the URL
-	 * @throws IOException
+	 * @return {@Link ResponseHolder} that holds response content and metadata from the URL
+	 * @throws HttpClientCommunicationException
 	 */
-	public String sendHttpRequest(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws IOException {
-		String response;
-		HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
-		setLastResponseCode(connection.getResponseCode());
-		setLastResponseMessage(connection.getResponseMessage());
-		setLastResponseHeaders(connection.getHeaderFields());
+	public ResponseHolder<String> sendHttpRequest(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws HttpClientCommunicationException {
+		ResponseHolder<String> response = new ResponseHolder<>();
+		HttpURLConnection connection = null;
 		try {
-			response = readResponse(connection);
+			connection = sendRequest(requestUrl, callMethod, data);
+			response.setResponseCode(connection.getResponseCode());
+			response.setResponseMessage(connection.getResponseMessage());
+			response.setResponseHeaders(connection.getHeaderFields());
+			response.setResponseContent(readResponse(connection));
 		} catch (IOException ioe) {
-			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" +
-					ioe.getMessage() + ")", ioe);
+			String errorMessage = buildErrorMessage(response, ioe);
+			throw new HttpClientCommunicationException(errorMessage, ioe, response);
 		} finally {
 			connection.disconnect();
 		}
 		return response;
 	}
+
     /**
      * This method sends HTTP request to pre-set URL. It uses method {@link #getConnectionUrl()} to get the URL and uses 
      * specified HTTP method. Obviously it is expected that user should set connectionUrl property by invoking method 
@@ -197,10 +197,10 @@ public class HttpClient {
      * that holds binary info. So this methods fits for retrieving binary response such as Image, Video, Audio or any
      * other info in binary format.
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
-     * @return {@link ByteBuffer} that holds response from URL
-     * @throws IOException
+     * @return {@link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public ByteBuffer sendHttpRequestForBinaryResponse(HttpMethod callMethod) throws IOException {
+    public ResponseHolder<ByteBuffer> sendHttpRequestForBinaryResponse(HttpMethod callMethod) throws HttpClientCommunicationException {
         return sendHttpRequestForBinaryResponse(getConnectionUrl(), callMethod, (String)null);
     }
 
@@ -210,10 +210,10 @@ public class HttpClient {
      * other info in binary format.
      * @param requestUrl URL to which request is to be sent
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
-     * @return {@link ByteBuffer} that holds response from URL
-     * @throws IOException
+     * @return {@link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod) throws IOException {
+    public ResponseHolder<ByteBuffer> sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod) throws HttpClientCommunicationException {
         return sendHttpRequestForBinaryResponse(requestUrl, callMethod, (String)null);
     }
 
@@ -226,10 +226,10 @@ public class HttpClient {
      * Video, Audio or any other info in binary format.
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
      * @param data String that holds the data to be sent as request body
-     * @return {@link ByteBuffer} that holds response from URL
-     * @throws IOException
+     * @return {@link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public ByteBuffer sendHttpRequestForBinaryResponse(HttpMethod callMethod, String data) throws IOException {
+    public ResponseHolder<ByteBuffer> sendHttpRequestForBinaryResponse(HttpMethod callMethod, String data) throws HttpClientCommunicationException {
     	return sendHttpRequestForBinaryResponse(getConnectionUrl(),callMethod, data);
     }
 
@@ -244,10 +244,10 @@ public class HttpClient {
 	 * binary files such as adding a watermark to an Image for example
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
 	 * @param data ByteArray that holds some binary data to be sent as request body
-	 * @return {@link ByteBuffer} that holds response from URL
-	 * @throws IOException
+	 * @return {@link ResponseHolder} that holds response content and metadata from the URL
+	 * @throws HttpClientCommunicationException
 	 */
-	public ByteBuffer sendHttpRequestForBinaryResponse(HttpMethod callMethod, ByteBuffer data) throws IOException {
+	public ResponseHolder<ByteBuffer> sendHttpRequestForBinaryResponse(HttpMethod callMethod, ByteBuffer data) throws HttpClientCommunicationException {
 		return sendHttpRequestForBinaryResponse(getConnectionUrl(),callMethod, data);
 	}
     /**
@@ -257,24 +257,27 @@ public class HttpClient {
      * @param requestUrl URL to which request is to be sent
      * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
      * @param data String that holds the data to be sent as request body
-     * @return {@link ByteBuffer} that holds response from URL
-     * @throws IOException
+     * @return {@link ResponseHolder} that holds response content and metadata from the URL
+     * @throws HttpClientCommunicationException
      */
-    public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, String data) throws IOException {
-        ByteBuffer response;
-    	HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
-        setLastResponseCode(connection.getResponseCode());
-        setLastResponseMessage(connection.getResponseMessage());
-        setLastResponseHeaders(connection.getHeaderFields());
-        try {
-	        response = readBinaryResponse(connection);
+    public ResponseHolder<ByteBuffer> sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, String data) throws HttpClientCommunicationException {
+		ResponseHolder<ByteBuffer> response = new ResponseHolder<>();
+		HttpURLConnection connection = null;
+		try {
+			connection = sendRequest(requestUrl, callMethod, data);
+			response.setResponseCode(connection.getResponseCode());
+			response.setResponseMessage(connection.getResponseMessage());
+			response.setResponseHeaders(connection.getHeaderFields());
+			response.setResponseContent(readBinaryResponse(connection));
 		} catch (IOException ioe) {
-			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" + 
-					ioe.getMessage() + ")", ioe);
+			String errorMessage = buildErrorMessage(response, ioe);
+			throw new HttpClientCommunicationException(errorMessage, ioe, response);
 		} finally {
-			connection.disconnect();
+			if(connection != null) {
+				connection.disconnect();
+			}
 		}
-        return response;
+		return response;
     }
 
 	/**
@@ -286,22 +289,25 @@ public class HttpClient {
 	 * @param requestUrl URL to which request is to be sent
 	 * @param callMethod {@link HttpMethod} that specifies which HTTP method is to be used
 	 * @param data ByteBuffer that holds the data to be sent as request body
-	 * @return {@link ByteBuffer} that holds response from URL
-	 * @throws IOException
+	 * @return {@link ResponseHolder} that holds response content and metadata from the URL
+	 * @throws HttpClientCommunicationException
 	 */
-	public ByteBuffer sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws IOException {
-		ByteBuffer response;
-		HttpURLConnection connection = sendRequest(requestUrl, callMethod, data);
-		setLastResponseCode(connection.getResponseCode());
-		setLastResponseMessage(connection.getResponseMessage());
-		setLastResponseHeaders(connection.getHeaderFields());
+	public ResponseHolder<ByteBuffer> sendHttpRequestForBinaryResponse(String requestUrl, HttpMethod callMethod, ByteBuffer data) throws HttpClientCommunicationException {
+		ResponseHolder<ByteBuffer> response = new ResponseHolder<>();
+		HttpURLConnection connection = null;
 		try {
-			response = readBinaryResponse(connection);
+			connection = sendRequest(requestUrl, callMethod, data);
+			response.setResponseCode(connection.getResponseCode());
+			response.setResponseMessage(connection.getResponseMessage());
+			response.setResponseHeaders(connection.getHeaderFields());
+			response.setResponseContent(readBinaryResponse(connection));
 		} catch (IOException ioe) {
-			throw new IOException("HTTP " + getLastResponseCode() + " " + getLastResponseMessage() + " (" +
-					ioe.getMessage() + ")", ioe);
+			String errorMessage = buildErrorMessage(response, ioe);
+			throw new HttpClientCommunicationException(errorMessage, ioe, response);
 		} finally {
-			connection.disconnect();
+			if(connection != null) {
+				connection.disconnect();
+			}
 		}
 		return response;
 	}
@@ -379,64 +385,6 @@ public class HttpClient {
     	requestPropertiesMap.put(CONTENT_TYPE_HEADER_KEY, contentType);
 		return this;
     }
-
-    /**
-     * This method returns the status code from the last HTTP response message. If two or more separate requests
-     * where executed this method returns the status code from the last response. The codes from previous responses are lost if they
-     * were not read after the respective request was executed and before the next one is executed. This method returns -1 if no 
-     * request was executed yet by this instance of the class or response was't received. 
-     * @return the HTTP Status-Code, or -1
-     */
-    public int getLastResponseCode() {
-		return lastResponseCode;
-	}
-
-    /**
-     * This method returns the last HTTP response message. If two or more separate requests
-     * where executed this method returns the HTTP response message from the last response. The messages from previous responses 
-     * are lost if they were not read after the respective request was executed and before the next one is executed. This method 
-     * returns null if no request was executed yet by this instance of the class or response was't received. 
-     * @return the HTTP response message, or null
-     */
-	public String getLastResponseMessage() {
-		return lastResponseMessage;
-	}
-
-	/**
-	 * This method returns header fields from last executed http request as unmodifiable map. If two or more separate requests
-     * where executed this method returns header fields from the last response. The headers from previous responses 
-     * are lost if they were not read after the respective request was executed and before the next one is executed. This method 
-     * returns null if no request was executed yet by this instance of the class or response was't received.
-     * @return An unmodifiable Map of Header fields of last response
-	 */
-	public Map<String, List<String>> getLastResponseHeaders() {
-		return lastResponseHeaders;
-	}
-	
-	/**
-	 * This method returns header fields names from last executed http request as unmodifiable set. If two or more separate requests
-     * where executed this method returns header field names from the last response. The header names from previous responses 
-     * are lost if they were not read after the respective request was executed and before the next one is executed. This method 
-     * returns null if no request was executed yet by this instance of the class or response was't received.
-     * @return An unmodifiable Set of Header field names of last response
-	 */
-	public Set<String> getLastResponseHeaderNames() {
-		return (lastResponseHeaders != null) ? Collections.unmodifiableSet(lastResponseHeaders.keySet()) : null;
-	}
-	
-	/**
-	 * This method returns the values of the header field by field name from last executed http request as unmodifiable list. 
-	 * If two or more separate requests where executed this method returns header field value from the last response. The header 
-	 * values from previous responses are lost if they were not read after the respective request was executed and before the 
-	 * next one is executed. This method returns null if no request was executed yet by this instance of the class or response 
-	 * was't received.
-	 * @param fieldName - the name of the header field to be retrieved
-	 * @return An unmodifiable list of values of the requested header field
-	 */
-	public List<String> getLastResponseHeader(String fieldName) {
-		return (lastResponseHeaders != null && StringUtils.isNotBlank(fieldName)) ? 
-			Collections.unmodifiableList(lastResponseHeaders.get(fieldName)) : null;
-	}
 
 	/**
 	 * This method returns connection timeout currently in effect. The default value (if timeout was never set) is 0 which means 
@@ -574,18 +522,6 @@ public class HttpClient {
     protected String getDefaultContentType() {
     	return null;
     }
-	
-	private void setLastResponseCode(int lastResponseCode) {
-		this.lastResponseCode = lastResponseCode;
-	}
-
-	private void setLastResponseMessage(String lastResponseMessage) {
-		this.lastResponseMessage = lastResponseMessage;
-	}
-	
-	private void setLastResponseHeaders(Map<String, List<String>> lastResponseHeaders) {
-		this.lastResponseHeaders = lastResponseHeaders;
-	}
 
     /**
      * This method reads response from {@link HttpURLConnection} expecting response to be in Textual format
@@ -688,13 +624,27 @@ public class HttpClient {
         return connection;
 	}
 
-
 	private HttpURLConnection setReadTimeout(HttpURLConnection connection) {
 		int readTimeoutMs = Long.valueOf((getReadTimeout().toMillis())).intValue();
         if(readTimeoutMs >= 0L) {
         	connection.setReadTimeout(readTimeoutMs);
         }
         return connection;
+	}
+
+	private String buildErrorMessage(ResponseHolder<?> response, Exception e) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if(response.getResponseCode() > 0) {
+			stringBuilder.append("HTTP ")
+					.append(response.getResponseCode());
+		}
+		if(StringUtils.isNotBlank(response.getResponseMessage())) {
+			stringBuilder.append(" ")
+					.append(response.getResponseMessage())
+					.append("\n");
+		}
+		stringBuilder.append(e.getMessage());
+		return stringBuilder.toString();
 	}
 
 	public static enum HttpMethod {

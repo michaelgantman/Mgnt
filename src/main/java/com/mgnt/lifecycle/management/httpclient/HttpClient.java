@@ -22,16 +22,53 @@ import com.mgnt.utils.WebUtils;
 import com.mgnt.utils.entities.TimeInterval;
 
 /**
- * This class is meant to be a parent class to any class that wants to implement an http access to a particular
- * cite. In this case the extending class may inherit from this class, set a predefined {@link #connectionUrl} property
- * and then simply add some methods that would be used to contact some different sub-urls with the same url base. Those
- * methods may receive some parameters that would enable to build final url based on pre-set base url. However this
- * class may be used on its own as well. All you will need to do is to set a value for content type using method
- * {@link #setContentType(String)} if needed, or/and any other request header using method 
- * {@link #setRequestHeader(String, String)} and then just call method {@link #sendHttpRequest(String, HttpMethod)}
- * or {@link #sendHttpRequest(String, HttpMethod, String)} (or if the reply is expected to be binary such as image then
- * call the methods {@link #sendHttpRequestForBinaryResponse(String, HttpMethod)} or
- * {@link #sendHttpRequestForBinaryResponse(String, HttpMethod, String)})
+ * This class is specialized purpose Http Client. While it can be used as general purpose Http Client this is not what this class
+ * is meant for. This class does not provide the entire width of HTTP functionality as other General purpose Http clients do, but
+ * provides customized functionality for specific use-case. The main point is that this class is NOT, strictly speaking, thread-safe
+ * and this is by design. This Http client is meant to provide easy use for repeated http requests that share the same environment -
+ * the same headers with the same values and the same URL or the same root sub-URL. So, this class holds some state (which makes it not
+ * Thread-safe). In particular, it holds such properties as {@link #connectionUrl}, a map of Request headers
+ * ({@link #requestPropertiesMap}) and timeout values for connection and read operations ({@link #connectTimeout}, {@link #readTimeout}).
+ * <br><br>
+ * The intended use for this class is that for each instance it's state will be set once and will not be changed, and then
+ * it could be used for multiple HTTP requests that share the same state (same headers and their values, and optionally the
+ * timeouts and url). If the state of the instance of this class is not changed
+ * between invocations of method <code>sendHttpRequest</code> then the instance ff this class can be safely used by multiple
+ * threads and thread-safety is guaranteed. The use-case for this class is for repeated calls to predefined URL(s) with the same headers.
+ * <br><br>Here is an example: Assume that you have some REST API that deals with a "Person" entity. Assume that you have the following
+ * endpoints:<br>
+ * <b>http://www.some-site/person</b> (GET) for read<br>
+ * <b>http://www.some-site/person</b> (POST) for create<br>
+ * <b>http://www.some-site/person</b> (PUT) for update<br>
+ * <b>http://www.some-site/person</b> (DELETE) for delete<br>
+ * and lets assume that you have just another extra endpoint just for updating person Address only:<br>
+ * <b>http://www.some-site/person/address</b> (PUT) for update<br>
+ *<br> So, There are 2 ways of using this class:
+ * <ol>
+ *     <li>
+ *        	Just use an instance of this class, preset the {@link #connectionUrl} property (use method {@link #setConnectionUrl(String)})
+ *  		to value "<code>http://www.some-site/person</code>", preset all the headers (such "Content-Type", and whatever other headers
+ *  		required). - Use methods {@link #setContentType(String)} and {@link #setRequestHeader(String, String)}.
+ *  		Once this is done use this instance for all invocations to the above APIs:<br>
+ *  			
+ *  		{@link #sendHttpRequest(HttpMethod)} or {@link #sendHttpRequest(HttpMethod, String)} would be good methods for the first 4 endpoints
+ *  		and for the address endpoint use method {@link #sendHttpRequest(String, HttpMethod, String)} where the URL parameter
+ *  		should be set to value {@link #getConnectionUrl()} + "/address"
+ *  	</li>
+ *  	<li>
+ *  	 	Extend this class lets say with a Person class that will have the methods <code>get(Long id), update(...),
+ *  	 	create(...), delete() and updateAddress(...)	</code>. In constructor for this class pre-set all the
+ *  	 	relevant environment (headers, connection URL) and in the methods mentioned above invoke appropriate
+ *  	 	<code>sendHttpRequest()</code> method. This way the code will look like<br><br>
+ *  	 	<code>
+ *  	 	  	Person person = new Person();<br>
+ *  	 	  	person.create(...);<br>
+ *  	 	  	person.updateAddress(...);<br>
+ *  	 	</code><br>
+ *  	 This will even hide away the fact that the operations are done over Http connection and the code just looks like
+ *  	 regular code
+ *  	</li>
+ * </ol>
  */
 public class HttpClient {
 	

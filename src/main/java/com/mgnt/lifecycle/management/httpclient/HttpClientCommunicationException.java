@@ -2,6 +2,10 @@ package com.mgnt.lifecycle.management.httpclient;
 
 import java.io.IOException;
 
+/**
+ * This Exception is specifically for exclusive use with {@link HttpClient}. It holds {@link ResponseHolder} instance so
+ * that it could provide additional information on the problem encountered.
+ */
 public class HttpClientCommunicationException extends IOException {
     private ResponseHolder responseHolder;
 

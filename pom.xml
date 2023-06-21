@@ -6,7 +6,7 @@
 
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.6.0.6</version>
+    <version>1.7.0.0</version>
     <name>MgntUtils</name>
     <description>
         Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, simple Http client JSON parser/serializer, 
@@ -59,17 +59,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-			<version>2.14.0-rc2</version>
+			<version>2.15.2</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.fasterxml.jackson.core</groupId>
 		  <artifactId>jackson-databind</artifactId>
-		  <version>2.14.0-rc2</version>
+		  <version>2.15.2</version>
 		</dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-		  <version>2.14.0-rc2</version>
+		  <version>2.15.2</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>

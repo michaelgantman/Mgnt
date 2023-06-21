@@ -27,7 +27,7 @@ import com.mgnt.utils.textutils.Version;
  * <p>
  * There are several methods for retrieving
  * Exception stacktrace as a String in full or shortened version. Shortened version of the stacktrace will contain concise information focusing on
- * specific package or subpackage while removing long parts of irrelevant stacktrace. This could be very useful for logging in web-based architecture
+ * specific set of packages or subpackages while removing long parts of irrelevant stacktrace. This could be very useful for logging in web-based architecture
  * where stacktrace may contain long parts of server provided classes trace that could be eliminated with the methods of this class while retaining
  * important parts of the stacktrace relating to user's packages. Also the same utility (starting from version 1.5.0.3) allows to filter and shorten 
  * stacktrace as a string the same way as the stacktrace extracted from exception. So, essentially stacktraces could be filtered "on the fly" at run time 
@@ -609,7 +609,7 @@ public class TextUtils {
      * following line that does not start with any of the prefixes are printed in. And so on. Here is an example: Assume that exception above was passed as a
      * parameter to this method and parameter <b>relevantPackages</b> is set to {@code ["com.plain.analytics.v2.utils.test."]} which means that the lines starting with
      * that prefix are the important or "relevant" lines. (Also the parameter <b>cutTBS</b> set to true which means that stacktrace should be
-     * shortened at all. In this case the result of this method should be as follows:<br>
+     * shortened. In this case the result of this method should be as follows:<br>
      * <br>
      * </p>
      * java.lang.Exception: Bad error<br>
@@ -633,7 +633,7 @@ public class TextUtils {
      * with the prefix (one in our case) are printed + plus one following line without the prefix. And then the second line without the prefix (3d
      * from the bottom) is skipped and replaced with line "...". But then again we encounter a line with the prefix which is printed and finally the
      * last line is printed because it is the first line without prefix following the one with the prefix. In this particular example only one line
-     * was skipped over which is not very much, but for web-based environments for the long stacktraces that contain long traces of server related
+     * was skipped over, which is not very much, but for web-based environments for the long stacktraces that contain long traces of server related
      * classes this method could be very effective in removing irrelevant lines and leaving only application related lines making log files more
      * concise and clear.<br>
      * <br>

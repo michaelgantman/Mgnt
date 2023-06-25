@@ -1,9 +1,5 @@
 com.mgnt.lifecycle.management
 com.mgnt.lifecycle.management.backgroundrunner
-com.mgnt.lifecycle.management.backgroundrunner.example
-com.mgnt.lifecycle.management.example
-com.mgnt.lifecycle.management.example.implementations
-com.mgnt.lifecycle.management.example.implementations.usage
 com.mgnt.lifecycle.management.httpclient
 com.mgnt.utils
 com.mgnt.utils.entities

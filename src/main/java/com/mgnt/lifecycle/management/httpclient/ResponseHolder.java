@@ -5,8 +5,9 @@ import java.util.Map;
 
 /**
  * This class contains the actual response data and metadata received upon sending Http Request by {@link HttpClient}
- * This class is used as a return type by all versions of <code>sendHttpRequest</code> method of {@link HttpClient} (See for example
+ * This class is used as a return type by all versions of <code>sendHttpRequest</code> method of {@link HttpClient}. (See for example
  * {@link HttpClient#sendHttpRequest(String, HttpClient.HttpMethod, String)})
+ * @since 1.7.0.0
  * @param <C> is expected to be either <code>String</code> or <code>ByteBuffer</code> depending on whether the returned data type is
  *           textual or binary. (See methods {@link HttpClient#sendHttpRequest(String, HttpClient.HttpMethod, String)} and
  *           {@link HttpClient#sendHttpRequestForBinaryResponse(String, HttpClient.HttpMethod, String)} for example
@@ -69,8 +70,8 @@ public class ResponseHolder<C> {
     /**
      *
      * @return the content of the response received from server side. The type is expected to be either <code>String</code> or <code>ByteBuffer</code> depending on whether the returned data type is
-     *  *           textual or binary. (See methods {@link HttpClient#sendHttpRequest(String, HttpClient.HttpMethod, String)} and
-     *  *           {@link HttpClient#sendHttpRequestForBinaryResponse(String, HttpClient.HttpMethod, String)} for example
+     *           textual or binary. (See methods {@link HttpClient#sendHttpRequest(String, HttpClient.HttpMethod, String)} and
+     *           {@link HttpClient#sendHttpRequestForBinaryResponse(String, HttpClient.HttpMethod, String)} for example
      */
     public C getResponseContent() {
         return responseContent;

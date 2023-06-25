@@ -33,7 +33,7 @@ import com.mgnt.utils.entities.TimeInterval;
  * The intended use for this class is that for each instance it's state will be set once and will not be changed, and then
  * it could be used for multiple HTTP requests that share the same state (same headers and their values, and optionally the
  * timeouts and url). If the state of the instance of this class is not changed
- * between invocations of method <code>sendHttpRequest</code> then the instance ff this class can be safely used by multiple
+ * between invocations of method <code>sendHttpRequest</code> then the instance of this class can be safely used by multiple
  * threads and thread-safety is guaranteed. The use-case for this class is for repeated calls to predefined URL(s) with the same headers.
  * <br><br>Here is an example: Assume that you have some REST API that deals with a "Person" entity. Assume that you have the following
  * endpoints:<br>
@@ -57,16 +57,16 @@ import com.mgnt.utils.entities.TimeInterval;
  *  	</li>
  *  	<li>
  *  	 	Extend this class lets say with a Person class that will have the methods <code>get(Long id), update(...),
- *  	 	create(...), delete() and updateAddress(...)	</code>. In constructor for this class pre-set all the
+ *  	 	create(...), delete(Long id) and updateAddress(...)	</code>. In constructor for this class pre-set all the
  *  	 	relevant environment (headers, connection URL) and in the methods mentioned above invoke appropriate
  *  	 	<code>sendHttpRequest()</code> method. This way the code will look like<br><br>
  *  	 	<code>
  *  	 	  	Person person = new Person();<br>
- *  	 	  	person.create(...);<br>
+ *  	 	  	person.create(person);<br>
  *  	 	  	person.updateAddress(...);<br>
  *  	 	</code><br>
  *  	 This will even hide away the fact that the operations are done over Http connection and the code just looks like
- *  	 regular code
+ *  	 regular java code
  *  	</li>
  * </ol>
  */

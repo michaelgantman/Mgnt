@@ -673,11 +673,11 @@ public class HttpClient {
 		StringBuilder stringBuilder = new StringBuilder();
 		if(response.getResponseCode() > 0) {
 			stringBuilder.append("HTTP ")
-					.append(response.getResponseCode());
+					.append(response.getResponseCode())
+					.append(" ");
 		}
 		if(StringUtils.isNotBlank(response.getResponseMessage())) {
-			stringBuilder.append(" ")
-					.append(response.getResponseMessage())
+			stringBuilder.append(response.getResponseMessage())
 					.append("\n");
 		}
 		stringBuilder.append(e.getMessage());

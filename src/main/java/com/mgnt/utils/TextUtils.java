@@ -706,7 +706,7 @@ public class TextUtils {
      *     <li>Run your code with System property <b>"mgnt.relevant.package"</b> set to relevant package value It could be done with
      *     -D: <b>"-Dmgnt.relevant.package=com.plain."</b> Note that System property value would take precedence over environment variable
      *     if both are set. <br><b>IMOPRTANT:</b> Note that for both environment variable and system property if multiple prefixes needed to be set
-     *      *     than list them one after another separated by <b>semicolon (;)</b><br><b>For Example:</b> {@code "com.plain.;com.encrypted."}</li></li>
+     *     than list them one after another separated by <b>semicolon (;)</b><br><b>For Example:</b> {@code "com.plain.;com.encrypted."}</li></li>
      *     <li>In case when Spring framework is used and system property and environment variable described above are not used then it is
      * recommended to add the following bean into your Spring configuration xml file. This will ensure an invocation of method
      * {@link #setRelevantPackage(String...)} which will appropriately initialize the package prefix and enable the use of this method

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.michaelgantman</groupId>
-    <artifactId>MgntUtils</artifactId>
-    <version>1.7.0.2</version>
-    <name>MgntUtils</name>
-    <description>
+	<groupId>com.github.michaelgantman</groupId>
+	<artifactId>MgntUtils</artifactId>
+	<version>1.7.0.2</version>
+	<name>MgntUtils</name>
+	<description>
         Set of various Utils: stacktrace noise filter, String to/from unicode sequence converter, simple Http client JSON parser/serializer, 
         Silent String parsing to Integer and other numeric types, Parsing String to time intervals with support for time unit suffixes,
         JSON parser that provides serialization/deserialization of classes to JSON, Version comparator and Version ranges operations, 
@@ -16,80 +14,110 @@
         classes that implement user provided interface. An infrastructure for writing Scheduled Task classes where time
         interval for task execution is provided in humanly readable format (such as "9h" for 9 hours)
     </description>
-    <url>https://github.com/michaelgantman/Mgnt</url>
-    <licenses>
-        <license>
-            <name>The MIT License (MIT)</name>
-            <url>http://opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-    <developers>
-        <developer>
-            <name>
+	<url>https://github.com/michaelgantman/Mgnt</url>
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>http://opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>
                 Michael Gantman
             </name>
-            <email>
+			<email>
                 michael_gantman@yahoo.com
             </email>
-        </developer>
-    </developers>
+		</developer>
+	</developers>
 
-    <scm>
-        <connection>scm:git:https://github.com/michaelgantman/Mgnt</connection>
-        <developerConnection>scm:git:https://github.com/michaelgantman/Mgnt</developerConnection>
-        <url>https://github.com/michaelgantman/Mgnt</url>
-    </scm>
-    <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-        </dependency>
+	<scm>
+		<connection>scm:git:https://github.com/michaelgantman/Mgnt</connection>
+		<developerConnection>scm:git:https://github.com/michaelgantman/Mgnt</developerConnection>
+		<url>https://github.com/michaelgantman/Mgnt</url>
+	</scm>
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
 			<version>2.19.1</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.fasterxml.jackson.core</groupId>
-		  <artifactId>jackson-databind</artifactId>
-		  <version>2.19.1</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.19.1</version>
 		</dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-		  <version>2.19.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-    </dependencies>
-    <build>
-        <finalName>MgntUtils</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>utf-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+	</dependencies>
+	<distributionManagement>
+		<repository>
+			<id>ossrh</id>
+			<name>OSSRH Release Repo</name>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<name>OSSRH Snapshot Repo</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<build>
+		<finalName>MgntUtils</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<gpgExecutable>gpg</gpgExecutable>
+					<keyname>42B04B8D2B032689</keyname>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

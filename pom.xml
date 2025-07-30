@@ -77,15 +77,17 @@
 	</dependencies>
 	<distributionManagement>
 		<repository>
-			<id>ossrh</id>
-			<name>OSSRH Release Repo</name>
-			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>central</id>
+			<name>Central Release Repo</name>
+			<url>https://ossrh-staging-api.central.sonatype.com/</url>
 		</repository>
+		<!--
 		<snapshotRepository>
-			<id>ossrh</id>
+			<id>central</id>
 			<name>OSSRH Snapshot Repo</name>
 			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
+-->
 	</distributionManagement>
 	<build>
 		<finalName>MgntUtils</finalName>
@@ -116,6 +118,49 @@
 				<configuration>
 					<gpgExecutable>gpg</gpgExecutable>
 					<keyname>42B04B8D2B032689</keyname>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.3.1</version> <!-- Use a recent stable version -->
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.6.3</version> <!-- Use a recent stable version -->
+				<configuration>
+					<source>8</source>
+					<failOnError>false</failOnError>
+					<doclint>none</doclint>
+					<excludePackageNames>
+                    com.mgnt.lifecycle.management.backgroundrunner.example:com.mgnt.lifecycle.management.example.*
+                </excludePackageNames>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.8.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>central</publishingServerId>
 				</configuration>
 			</plugin>
 		</plugins>

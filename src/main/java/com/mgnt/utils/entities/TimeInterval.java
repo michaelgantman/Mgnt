@@ -1,5 +1,7 @@
 package com.mgnt.utils.entities;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -131,6 +133,14 @@ public class TimeInterval implements Comparable<TimeInterval> {
         }
         return result;
     }
+    
+    public Duration toDuration() {
+    	ChronoUnit chronoUnit = convertTimeUnitToChronoUnit();
+    	if(chronoUnit == null) {
+    		throw new IllegalArgumentException("TimeInterval could not be converted to Duration due to invalid TimeUnit value (most likely null)");
+    	}
+    	return Duration.of(getValue(), chronoUnit);
+    }
 
     /**
      * Provides String representation of the value such as "3 MILLISECONDS".
@@ -177,5 +187,47 @@ public class TimeInterval implements Comparable<TimeInterval> {
     @Override
     public int hashCode() {
         return Long.valueOf(toMillis()).hashCode();
+    }
+    
+    private ChronoUnit convertTimeUnitToChronoUnit() {
+    	ChronoUnit result = null;
+    	TimeUnit currentTimeUnit = getTimeUnit();
+    	if(currentTimeUnit != null) {
+    		switch(currentTimeUnit) {
+    			case NANOSECONDS: {
+    				result = ChronoUnit.NANOS;
+    				break;
+    			}
+    			case MICROSECONDS: {
+    				result = ChronoUnit.MICROS;
+    				break;
+    			}
+    			case MILLISECONDS: {
+    				result = ChronoUnit.MILLIS;
+    				break;
+    			}
+    			case SECONDS: {
+    				result = ChronoUnit.SECONDS;
+    				break;
+    			}
+    			case MINUTES: {
+    				result = ChronoUnit.MINUTES;
+    				break;
+    			}
+    			case HOURS: {
+    				result = ChronoUnit.HOURS;
+    				break;
+    			}
+    			case DAYS: {
+    				result = ChronoUnit.DAYS;
+    				break;
+    			}
+    			default: {
+    				result = null;
+    				break;
+    			}
+    		}
+    	}
+    	return result;
     }
 }

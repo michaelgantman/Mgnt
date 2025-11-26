@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -432,8 +433,9 @@ public class TextUtils {
     }
     
     /**
-     * This method parses String value into {@link TimeInterval}. This method supports time interval suffixes <b>"s"</b>
-     * for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.
+     * This method parses String value that is meant to express time interval into {@link TimeInterval}. The input String 
+     * value is expected to be in the following format <b>[Positive Numeric value][Time Interval suffix]</b>. This method supports 
+     * time interval suffixes <b>"s"</b> for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.
      * If String parameter contains no suffix the default is milliseconds. So for example string "38s" will be parsed
      * as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45" as 45 milliseconds. If the string parses
      * to a negative numerical value or 0 or the string is not a valid numerical value then {@link IllegalArgumentException}
@@ -444,7 +446,7 @@ public class TextUtils {
      * This method may be very useful for parsing time interval properties such as timeouts or waiting periods from
      * configuration files. It eliminates unneeded calculations from different time scales to milliseconds back and forth.
      * Consider that you have a {@code methodInvokingInterval} property that you need to set for 5 days. So in order to
-     * set the miliseconds value you will need to calculate that 5 days is 432000000 milliseconds (obviously not an
+     * set the milliseconds value you will need to calculate that 5 days is 432000000 milliseconds (obviously not an
      * impossible task but annoying and error prone) and then anyone else who sees the value 432000000 will have to
      * calculate it back to 5 days which is frustrating. But using this method you will have a property value set to
      * "5d" and invoking the code
@@ -453,7 +455,8 @@ public class TextUtils {
      * <br><br>
      * will solve your conversion problem
      *
-     * @param valueStr String value to parse to {@link TimeInterval}
+     * @param valueStr String value to parse to {@link TimeInterval}. It is expected to be in the following format <b>[Positive Numeric value][Time Interval suffix]</b>
+     * for example "<b>24m</b>"
      * @return {@link TimeInterval} parsed from the String
      * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
      */
@@ -472,14 +475,36 @@ public class TextUtils {
     }
 
     /**
-     * @deprecated Use {@link #parseStringToTimeInterval(String)} instead. The new method the same as this one except the name change. 
-     * This method is left for backwards compatibility only and will be removed in future versions.
-     * @param valueStr String value to parse to {@link TimeInterval}
-     * @return {@link TimeInterval} parsed from the String
+     * This method parses String value that is meant to express time interval into <b>java.time.Duration</b>. Essentially, this method works the same way as
+     * {@link #parseStringToTimeInterval(String)} with  the only difference that it returns instance of <b>java.time.Duration</b>. For convenience, below is 
+     * documentation text that is copied from method {@link #parseStringToTimeInterval(String)}. <br>
+     * The input String value is expected to be in the following format <b>[Positive Numeric value][Time Interval suffix]</b>. This method supports 
+     * time interval suffixes <b>"s"</b>
+     * for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.
+     * If String parameter contains no suffix the default is milliseconds. So for example string "38s" will be parsed
+     * as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45" as 45 milliseconds. If the string parses
+     * to a negative numerical value or 0 or the string is not a valid numerical value then {@link IllegalArgumentException}
+     * is thrown. 
+     * <br><br>
+     * This method may be very useful for parsing time interval properties such as timeouts or waiting periods from
+     * configuration files. It eliminates unneeded calculations from different time scales to milliseconds back and forth.
+     * Consider that you have a {@code methodInvokingInterval} property that you need to set for 5 days. So in order to
+     * set the milliseconds value you will need to calculate that 5 days is 432000000 milliseconds (obviously not an
+     * impossible task but annoying and error prone) and then anyone else who sees the value 432000000 will have to
+     * calculate it back to 5 days which is frustrating. But using this method you will have a property value set to
+     * "5d" and invoking the code
+     * <br><br>
+     *     {@code long milliseconds = TextUtils.parseStringToDuration("5d").toMillis();}
+     * <br><br>
+     * will solve your conversion problem
+     *
+     * @param valueStr String value to parse to <b>java.time.Duration</b>. It is expected to be in the following format 
+     * <b>[Positive Numeric value][Time Interval suffix]</b> for example "<b>24m</b>"
+     * @return <b>java.time.Duration</b> parsed from the String
      * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
      */
-    public static TimeInterval parsingStringToTimeInterval(String valueStr) throws IllegalArgumentException {
-    	return parseStringToTimeInterval(valueStr);
+    public static Duration parseStringToDuration(String valueStr) {
+    	return parseStringToTimeInterval(valueStr).toDuration();
     }
     
     /**

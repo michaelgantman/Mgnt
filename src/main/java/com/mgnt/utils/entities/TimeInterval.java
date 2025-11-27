@@ -134,6 +134,13 @@ public class TimeInterval implements Comparable<TimeInterval> {
         return result;
     }
     
+    /**
+     * This methods converts this instance of {@link TimeInterval} class to instance of <b>java.time.Duration</b> class. This is a bridge method to convert 
+     * this class to standard java JDK provided class from <b>java.time</b> package. The returned Duration class instance will have the same time interval with
+     * the same resolution as this {@link TimeInterval} instance
+     * @return java.time.Duration
+     * @throws IllegalArgumentException if {@link #timeUnit} property of this instance is NULL
+     */
     public Duration toDuration() {
     	ChronoUnit chronoUnit = convertTimeUnitToChronoUnit();
     	if(chronoUnit == null) {

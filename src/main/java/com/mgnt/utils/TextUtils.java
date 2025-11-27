@@ -433,7 +433,7 @@ public class TextUtils {
     }
     
     /**
-     * This method parses String value that is meant to express time interval into {@link TimeInterval}. The input String 
+     * This method parses String value that is meant to express time interval into instance of a {@link TimeInterval} class. The input String 
      * value is expected to be in the following format <b>[Positive Numeric value][Time Interval suffix]</b>. This method supports 
      * time interval suffixes <b>"s"</b> for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.
      * If String parameter contains no suffix the default is milliseconds. So for example string "38s" will be parsed
@@ -475,9 +475,9 @@ public class TextUtils {
     }
 
     /**
-     * This method parses String value that is meant to express time interval into <b>java.time.Duration</b>. Essentially, this method works the same way as
-     * {@link #parseStringToTimeInterval(String)} with  the only difference that it returns instance of <b>java.time.Duration</b>. For convenience, below is 
-     * documentation text that is copied from method {@link #parseStringToTimeInterval(String)}. <br>
+     * This method parses String value that is meant to express time interval into instance of a <b>java.time.Duration</b> class. Essentially, this method 
+     * works the same way as {@link #parseStringToTimeInterval(String)} with  the only difference that it returns instance of <b>java.time.Duration</b>. 
+     * For convenience, below is documentation text that is copied from method {@link #parseStringToTimeInterval(String)}. <br>
      * The input String value is expected to be in the following format <b>[Positive Numeric value][Time Interval suffix]</b>. This method supports 
      * time interval suffixes <b>"s"</b>
      * for seconds, <b>"m"</b> for minutes, <b>"h"</b> for hours, and <b>"d"</b> for days. Suffix is case insensitive.

@@ -199,7 +199,7 @@ public class VersionRange implements Serializable {
     public boolean isOverlap(VersionRange otherRange) {
         boolean result = false;
         if (otherRange != null) {
-            if (isInRange(otherRange.getFromVersion()) || isInRange(otherRange.getToVersion())) {
+            if (isInRange(otherRange.getFromVersion()) || isInRange(otherRange.getToVersion()) || otherRange.isInRange(getFromVersion())) {
                 result = true;
             }
         }

@@ -141,7 +141,7 @@ public class TimeInterval implements Comparable<TimeInterval> {
      * @return java.time.Duration
      * @throws IllegalArgumentException if {@link #timeUnit} property of this instance is NULL
      */
-    public Duration toDuration() {
+    public Duration toDuration() throws IllegalArgumentException {
     	ChronoUnit chronoUnit = convertTimeUnitToChronoUnit();
     	if(chronoUnit == null) {
     		throw new IllegalArgumentException("TimeInterval could not be converted to Duration due to invalid TimeUnit value (most likely null)");

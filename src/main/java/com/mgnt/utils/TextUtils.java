@@ -503,7 +503,7 @@ public class TextUtils {
      * @return <b>java.time.Duration</b> parsed from the String
      * @throws IllegalArgumentException if parsed value has invalid suffix, invalid numeric value or negative numeric value or 0
      */
-    public static Duration parseStringToDuration(String valueStr) {
+    public static Duration parseStringToDuration(String valueStr) throws IllegalArgumentException {
     	return parseStringToTimeInterval(valueStr).toDuration();
     }
     

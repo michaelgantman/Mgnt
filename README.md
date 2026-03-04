@@ -60,23 +60,27 @@ server side and the reading speed of the server is faster then writing speed of 
 auto throttle to adjust to the client. </p>
 This library is available on Maven Central. Here are the artifacts:<br>
 <p>
-        &lt;dependency&gt;<br>
-            &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
-            &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.7.0.4&lt;&#47;version&gt;<br>
-        &lt;&#47;dependency&gt;<br><br>
-        &lt;dependency&gt;<br>
-            &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
-            &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.7.0.4&lt;&#47;version&gt;<br>
-            &nbsp;&nbsp;&lt;classifier&gt;javadoc&lt;&#47;classifier&gt;<br>
-        &lt;&#47;dependency&gt;<br><br>
-        &lt;dependency&gt;<br>
-            &nbsp;&nbsp;&lt;groupId&gt;com.github.michaelgantman&lt;&#47;groupId&gt;<br>
-            &nbsp;&nbsp;&lt;artifactId&gt;MgntUtils&lt;&#47;artifactId&gt;<br>
-            &nbsp;&nbsp;&lt;version&gt;1.7.0.4&lt;&#47;version&gt;<br>
-            &nbsp;&nbsp;&lt;classifier&gt;sources&lt;&#47;classifier&gt;<br>
-        &lt;&#47;dependency&gt;<br>
+
+	<dependency>
+		<groupId>com.github.michaelgantman</groupId>
+		<artifactId>MgntUtils</artifactId>
+		<version>1.7.0.4</version>
+	</dependency>
+
+	<dependency>
+		<groupId>com.github.michaelgantman</groupId>
+		<artifactId>MgntUtils</artifactId>
+		<version>1.7.0.4</version>
+		<classifier>javadoc</classifier>
+	</dependency>
+
+	<dependency>
+		<groupId>com.github.michaelgantman</groupId>
+		<artifactId>MgntUtils</artifactId>
+		<version>1.7.0.4</version>
+		<classifier>sources</classifier>
+	</dependency>
+	
 </p>
 
 If have any feedback feel free to drop me a note at michael_gantman@yahoo.com

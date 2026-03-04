@@ -1,6 +1,19 @@
 # MgntUtils
-Mgnt Utilities
-This utility package provides some convenience Utilities That provide some manipulations with several data types.
+This library provides a collection of convenience methods for common tasks that are either missing from or verbose in the standard Java API
+##Key Features and Utilities
+* Stack Trace Filtering: One of its most notable features is the TextUtils.getStacktrace() method, which filters out "noise" from stack traces (like application server-related packages) to make logs more readable.
+* Human-Readable Time Parsing: The `TextUtils.parseStringToTimeInterval()` and `parseStringToDuration()` methods convert strings like "5d", "4h", or "30m" directly into milliseconds or `java.time.Duration` objects.
+* Unicode Conversion: The `StringUnicodeEncoderDecoder` class allows for converting strings to Unicode sequences and vice versa, which is useful for handling special characters and emojis.
+* Silent Numeric Parsing: Provides methods to parse strings into numeric types (Integer, Long, etc.) "silently," meaning they return a default value instead of throwing a `NumberFormatException` if parsing fails.
+* Version Comparison: Includes a `Version` type and `VersionRange` for comparing software versions and working with version ranges.
+* Web and File Utilities:
+    * Simple HTTP Client: A general-purpose, easy-to-configure HTTP client designed for straightforward usage. It supports reusable configuration, making it especially suitable for repeated calls to the same URLs, such as in microservices communication.
+    * JSON Parsing: Simple JSON serialization and deserialization.  
+    * HTTP Throttling: A WebUtils method for chunked reading of HTTP request content that can auto-throttle to match client speeds.
+    * File I/O: Basic file reading and writing services. 
+
+
+package provides some convenience Utilities That provide some manipulations with several data types.
 It introduces a new type "Version" as well as "VersionRange" and provides tools for version comparison, conversion from
 and to String as well as work with Version ranges.
 <p>

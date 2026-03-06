@@ -1,99 +1,82 @@
 # MgntUtils
-This library provides a collection of convenience methods for common tasks that are either missing from or verbose in the standard Java API
-##Key Features and Utilities
+
+![Maven Central](https://img.shields.io/maven-central/v/com.github.michaelgantman/MgntUtils)
+![License](https://img.shields.io/github/license/michaelgantman/Mgnt)
+![Javadoc](https://img.shields.io/badge/javadoc-available-green)
+![GitHub release](https://img.shields.io/github/v/release/michaelgantman/Mgnt)
+
+This library provides:
+* Collection of convenience methods for common tasks that are either missing from or verbose in the standard Java API
+* Self-Populating Factory Infrastructure: A small framework for implementing factories whose components automatically register themselves with the factory during initialization. (Similar to Inversion Of Control (IOC) pattern)
+
+<p>
+The Javadoc API is available here: <p><a href="http://michaelgantman.github.io/Mgnt/docs/">MgntUtils javadoc API</a></p> 
+
+## Key Features and Utilities
 * Stack Trace Filtering: One of its most notable features is the TextUtils.getStacktrace() method, which filters out "noise" from stack traces (like application server-related packages) to make logs more readable.
 * Human-Readable Time Parsing: The `TextUtils.parseStringToTimeInterval()` and `parseStringToDuration()` methods convert strings like "5d", "4h", or "30m" directly into milliseconds or `java.time.Duration` objects.
 * Unicode Conversion: The `StringUnicodeEncoderDecoder` class allows for converting strings to Unicode sequences and vice versa, which is useful for handling special characters and emojis.
 * Silent Numeric Parsing: Provides methods to parse strings into numeric types (Integer, Long, etc.) "silently," meaning they return a default value instead of throwing a `NumberFormatException` if parsing fails.
 * Version Comparison: Includes a `Version` type and `VersionRange` for comparing software versions and working with version ranges.
+* JSON Parsing: Simple JSON serialization and deserialization.  
 * Web and File Utilities:
     * Simple HTTP Client: A general-purpose, easy-to-configure HTTP client designed for straightforward usage. It supports reusable configuration, making it especially suitable for repeated calls to the same URLs, such as in microservices communication.
-    * JSON Parsing: Simple JSON serialization and deserialization.  
     * HTTP Throttling: A WebUtils method for chunked reading of HTTP request content that can auto-throttle to match client speeds.
     * File I/O: Basic file reading and writing services. 
+    
+## Self-Populating Factory Infrastructure
+The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for factories that supply concrete implementations of an interface.
 
+In this model, implementation classes are *factory-aware*: when an instance is created, it automatically registers itself with its factory. This removes the need for manual factory population or centralized registration logic. As long as a concrete implementation is instantiated, it becomes available through the factory.
 
-package provides some convenience Utilities That provide some manipulations with several data types.
-It introduces a new type "Version" as well as "VersionRange" and provides tools for version comparison, conversion from
-and to String as well as work with Version ranges.
-<p>
-The Javadoc API could be found here: <p><a href="http://michaelgantman.github.io/Mgnt/docs/">MgntUtils javadoc API</a></p>
-Probably the most interesting and useful feature is stacktrace extractor that allows to extract full or shortened
-version of stacktrace. In particular it is very useful in J2EE environment. Exceptions on the server side usually
-come with <b>HUGE</b> tail of application server related packages. That makes logs very verbose and hard to read and
-search. TextUtils provides various getStacktrace methods that may drastically reduce such stacktraces in a very smart
-way so all the important information is preserved. It sifts through "caused by" and "suppressed" parts of the stacktrace
-as well. Also the same utility (starting from version 1.5.0.3) allows to filter and shorten stacktrace as a string the same way 
-as the stacktrace extracted from exception. So, essentially stacktraces could be filtered "on the fly" at run time or later on from 
-any text source such as log.</p>
-<p>
-Another important feature (since 1.6.0.0) is JSON parser (JsonUtils class) that provides some simple methods to serialize
-any object into JSON String and parse (deserialize) JSON string back into the instance of the class. This class is a simplifying wrapper 
-over basic functionality of Jason-Jackson library. It provides simplicity but doesn't handle well deserialization of List/Set/Map of Objects.
-If that functionality is needed than just use the original Json-Jackson library (or any other JSON library) 
-</p>
-<p>Other features include parsing String into most of the implementations of Number interface without having
-to catch NullPointerException of NumberFormatException. The methods take String value to parse, default value in case of
-failure and messages (optional) that will be printed into log if some error occurred.</p>
-<p> 
-Another useful feature is parsing String to time interval. It parses Strings with numerical value and optional time unit
-suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45"
-as 45 milliseconds.) This method may be very useful for parsing time interval properties such as timeouts or waiting
-periods from configuration files.</p>
-<p>
- Also there is a feature that converts String to preserve indentation formatting for html without use of escape
- characters. It converts a String in such a way that its spaces are not modified by HTML renderer i.e. it replaces
- regular space characters with non-breaking spaces known as '&amp;nbsp;' but they look in your source as regular space
- '  ' and not as '&amp;nbsp;' It also replaces new line character with '&lt;br&gt;'.
-</p>
-<p>
-Another feature is some small infrastructure that simplifies and automates working with Factories that provide concrete 
-implementations of an Interface. The package contains just 2 classes: BaseEntityFactory and BaseEntity. In short what 
-this infrastructure does is that if you create a factory that extends BaseEntityFactory and some Interface with all its 
-concrete implementations extending BaseEntity then each your concrete implementation class instances will be 
-automatically inserted into your factory. You won't have to worry about how and when to populate your factory. 
-The infrastructure will do it for you when the constructor of your concrete implementation class is invoked. So all you 
-will have to do is to create any number of concrete implementation classes and make sure that for each one constructor 
-is invoked. After that you can use your factory to get any of your concrete implementation classes anywhere in your code. 
-</p>
-<p>
-An infrastructure that can run user implemented Task classes in a separate thread at configured 
-time interval. The interval could be parsed from String in human readable format such as "9h" for 9 hours. This is based 
-on use of the parsing String to time interval feature mentioned above 
-</p>
-<p>
-Class HttpClient provides a base class for implementations that can open HTTP connections to spesific URLs, but also can
-be used on its own for sending HTTP requests.
-</p>
-<p>Also class
-StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-versa.</p> 
-<p>Finally WebUtils class provides
-a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
-server side and the reading speed of the server is faster then writing speed of the client. The utility allows for
-auto throttle to adjust to the client. </p>
+The package-level Javadoc contains a detailed explanation of the design and a complete runnable example included with the library source.
+
+See the Javadoc for details:  
+[https://michaelgantman.github.io/Mgnt/docs/com/mgnt/lifecycle/management/package-summary.html](https://michaelgantman.github.io/Mgnt/docs/com/mgnt/lifecycle/management/package-summary.html)
+
+## Extended Library documentation
+This README and the library Javadoc are a good starting point to see what this library is about. However, there is a set of articles about the library and its features that provide deep dive into details about those features and should be considered as part of this library documentation. Here is the list of those articles and short description of what each article is about. All the articles could be found in [featured section of my LinkedIn profile](https://www.linkedin.com/in/michael-gantman-9661521/details/featured/)
+
+* [MgntUtils Open Source Java library with stack trace filtering, Silent String parsing, Unicode converter and Version comparison](https://www.linkedin.com/pulse/open-source-java-library-some-useful-utilities-michael-gantman/)
+<br>This is a general article that describes the library as a whole and lists most of the features and brief explanation on how to use them<br><br>
+
+* [Java Stacktrace filtering utility](https://www.linkedin.com/pulse/java-stacktrace-filtering-utility-michael-gantman-t003f/)
+<br>This is probably the most popular utility in the library. It smartly filters out "noise" from stack traces, making them far more readable while also reducing log size. The filtering can be configured using package prefixes to specify which packages should be considered important and which should be filtered out from the output. <br><br>
+
+* [Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)
+<br>This article discusses a utility that converts human-readable strings like "5d" (5 days) or "38s" (38 seconds) directly into milliseconds or `java.time.Duration` objects, making time interval configuration far more readable and maintainable.<br><br>
+
+* [String to Unicode converter utility](https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/)
+<br>This utility converts strings to Unicode escape sequences and vice versa. For example, the string `Hello World` becomes `\u0048\u0065\u006c\u006c\u006f\u0020\u0057\u006f\u0072\u006c\u0064`. This can be useful when debugging thorny encoding issues, inspecting Unicode-encoded configuration (such as `.properties` files), or working with non-Latin languages such as Hebrew, Arabic, Ukrainian, Chinese, and others.<br><br>
+
+* [Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types](https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/)
+<br>Finally, the most in-depth article in the series. This one is the longest by far. It can be viewed as two-part article.<br><br>
+    * The first part deals with Self-populated Factory pattern, explaining it in greater detail and walking through code example provided in the library<br><br>
+    * The second part proposes an idea on how this pattern could be utilized to build extensible multi-stage workflow for multiple data types. The proposed idea allows to add stages to the flow and add data types to each stage - i.e. extend your flow length-wise and width-wise (resolving N * M matrix problem) without modifying the pre-existing code - just adding new data-types or stages. This article describes a complex architectural solution. This framework — together with the article — takes the library a significant step forward, evolving it from a collection of useful utilities into an architectural design solution. <br><br>
+ 
 This library is available on Maven Central. Here are the artifacts:<br>
 <p>
 
 	<dependency>
 		<groupId>com.github.michaelgantman</groupId>
 		<artifactId>MgntUtils</artifactId>
-		<version>1.7.0.4</version>
+		<version>1.7.0.5</version>
 	</dependency>
 
 	<dependency>
 		<groupId>com.github.michaelgantman</groupId>
 		<artifactId>MgntUtils</artifactId>
-		<version>1.7.0.4</version>
+		<version>1.7.0.5</version>
 		<classifier>javadoc</classifier>
 	</dependency>
 
 	<dependency>
 		<groupId>com.github.michaelgantman</groupId>
 		<artifactId>MgntUtils</artifactId>
-		<version>1.7.0.4</version>
+		<version>1.7.0.5</version>
 		<classifier>sources</classifier>
 	</dependency>
 	
 </p>
 
-If have any feedback feel free to drop me a note at michael_gantman@yahoo.com
+If have any feedback feel free to drop me a note at [michael_gantman@yahoo.com](mailto:michael_gantman@yahoo.com)

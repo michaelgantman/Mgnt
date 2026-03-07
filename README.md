@@ -6,12 +6,13 @@
 ![GitHub release](https://img.shields.io/github/v/release/michaelgantman/Mgnt)
 ![GitHub stars](https://img.shields.io/github/stars/michaelgantman/Mgnt)
 
-MgntUtils is an Open Source Java library that provides:
-* Collection of **utility methods** for common tasks that are either missing from or overly verbose in the standard Java API
-* **Self-Populating Factory Infrastructure**: A small framework for implementing factories whose components automatically register themselves with the factory during initialization. (Similar to Inversion Of Control (IOC) pattern)
+MgntUtils is an open-source Java library that provides:
+* A collection of **utility methods** for common tasks that are either missing from or overly verbose in the standard Java API
+* **Self-Populating Factory Infrastructure**: A small framework for implementing factories whose components automatically register themselves with the factory during initialization (similar to an Inversion of Control (IoC) pattern)
 
 <p>
-The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgnt/docs/">MgntUtils Javadoc API</a> 
+The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgnt/docs/">MgntUtils Javadoc API</a>
+</p>
 
 ## Key Features and Utilities
 
@@ -22,14 +23,14 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
   The methods `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` convert strings like `"5d"`, `"4h"`, or `"30m"` directly into `long` milliseconds or `java.time.Duration` values, making time-based configuration far more maintainable than raw numeric values.<br><br>
 
 - **Unicode Conversion**  
-  The `StringUnicodeEncoderDecoder` class converts strings to Unicode escape sequences (e.g., `Hello` → `\u0048\u0065\u006c\u006c\u006f`) and back. This is useful for debugging encoding issues, handling special characters and emojis and working with non-Latin scripts such as Hebrew, Arabic, Slavic, Chinese, and others.
+  The `StringUnicodeEncoderDecoder` class converts strings to Unicode escape sequences (e.g., `Hello` → `\u0048\u0065\u006c\u006c\u006f`) and back. This is useful for debugging encoding issues, handling special characters and emojis and working with non-Latin scripts such as Hebrew, Arabic, Slavic languages, Chinese, and others.
 
 
 - **Silent Numeric Parsing**  
   Utility methods for parsing strings into numeric types (e.g., `Integer`, `Long`, `Double`) without throwing `NumberFormatException`. Instead, they return a default value or `null` when parsing fails, avoiding boilerplate try-catch blocks.<br><br>
 
 - **Version Comparison**  
-  The library provides a `Version` type and `VersionRange` support, enabling easy comparison of software versions and checking whether a version falls within a given range. It also supports version ranges intersection check<br><br>
+  The library provides a `Version` type and `VersionRange` support, enabling easy comparison of software versions and checking whether a version falls within a given range. It also supports checking the intersection of version ranges.<br><br>
 
 - **JSON Parsing**  
   Simple JSON serialization and deserialization utilities for basic use cases.<br><br>
@@ -81,7 +82,7 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   - **Part 1** covers the Self-Populating Factory pattern in greater detail and walks through the **runnable example included in the library**.
   - **Part 2** shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to “extend the flow length-wise and width-wise” (i.e., resolve an N × M matrix-like problem) without modifying existing code - just by adding new data types and stages.
 
-  This article presents a complex architectural pattern. This pattern effectively evolves the library from a **collection of utilities** into an **architectural design pattern** that can be reused across many projects.
+  This article presents a complex architectural pattern that effectively evolves the library from a **collection of utilities** into an **architectural design pattern** that can be reused across many projects.
  
 ## Installing MgntUtils
 
@@ -114,4 +115,4 @@ If you also want Javadoc and sources for your IDE:
 </dependency>
 ```
 
-If have any feedback feel free to drop me a note at [michael_gantman@yahoo.com](mailto:michael_gantman@yahoo.com)
+If you have any feedback, feel free to drop me a note at [michael_gantman@yahoo.com](mailto:michael_gantman@yahoo.com)

@@ -4,13 +4,14 @@
 ![License](https://img.shields.io/github/license/michaelgantman/Mgnt)
 ![Javadoc](https://img.shields.io/badge/javadoc-available-green)
 ![GitHub release](https://img.shields.io/github/v/release/michaelgantman/Mgnt)
+![GitHub stars](https://img.shields.io/github/stars/michaelgantman/Mgnt)
 
-This library provides:
-* Collection of convenience methods for common tasks that are either missing from or verbose in the standard Java API
-* Self-Populating Factory Infrastructure: A small framework for implementing factories whose components automatically register themselves with the factory during initialization. (Similar to Inversion Of Control (IOC) pattern)
+MgntUtils is an Open Source Java library that provides:
+* Collection of **utility methods** for common tasks that are either missing from or overly verbose in the standard Java API
+* **Self-Populating Factory Infrastructure**: A small framework for implementing factories whose components automatically register themselves with the factory during initialization. (Similar to Inversion Of Control (IOC) pattern)
 
 <p>
-The Javadoc API is available here: <p><a href="http://michaelgantman.github.io/Mgnt/docs/">MgntUtils javadoc API</a></p> 
+The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgnt/docs/">MgntUtils Javadoc API</a> 
 
 ## Key Features and Utilities
 * Stack Trace Filtering: One of its most notable features is the TextUtils.getStacktrace() method, which filters out "noise" from stack traces (like application server-related packages) to make logs more readable.

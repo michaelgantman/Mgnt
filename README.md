@@ -14,16 +14,31 @@ MgntUtils is an Open Source Java library that provides:
 The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgnt/docs/">MgntUtils Javadoc API</a> 
 
 ## Key Features and Utilities
-* Stack Trace Filtering: One of its most notable features is the TextUtils.getStacktrace() method, which filters out "noise" from stack traces (like application server-related packages) to make logs more readable.
-* Human-Readable Time Parsing: The `TextUtils.parseStringToTimeInterval()` and `parseStringToDuration()` methods convert strings like "5d", "4h", or "30m" directly into milliseconds or `java.time.Duration` objects.
-* Unicode Conversion: The `StringUnicodeEncoderDecoder` class allows for converting strings to Unicode sequences and vice versa, which is useful for handling special characters and emojis.
-* Silent Numeric Parsing: Provides methods to parse strings into numeric types (Integer, Long, etc.) "silently," meaning they return a default value instead of throwing a `NumberFormatException` if parsing fails.
-* Version Comparison: Includes a `Version` type and `VersionRange` for comparing software versions and working with version ranges.
-* JSON Parsing: Simple JSON serialization and deserialization.  
-* Web and File Utilities:
-    * Simple HTTP Client: A general-purpose, easy-to-configure HTTP client designed for straightforward usage. It supports reusable configuration, making it especially suitable for repeated calls to the same URLs, such as in microservices communication.
-    * HTTP Throttling: A WebUtils method for chunked reading of HTTP request content that can auto-throttle to match client speeds.
-    * File I/O: Basic file reading and writing services. 
+
+- **Stack Trace Filtering**  
+  One of the most popular features is `TextUtils.getStacktrace()`, which filters out “noise” from stack traces (such as application-server-related packages), making logs more readable and reducing log size. The filtering can be configured using package prefixes to specify which packages are important.<br><br>
+
+- **Human-Readable Time Intervals**  
+  The methods `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` convert strings like `"5d"`, `"4h"`, or `"30m"` directly into `long` milliseconds or `java.time.Duration` values, making time-based configuration far more maintainable than raw numeric values.<br><br>
+
+- **Unicode Conversion**  
+  The `StringUnicodeEncoderDecoder` class converts strings to Unicode escape sequences (e.g., `Hello` → `\u0048\u0065\u006c\u006c\u006f`) and back. This is useful for debugging encoding issues, handling special characters and emojis and working with non-Latin scripts such as Hebrew, Arabic, Slavic, Chinese, and others.
+
+
+- **Silent Numeric Parsing**  
+  Utility methods for parsing strings into numeric types (e.g., `Integer`, `Long`, `Double`) without throwing `NumberFormatException`. Instead, they return a default value or `null` when parsing fails, avoiding boilerplate try-catch blocks.<br><br>
+
+- **Version Comparison**  
+  The library provides a `Version` type and `VersionRange` support, enabling easy comparison of software versions and checking whether a version falls within a given range. It also supports version ranges intersection check<br><br>
+
+- **JSON Parsing**  
+  Simple JSON serialization and deserialization utilities for basic use cases.<br><br>
+  
+- **Web and File Utilities**
+    - **Simple HTTP Client**: A lightweight, easy-to-configure HTTP client suitable for repeated calls to the same URLs, such as in microservices communication. Configuration is reusable across multiple calls.
+    - **HTTP Throttling**: `WebUtils` includes a method for chunked reading of HTTP request content that can auto-throttle to match the client’s consumption speed.
+    - **File I/O**: Basic utilities for reading from and writing to files.
+ 
     
 ## Self-Populating Factory Infrastructure
 The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for factories that supply concrete implementations of an interface.

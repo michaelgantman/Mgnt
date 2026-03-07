@@ -73,13 +73,15 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   Explores the `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` utilities in detail, showing how human-readable time-interval strings (like `"5d"`, `"4h"`, `"30m"`) can replace hard-to-read numeric values in configuration and code.<br><br>
   
 - **[String to Unicode converter utility](https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/)**  
-  Explores `StringUnicodeEncoderDecoder` and shows how to convert strings to Unicode escape sequences and back. This is especially useful when debugging encoding issues, inspecting Unicode-encoded configuration, or working with non-Latin languages.
+  Explores `StringUnicodeEncoderDecoder` and shows how to convert strings to Unicode escape sequences and back. This is especially useful when debugging encoding issues, inspecting Unicode-encoded configuration, or working with non-Latin languages.<br><br>
 
 
-* [Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types](https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/)
-<br>Finally, the most in-depth article in the series. This one is the longest by far. It can be viewed as two-part article.<br><br>
-    * The first part deals with Self-populated Factory pattern, explaining it in greater detail and walking through code example provided in the library<br><br>
-    * The second part proposes an idea on how this pattern could be utilized to build extensible multi-stage workflow for multiple data types. The proposed idea allows to add stages to the flow and add data types to each stage - i.e. extend your flow length-wise and width-wise (resolving N * M matrix problem) without modifying the pre-existing code - just adding new data-types or stages. This article describes a complex architectural solution. This framework — together with the article — takes the library a significant step forward, evolving it from a collection of useful utilities into an architectural design solution. <br><br>
+- **[Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types](https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/)**  
+  This is the most in-depth article in the series. It can be viewed as a **two-part piece**:
+  - **Part 1** covers the Self-Populating Factory pattern in greater detail and walks through the **runnable example included in the library**.
+  - **Part 2** shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to “extend the flow length-wise and width-wise” (i.e., resolve an N × M matrix-like problem) without modifying existing code - just by adding new data types and stages.
+
+  This article presents a complex architectural pattern. This pattern effectively evolves the library from a **collection of utilities** into an **architectural design pattern** that can be reused across many projects.
  
 This library is available on Maven Central. Here are the artifacts:<br>
 <p>

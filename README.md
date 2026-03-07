@@ -83,29 +83,35 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
 
   This article presents a complex architectural pattern. This pattern effectively evolves the library from a **collection of utilities** into an **architectural design pattern** that can be reused across many projects.
  
-This library is available on Maven Central. Here are the artifacts:<br>
-<p>
+## Installing MgntUtils
 
-	<dependency>
-		<groupId>com.github.michaelgantman</groupId>
-		<artifactId>MgntUtils</artifactId>
-		<version>1.7.0.5</version>
-	</dependency>
+MgntUtils is available on **Maven Central**:
 
-	<dependency>
-		<groupId>com.github.michaelgantman</groupId>
-		<artifactId>MgntUtils</artifactId>
-		<version>1.7.0.5</version>
-		<classifier>javadoc</classifier>
-	</dependency>
+```xml
+<dependency>
+    <groupId>com.github.michaelgantman</groupId>
+    <artifactId>MgntUtils</artifactId>
+    <version>1.7.0.5</version>
+</dependency>
+```
+If you also want Javadoc and sources for your IDE:
 
-	<dependency>
-		<groupId>com.github.michaelgantman</groupId>
-		<artifactId>MgntUtils</artifactId>
-		<version>1.7.0.5</version>
-		<classifier>sources</classifier>
-	</dependency>
-	
-</p>
+```xml
+<dependency>
+    <groupId>com.github.michaelgantman</groupId>
+    <artifactId>MgntUtils</artifactId>
+    <version>1.7.0.5</version>
+    <classifier>javadoc</classifier>
+</dependency>
+```
+
+```xml
+<dependency>
+    <groupId>com.github.michaelgantman</groupId>
+    <artifactId>MgntUtils</artifactId>
+    <version>1.7.0.5</version>
+    <classifier>sources</classifier>
+</dependency>
+```
 
 If have any feedback feel free to drop me a note at [michael_gantman@yahoo.com](mailto:michael_gantman@yahoo.com)

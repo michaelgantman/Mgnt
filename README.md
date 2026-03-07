@@ -41,14 +41,15 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
  
     
 ## Self-Populating Factory Infrastructure
-The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for factories that supply concrete implementations of an interface.
 
-In this model, implementation classes are *factory-aware*: when an instance is created, it automatically registers itself with its factory. This removes the need for manual factory population or centralized registration logic. As long as a concrete implementation is instantiated, it becomes available through the factory.
+The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for **factories whose components automatically register themselves** during initialization.
 
-The package-level Javadoc contains a detailed explanation of the design and a complete runnable example included with the library source.
+In this model, implementation classes are **factory-aware**: when an instance is created, it automatically registers with its factory. This removes the need for manual factory-population logic or centralized registration maps. As long as a concrete implementation is instantiated, it becomes available through the factory.
+
+The package-level Javadoc contains a detailed explanation of the design and a **complete, runnable example** included with the library source.
 
 See the Javadoc for details:  
-[https://michaelgantman.github.io/Mgnt/docs/com/mgnt/lifecycle/management/package-summary.html](https://michaelgantman.github.io/Mgnt/docs/com/mgnt/lifecycle/management/package-summary.html)
+[Self-Populating Factory package documentation](https://michaelgantman.github.io/Mgnt/docs/com/mgnt/lifecycle/management/package-summary.html)
 
 ## Extended Library documentation
 This README and the library Javadoc are a good starting point to see what this library is about. However, there is a set of articles about the library and its features that provide deep dive into details about those features and should be considered as part of this library documentation. Here is the list of those articles and short description of what each article is about. All the articles could be found in [featured section of my LinkedIn profile](https://www.linkedin.com/in/michael-gantman-9661521/details/featured/)

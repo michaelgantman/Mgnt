@@ -51,20 +51,30 @@ The package-level Javadoc contains a detailed explanation of the design and a **
 See the Javadoc for details:  
 [Self-Populating Factory package documentation](https://michaelgantman.github.io/Mgnt/docs/com/mgnt/lifecycle/management/package-summary.html)
 
-## Extended Library documentation
-This README and the library Javadoc are a good starting point to see what this library is about. However, there is a set of articles about the library and its features that provide deep dive into details about those features and should be considered as part of this library documentation. Here is the list of those articles and short description of what each article is about. All the articles could be found in [featured section of my LinkedIn profile](https://www.linkedin.com/in/michael-gantman-9661521/details/featured/)
+## Extended Library Documentation
 
-* [MgntUtils Open Source Java library with stack trace filtering, Silent String parsing, Unicode converter and Version comparison](https://www.linkedin.com/pulse/open-source-java-library-some-useful-utilities-michael-gantman/)
-<br>This is a general article that describes the library as a whole and lists most of the features and brief explanation on how to use them<br><br>
+This README and the library Javadoc provide a solid overview of what MgntUtils is and how to start using it. In addition, there is a series of **articles about the library and its features** that go deeper into each major utility and the Self-Populating Factory pattern. These articles should be treated as **integral parts of the library’s documentation** and are especially useful for understanding architectural uses and advanced setups.
 
-* [Java Stacktrace filtering utility](https://www.linkedin.com/pulse/java-stacktrace-filtering-utility-michael-gantman-t003f/)
-<br>This is probably the most popular utility in the library. It smartly filters out "noise" from stack traces, making them far more readable while also reducing log size. The filtering can be configured using package prefixes to specify which packages should be considered important and which should be filtered out from the output. <br><br>
+You can find all of these articles in the **Featured** section of my LinkedIn profile:  
+[https://www.linkedin.com/in/michael-gantman-9661521/details/featured/](https://www.linkedin.com/in/michael-gantman-9661521/details/featured/)
 
-* [Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)
-<br>This article discusses a utility that converts human-readable strings like "5d" (5 days) or "38s" (38 seconds) directly into milliseconds or `java.time.Duration` objects, making time interval configuration far more readable and maintainable.<br><br>
 
-* [String to Unicode converter utility](https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/)
-<br>This utility converts strings to Unicode escape sequences and vice versa. For example, the string `Hello World` becomes `\u0048\u0065\u006c\u006c\u006f\u0020\u0057\u006f\u0072\u006c\u0064`. This can be useful when debugging thorny encoding issues, inspecting Unicode-encoded configuration (such as `.properties` files), or working with non-Latin languages such as Hebrew, Arabic, Ukrainian, Chinese, and others.<br><br>
+### Series-Overview Articles
+
+- **[MgntUtils Open Source Java library with stack trace filtering, Silent String parsing, Unicode converter and Version comparison](https://www.linkedin.com/pulse/open-source-java-library-some-useful-utilities-michael-gantman/)**  
+  This general-purpose article introduces the library as a whole, lists its main features, and gives brief usage examples for each.
+
+### Feature-Specific Deep Dives
+
+- **[Java Stacktrace filtering utility](https://www.linkedin.com/pulse/java-stacktrace-filtering-utility-michael-gantman-t003f/)**  
+  Focuses on the library’s most popular feature: `TextUtils.getStacktrace()`. It explains how to use it for cleaner logs and how to configure package-based filtering to keep important stack frames and remove noise.<br><br>
+
+- **[Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)**  
+  Explores the `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` utilities in detail, showing how human-readable time-interval strings (like `"5d"`, `"4h"`, `"30m"`) can replace hard-to-read numeric values in configuration and code.<br><br>
+  
+- **[String to Unicode converter utility](https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/)**  
+  Explores `StringUnicodeEncoderDecoder` and shows how to convert strings to Unicode escape sequences and back. This is especially useful when debugging encoding issues, inspecting Unicode-encoded configuration, or working with non-Latin languages.
+
 
 * [Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types](https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/)
 <br>Finally, the most in-depth article in the series. This one is the longest by far. It can be viewed as two-part article.<br><br>

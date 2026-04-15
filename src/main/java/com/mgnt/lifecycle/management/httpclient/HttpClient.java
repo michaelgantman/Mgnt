@@ -221,7 +221,9 @@ public class HttpClient {
 			String errorMessage = buildErrorMessage(response, ioe);
 			throw new HttpClientCommunicationException(errorMessage, ioe, response);
 		} finally {
+			if(connection != null) {
 			connection.disconnect();
+			}
 		}
 		return response;
 	}

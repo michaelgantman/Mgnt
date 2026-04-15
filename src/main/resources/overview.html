@@ -5,73 +5,137 @@
     <title>Mgnt Utils 1.7.0.6</title>
 </head>
 <body>
-This utility package provides some convenience Utilities that provide some manipulations with several data types.
-It introduces a new type "Version" as well as "VersionRange" and provides tools for version comparison, conversion from
-and to String as well as work with Version ranges.<br>
-<p>Probably the most interesting and useful feature is stacktrace extractor that allows to extract full or shortened
-version of stacktrace from Exception. In particular it is very useful in J2EE environment. Exceptions on the server side usually
-come with <b>HUGE</b> tail of application server related packages. That makes logs very verbose and hard to read and
-search. TextUtils provides various getStacktrace methods that may drastically reduce such stacktraces in a very smart
-way so all the important information is preserved. It sifts through "caused by" and "suppressed" parts of the stacktrace
-as well. Also the same utility (starting from version 1.5.0.3) allows to filter and shorten stacktrace as a string the same way 
-as the stacktrace extracted from exception. So, essentially stacktraces could be filtered "on the fly" at run time or later on from 
-any text source such as log.</p>
+
+<p>MgntUtils is an open-source Java library that provides:</p>
+<ul>
+    <li>A collection of <b>utility methods</b> for common tasks that are either missing from or overly verbose in the standard Java API</li>
+    <li><b>Self-Populating Factory Micro-Framework</b>: The most architecturally significant part of this library — a micro-framework whose implementation classes automatically register themselves with their factory upon instantiation, eliminating manual registry maintenance and enabling a powerful N &times; M extensibility pattern described in the documentation below.</li>
+</ul>
+
+<h2>Key Features and Utilities</h2>
+
+<ul>
+    <li>
+        <b>Stack Trace Filtering</b><br>
+        One of the most popular features is <code>TextUtils.getStacktrace()</code>, which filters out "noise" from stack traces (such as application-server-related packages), making logs more readable and reducing log size. The filtering can be configured using package prefixes to specify which packages are important.
+    </li>
+    <br>
+    <li>
+        <b>Human-Readable Time Intervals</b><br>
+        The methods <code>TextUtils.parseStringToTimeInterval()</code> and <code>TextUtils.parseStringToDuration()</code> convert strings like <code>"5d"</code>, <code>"4h"</code>, or <code>"30m"</code> directly into <code>long</code> milliseconds or <code>java.time.Duration</code> values, making time-based configuration far more maintainable than raw numeric values.
+    </li>
+    <br>
+    <li>
+        <b>Unicode Conversion</b><br>
+        The <code>StringUnicodeEncoderDecoder</code> class converts strings to Unicode escape sequences (e.g., <code>Hello</code> &rarr; <code>\u0048\u0065\u006c\u006c\u006f</code>) and back. This is useful for debugging encoding issues, handling special characters and emojis, and working with non-Latin scripts such as Hebrew, Arabic, Slavic languages, Chinese, and others.
+    </li>
+    <br>
+    <li>
+        <b>Silent Numeric Parsing</b><br>
+        Utility methods for parsing strings into numeric types (e.g., <code>Integer</code>, <code>Long</code>, <code>Double</code>) without throwing <code>NumberFormatException</code>. Instead, they return a default value or <code>null</code> when parsing fails, avoiding boilerplate try-catch blocks.
+    </li>
+    <br>
+    <li>
+        <b>Version Comparison</b><br>
+        The library provides a <code>Version</code> type and <code>VersionRange</code> support, enabling easy comparison of software versions and checking whether a version falls within a given range. It also supports checking the intersection of version ranges.
+    </li>
+    <br>
+    <li>
+        <b>JSON Parsing</b><br>
+        Simple JSON serialization and deserialization utilities for basic use cases.
+    </li>
+    <br>
+    <li>
+        <b>Web and File Utilities</b>
+        <ul>
+            <li><b>Simple HTTP Client</b>: A lightweight, easy-to-configure HTTP client suitable for repeated calls to the same URLs, such as in microservices communication. Configuration is reusable across multiple calls.</li>
+            <li><b>HTTP Throttling</b>: <code>WebUtils</code> includes a method for chunked reading of HTTP request content that can auto-throttle to match the client's consumption speed.</li>
+            <li><b>File I/O</b>: Basic utilities for reading from and writing to files.</li>
+        </ul>
+    </li>
+</ul>
+
+<h2>Self-Populating Factory Micro-Framework</h2>
+
+<blockquote>
+    All other utilities in this library solve individual, well-defined problems. What follows is different in kind: it is a fundamental architectural pattern and by far the most significant part of this library. It is packaged as a <b>lightweight micro-framework</b> — two classes — that provides the infrastructure for a self-registering factory pattern. The library ships this infrastructure along with a complete, runnable example. The broader architectural pattern it enables — resolving an N &times; M extensibility problem across multiple data types and processing stages without modifying existing code — is not part of the library itself, but is documented in detail in the article linked below and demonstrated in a separate companion project. That article should be considered required reading alongside this section.
+</blockquote>
+
 <p>
-Another important feature (since 1.6.0.0) is JSON parser (JsonUtils class) that provides some simple methods to serialize
-any object into JSON String and parse (deserialize) JSON string back into the instance of the class. This class is a simplifying wrapper 
-over basic functionality of Jason-Jackson library. It provides simplicity but doesn't handle well deserialization of List/Set/Map of Objects.
-If that functionality is needed than just use the original Json-Jackson library (or any other JSON library) 
+The framework implementation is located in package <code>com.mgnt.lifecycle.management</code>. It provides infrastructure for <b>factories whose components automatically register themselves</b> during initialization — similar in spirit to an Inversion of Control container, but without the framework overhead and with no external dependencies. Implementation classes are <b>factory-aware</b>: this eliminates manual factory-population logic and centralized registration maps entirely — as long as a concrete implementation is instantiated, it becomes available through the factory.
 </p>
-Other features include parsing String into most of the implementations of Number interface without having
-to catch NullPointerException of NumberFormatException. The methods take String value to parse, default value in case of
-failure and messages (optional) that will be printed into log if some error occurred.<p>
-Another useful feature is parsing String to time interval. It parses Strings with numerical value and optional time unit
-suffix (for example  string "38s" will be parsed as 38 seconds, "24m" - 24 minutes "4h" - 4 hours, "3d" - 3 days and "45"
-as 45 milliseconds.) This method may be very useful for parsing time interval properties such as timeouts or waiting
-periods from configuration files.</p>
+
+<p>The package-level Javadoc contains a detailed explanation of the design and a <b>complete, runnable example</b> included with the library source.</p>
+
+<h2>Extended Library Documentation</h2>
+
 <p>
-    Also there is a feature that converts String to preserve indentation formatting for html without use of escape
-    characters. It converts a String in such a way that its spaces are not modified by HTML renderer i.e. it replaces
-    regular space characters with non-breaking spaces known as '&amp;nbsp;' but they look in your source as regular space
-    '  ' and not as '&amp;nbsp;' It also replaces new line character with '&lt;br&gt;'.
+This Javadoc and the GitHub README provide a solid overview of what MgntUtils is and how to start using it. In addition, there is a series of <b>articles about the library and its features</b> that go deeper into each major utility and the Self-Populating Factory pattern. These articles should be treated as <b>integral parts of the library's documentation</b> and are especially useful for understanding architectural uses and advanced setups.
 </p>
-<p>
-    Another feature is some small infrastructure that simplifies and automates working with Factories that provide concrete
-    implementations of an Interface. The package contains just 2 classes: BaseEntityFactory and BaseEntity. In short what
-    this infrastructure does is that if you create a factory that extends BaseEntityFactory and some Interface with all its
-    concrete implementations extending BaseEntity then each your concrete implementation class instances will be
-    automatically inserted into your factory. You won't have to worry about how and when to populate your factory.
-    The infrastructure will do it for you when the constructor of your concrete implementation class is invoked. So all you
-    will have to do is to create any number of concrete implementation classes and make sure that for each one constructor
-    is invoked. After that you can use your factory to get any of your concrete implementation classes anywhere in your code.
+
+<p>All articles are available in the <b>Featured</b> section of the author's LinkedIn profile:<br>
+<a href="https://www.linkedin.com/in/michael-gantman-9661521/details/featured/" target="_top">https://www.linkedin.com/in/michael-gantman-9661521/details/featured/</a>
 </p>
-<p>Also class
-StringUnicodeEncoderDecoder converts String into sequence of unicodes and vise-versa.</p> Finally WebUtils class provides
-a method for chunked reading of HttpRequest content. This could be useful when receiving large files from client on the
-server side and the reading speed of the server is faster then writing speed of the client. The utility allows for
-auto throttle to adjust to the client. <br>
+
+<p><b>Series-Overview Article:</b></p>
+<ul>
+    <li>
+        <a href="https://www.linkedin.com/pulse/open-source-java-library-some-useful-utilities-michael-gantman/" target="_top">MgntUtils Open Source Java library with stack trace filtering, Silent String parsing, Unicode converter and Version comparison</a><br>
+        This general-purpose article introduces the library as a whole, lists its main features, and gives brief usage examples for each.
+    </li>
+</ul>
+
+<p><b>Feature-Specific Deep Dives:</b></p>
+<ul>
+    <li>
+        <a href="https://www.linkedin.com/pulse/java-stacktrace-filtering-utility-michael-gantman-t003f/" target="_top">Java Stacktrace filtering utility</a><br>
+        Focuses on the library's most popular feature: <code>TextUtils.getStacktrace()</code>. It explains how to use it for cleaner logs and how to configure package-based filtering to keep important stack frames and remove noise.
+    </li>
+    <br>
+    <li>
+        <a href="https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/" target="_top">Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds</a><br>
+        Explores the <code>TextUtils.parseStringToTimeInterval()</code> and <code>TextUtils.parseStringToDuration()</code> utilities in detail, showing how human-readable time-interval strings can replace hard-to-read numeric values in configuration and code.
+    </li>
+    <br>
+    <li>
+        <a href="https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/" target="_top">String to Unicode converter utility</a><br>
+        Explores <code>StringUnicodeEncoderDecoder</code> and shows how to convert strings to Unicode escape sequences and back. Especially useful when debugging encoding issues or working with non-Latin languages.
+    </li>
+    <br>
+    <li>
+        <a href="https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/" target="_top">Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types</a><br>
+        This is the most in-depth article in the series. It can be viewed as a <b>two-part piece</b>:
+        <ul>
+            <li><b>Part 1</b> covers the Self-Populating Factory pattern in greater detail and walks through the runnable example included in the library.</li>
+            <li><b>Part 2</b> shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to resolve an N &times; M matrix-like problem without modifying existing code — just by adding new data types and stages.</li>
+        </ul>
+        This article underscores the fact that beyond its collection of utilities, this library provides a foundation for a powerful <b>architectural design pattern</b> that can be reused across many projects.
+    </li>
+</ul>
+
 <p>
-    If have any feedback feel free to drop me a note at
+    If you have any feedback, feel free to drop a note at
     <a href="mailto:michael_gantman@yahoo.com" target="_top">michael_gantman@yahoo.com</a>
 </p>
 
 <p>
-The MIT License (MIT)
-Copyright (c) 2018 - 2026 Michael Gantman
-</p><p>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+    The MIT License (MIT)<br>
+    Copyright (c) 2018 - 2026 Michael Gantman
+</p>
+<p>
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+    documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+    rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to the following conditions:
+    <br><br>
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+    Software.
+    <br><br>
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
     WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
     OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
     OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </p>
+
 </body>
 </html>

@@ -8,7 +8,7 @@
 
 MgntUtils is an open-source Java library that provides:
 * A collection of **utility methods** for common tasks that are either missing from or overly verbose in the standard Java API
-* **Self-Populating Factory Infrastructure**: A small framework for implementing factories whose components automatically register themselves with the factory during initialization (similar to an Inversion of Control (IoC) pattern)
+* **Self-Populating Factory Micro-Framework**: The most architecturally significant part of this library — a micro-framework whose implementation classes automatically register themselves with their factory upon instantiation, eliminating manual registry maintenance and enabling a powerful N × M extensibility pattern described in the documentation below.
 
 <p>
 The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgnt/docs/">MgntUtils Javadoc API</a>
@@ -41,11 +41,11 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
     - **File I/O**: Basic utilities for reading from and writing to files.
  
     
-## Self-Populating Factory Infrastructure
+## Self-Populating Factory Micro-Framework
 
-The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for **factories whose components automatically register themselves** during initialization.
+> All other utilities in this library solve individual, well-defined problems. What follows is different in kind: it is a fundamental architectural pattern and by far the most significant part of this library. It is packaged as a **lightweight micro-framework** — two classes — that provides the infrastructure for a self-registering factory pattern. The library ships this infrastructure along with a complete, runnable example. The broader architectural pattern it enables — resolving an N × M extensibility problem across multiple data types and processing stages without modifying existing code — is not part of the library itself, but is documented in detail in the article linked below and demonstrated in a separate companion project. That article should be considered required reading alongside this section.
 
-In this model, implementation classes are **factory-aware**: when an instance is created, it automatically registers with its factory. This removes the need for manual factory-population logic or centralized registration maps. As long as a concrete implementation is instantiated, it becomes available through the factory.
+The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for **factories whose components automatically register themselves** during initialization — similar in spirit to an Inversion of Control container, but without the framework overhead and with no external dependencies. Implementation classes are **factory-aware**: this eliminates manual factory-population logic and centralized registration maps entirely — as long as a concrete implementation is instantiated, it becomes available through the factory.
 
 The package-level Javadoc contains a detailed explanation of the design and a **complete, runnable example** included with the library source.
 
@@ -82,7 +82,7 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   - **Part 1** covers the Self-Populating Factory pattern in greater detail and walks through the **runnable example included in the library**.
   - **Part 2** shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to “extend the flow length-wise and width-wise” (i.e., resolve an N × M matrix-like problem) without modifying existing code - just by adding new data types and stages.
 
-  This article presents a complex architectural pattern that effectively evolves the library from a **collection of utilities** into an **architectural design pattern** that can be reused across many projects.
+  This article underscores the fact that beyond its collection of utilities, this library provides a foundation for a powerful **architectural design pattern** that can be reused across many projects.
  
 ## Installing MgntUtils
 

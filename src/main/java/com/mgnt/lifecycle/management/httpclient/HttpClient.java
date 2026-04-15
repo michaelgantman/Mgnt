@@ -222,7 +222,7 @@ public class HttpClient {
 			throw new HttpClientCommunicationException(errorMessage, ioe, response);
 		} finally {
 			if(connection != null) {
-			connection.disconnect();
+				connection.disconnect();
 			}
 		}
 		return response;

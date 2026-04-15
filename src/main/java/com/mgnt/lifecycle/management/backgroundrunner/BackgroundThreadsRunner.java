@@ -14,6 +14,16 @@ import java.util.concurrent.ScheduledExecutorService;
  * This class is part of the framework and probably will not be accessed externally. However if you use this infrastructure
  * within Spring framework you will need to declare this class as bean in your xml configuration. The the explanation
  * at the end of package description {@link com.mgnt.lifecycle.management.backgroundrunner}
+ * <br><br>
+ * <b>Note on Jakarta compatibility:</b> This class uses {@code javax.annotation.PostConstruct} and
+ * {@code javax.annotation.PreDestroy} for lifecycle management. These annotations are from the legacy
+ * {@code javax.annotation} namespace and are recognized by Spring Boot 2.x automatically. Spring Boot 3.x
+ * migrated to the {@code jakarta.annotation} namespace and does not recognize {@code javax.annotation}
+ * annotations unless {@code javax.annotation-api} is explicitly declared as a dependency in your project.
+ * If you are on Spring Boot 3.x and prefer not to add that dependency, use constructor
+ * {@link #BackgroundThreadsRunner(boolean)} with {@code true} to self-initialize. Note that in this case
+ * the {@code @PreDestroy} shutdown hook will also not fire, so you should ensure your application shutdown
+ * sequence allows the JVM to exit naturally and terminate the scheduled thread pool.
  */
 public class BackgroundThreadsRunner {
 

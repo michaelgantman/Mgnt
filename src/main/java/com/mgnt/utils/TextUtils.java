@@ -77,7 +77,7 @@ public class TextUtils {
     /*
      * Strings defined bellow are for the use of methods getStacktrace() of this class
      */
-    private static String[] RELEVANT_PACKAGE_LIST = null;
+    private static volatile String[] RELEVANT_PACKAGE_LIST = null;
     private static final String STANDARD_STAKTRACE_PREFIX = "at ";
     private static final String SKIPPING_LINES_STRING = "\t...";
     private static final String CAUSE_STAKTRACE_PREFIX = "Caused by:";
@@ -1070,6 +1070,12 @@ public class TextUtils {
         return result;
     }
 
+    /*
+     * The following private logging helpers are defined for all SLF4J log levels for completeness.
+     * Each one applies the same logic: if a relevant package filter is set, the stacktrace is filtered
+     * before logging; otherwise the throwable is passed directly to SLF4J. Note that SLF4J has no
+     * "fatal" level — fatal() maps to error(), which is the standard convention.
+     */
     private static void warn(String message, Throwable t) {
         if (RELEVANT_PACKAGE_LIST != null && RELEVANT_PACKAGE_LIST.length > 0) {
             logger.warn(message + getStacktrace(t));

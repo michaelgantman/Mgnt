@@ -17,7 +17,7 @@ public class Version implements Comparable<Version> {
 
     public Version(String verStr) throws InvalidVersionFormatException {
         if (verStr == null || "".equals(verStr)) {
-            throw new InvalidVersionFormatException("Null or empty string may not represent a valid vrsion");
+            throw new InvalidVersionFormatException("Null or empty string may not represent a valid version");
         }
         for (String numStr : verStr.trim().split(SPLIT_SEPARATOR, Integer.MAX_VALUE)) {
             try {

@@ -1,8 +1,8 @@
 package com.mgnt.lifecycle.management;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This is the parent factory class for all the factories. See the javadoc for the {@link com.mgnt.lifecycle.management}
@@ -10,7 +10,7 @@ import java.util.Map;
  * @param <I>
  */
 public abstract class BaseEntityFactory<I> {
-    private Map<String, I> entityHolder = new HashMap<>();
+    private Map<String, I> entityHolder = new ConcurrentHashMap<>();
 
     /**
      * This method is for internal use by the infrastructure. It is used to place any newly instantiated class

@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This is the base class for any set of classes that self-insert themselves into a Factory upon instantiation
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public abstract class BaseEntity<I> {
     private final static Logger LOGGER = LoggerFactory.getLogger(BaseEntity.class.getName());
-    private static final Map<String, BaseEntityFactory> FACTORY_MAP = new HashMap<>();
+    private static final Map<String, BaseEntityFactory> FACTORY_MAP = new ConcurrentHashMap<>();
 
     /**
      * This method puts the relevant factory into internal Factory map. This method MUST be explicitly

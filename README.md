@@ -16,8 +16,31 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
 
 ## Key Features and Utilities
 
-- **Stack Trace Filtering**  
-  One of the most popular features is `TextUtils.getStacktrace()`, which filters out “noise” from stack traces (such as application-server-related packages), making logs more readable and reducing log size. The filtering can be configured using package prefixes to specify which packages are important.<br><br>
+- **Stacktrace Filtering**
+
+  One of the most popular features of MgntUtils is advanced stacktrace filtering. It removes framework noise (such as application server and library internals), making logs significantly more readable and reducing their size.
+
+  Filtering is configured via a predefined list of relevant package prefixes, allowing you to focus only on application-level code.
+
+  **Key capabilities:**
+  - Filter stacktraces from `Throwable`
+  - **Filter stacktraces from raw `String` input (e.g., logs, remote services)**
+  - Configurable filtering via relevant package prefixes
+  - Collapse irrelevant frames
+
+  **Why String-based filtering matters:**
+  Unlike typical solutions that operate only on exceptions, MgntUtils can process raw stacktrace strings. This enables usage beyond in-process error handling:
+
+  - Log processing pipelines  
+  - Remote stacktrace cleanup  
+  - Serialized / stored error handling  
+  - Post-processing of external system outputs  
+
+  **Infrastructure-level integration:**
+  This feature can be integrated transparently into Spring Boot applications without changing existing code.  
+  See: *“Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration”* (link below).
+  
+  <br>
 
 - **Human-Readable Time Intervals**  
   The methods `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` convert strings like `"5d"`, `"4h"`, or `"30m"` directly into `long` milliseconds or `java.time.Duration` values, making time-based configuration far more maintainable than raw numeric values.<br><br>
@@ -62,13 +85,16 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
 
 ### Series-Overview Articles
 
-- **[MgntUtils Open Source Java library with stack trace filtering, Silent String parsing, Unicode converter and Version comparison](https://www.linkedin.com/pulse/open-source-java-library-some-useful-utilities-michael-gantman/)**  
+- **[MgntUtils Open Source Java library with stacktrace filtering, Silent String parsing, Unicode converter and Version comparison](https://www.linkedin.com/pulse/open-source-java-library-some-useful-utilities-michael-gantman/)**  
   This general-purpose article introduces the library as a whole, lists its main features, and gives brief usage examples for each.
 
 ### Feature-Specific Deep Dives
 
 - **[Java Stacktrace filtering utility](https://www.linkedin.com/pulse/java-stacktrace-filtering-utility-michael-gantman-t003f/)**  
   Focuses on the library’s most popular feature: `TextUtils.getStacktrace()`. It explains how to use it for cleaner logs and how to configure package-based filtering to keep important stack frames and remove noise.<br><br>
+  
+- **[Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://www.linkedin.com/pulse/zero-code-change-stacktrace-filtering-spring-boot-michael-gantman-sdnaf/)**
+  This is a follow up article to **Java Stacktrace filtering utility**. The first article explains what the feature is and how to configure it. This one explains how to transparently integrate it into Spring Boot project without any code base changes required. **It is truly a game changer**. It is a small one time effort and completely transparent to developers, but carries a huge benefit<br>    
 
 - **[Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)**  
   Explores the `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` utilities in detail, showing how human-readable time-interval strings (like `"5d"`, `"4h"`, `"30m"`) can replace hard-to-read numeric values in configuration and code.<br><br>

@@ -18,7 +18,7 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
 
 - **Stacktrace Filtering**
 
-  One of the most popular features of MgntUtils is advanced stacktrace filtering. It removes framework noise (such as application server and library internals), making logs significantly more readable and reducing their size.
+  One of the most popular features of MgntUtils is advanced stacktrace filtering. The primary API is `TextUtils.getStacktrace()`, which accepts either a `Throwable` or a raw `String`. It removes framework noise (such as application server and library internals), making logs significantly more readable and reducing their size.
 
   Filtering is configured via a predefined list of relevant package prefixes, allowing you to focus only on application-level code.
 
@@ -38,7 +38,7 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
 
   **Infrastructure-level integration:**
   This feature can be integrated transparently into Spring Boot applications without changing existing code.  
-  See: *“Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration”* (link below).
+  See: [Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://www.linkedin.com/pulse/zero-code-change-stacktrace-filtering-spring-boot-michael-gantman-sdnaf/).
   
   <br>
 
@@ -94,7 +94,7 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   Focuses on the library’s most popular feature: `TextUtils.getStacktrace()`. It explains how to use it for cleaner logs and how to configure package-based filtering to keep important stack frames and remove noise.<br><br>
   
 - **[Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://www.linkedin.com/pulse/zero-code-change-stacktrace-filtering-spring-boot-michael-gantman-sdnaf/)**
-  This is a follow up article to **Java Stacktrace filtering utility**. The first article explains what the feature is and how to configure it. This one explains how to transparently integrate it into Spring Boot project without any code base changes required. **It is truly a game changer**. It is a small one time effort and completely transparent to developers, but carries a huge benefit<br>    
+  This is a follow up article to **Java Stacktrace filtering utility**. The first article explains what the feature is and how to configure it. This one explains how to transparently integrate it into Spring Boot project without any code base changes required. **It is truly a game changer**. It is a small one time effort and completely transparent to developers, but carries a huge benefit<br><br>    
 
 - **[Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)**  
   Explores the `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` utilities in detail, showing how human-readable time-interval strings (like `"5d"`, `"4h"`, `"30m"`) can replace hard-to-read numeric values in configuration and code.<br><br>

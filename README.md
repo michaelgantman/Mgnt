@@ -66,7 +66,7 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
     
 ## Self-Populating Factory Micro-Framework
 
-> All other utilities in this library solve individual, well-defined problems. What follows is different in kind: it is a fundamental architectural pattern and by far the most significant part of this library. It is packaged as a **lightweight micro-framework** — two classes — that provides the infrastructure for a self-registering factory pattern. The library ships this infrastructure along with a complete, runnable example. The broader architectural pattern it enables — resolving an N × M extensibility problem across multiple data types and processing stages without modifying existing code — is not part of the library itself, but is documented in detail in the article linked below and demonstrated in a separate companion project. That article should be considered required reading alongside this section.
+> All other utilities in this library solve individual, well-defined problems. What follows is different in kind: it is a fundamental architectural pattern and by far the most significant part of this library. It is packaged as a **lightweight micro-framework** — two classes — that provides the infrastructure for a self-registering factory pattern. The library ships this infrastructure along with a complete, runnable example. The broader architectural pattern it enables — resolving an N × M extensibility problem across multiple data types and processing stages without modifying existing code — is not part of the library itself, but is documented in detail in **[Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types](https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/)** and demonstrated in a separate companion project. This article should be considered required reading alongside this section.
 
 The framework implementation is located in package `com.mgnt.lifecycle.management`. It provides infrastructure for **factories whose components automatically register themselves** during initialization — similar in spirit to an Inversion of Control container, but without the framework overhead and with no external dependencies. Implementation classes are **factory-aware**: this eliminates manual factory-population logic and centralized registration maps entirely — as long as a concrete implementation is instantiated, it becomes available through the factory.
 
@@ -102,11 +102,12 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
 - **[String to Unicode converter utility](https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/)**  
   Explores `StringUnicodeEncoderDecoder` and shows how to convert strings to Unicode escape sequences and back. This is especially useful when debugging encoding issues, inspecting Unicode-encoded configuration, or working with non-Latin languages.<br><br>
 
+### Architectural Design Pattern
 
 - **[Infrastructure for Extensible Multi-Stage Workflows Across Multiple Data Types](https://www.linkedin.com/pulse/infrastructure-extensible-multi-stage-workflows-across-gantman-0vu2f/)**  
-  This is the most in-depth article in the series. It can be viewed as a **two-part piece**:
+  This is the most in-depth article in the series and the one most closely tied to the core architectural contribution of this library. It can be viewed as a **two-part piece**:
   - **Part 1** covers the Self-Populating Factory pattern in greater detail and walks through the **runnable example included in the library**.
-  - **Part 2** shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to “extend the flow length-wise and width-wise” (i.e., resolve an N × M matrix-like problem) without modifying existing code - just by adding new data types and stages.
+  - **Part 2** shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to “extend the flow length-wise and width-wise” (i.e., resolve an N × M matrix-like problem) without modifying existing code — just by adding new data types and stages.
 
   This article underscores the fact that beyond its collection of utilities, this library provides a foundation for a powerful **architectural design pattern** that can be reused across many projects.
  

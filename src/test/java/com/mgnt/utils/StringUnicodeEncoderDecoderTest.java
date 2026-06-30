@@ -6,18 +6,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StringUnicodeEncoderDecoderTest {
 
+    private static final String HELLO = "Hello";
+    private static final String HELLO_UNICODE = "\\u0048\\u0065\\u006c\\u006c\\u006f";
+
     @Test
     void encodeKnownAscii() {
         // H=0048, e=0065, l=006c, l=006c, o=006f
-        String encoded = StringUnicodeEncoderDecoder.encodeStringToUnicodeSequence("Hello");
-        assertEquals("\\u0048\\u0065\\u006c\\u006c\\u006f", encoded);
+        String encoded = StringUnicodeEncoderDecoder.encodeStringToUnicodeSequence(HELLO);
+        assertEquals(HELLO_UNICODE, encoded);
     }
 
     @Test
     void decodeKnownAscii() {
         String decoded = StringUnicodeEncoderDecoder.decodeUnicodeSequenceToString(
-                "\\u0048\\u0065\\u006c\\u006c\\u006f");
-        assertEquals("Hello", decoded);
+                HELLO_UNICODE);
+        assertEquals(HELLO, decoded);
     }
 
     @Test
@@ -74,14 +77,14 @@ class StringUnicodeEncoderDecoderTest {
     void decodeUpperCaseUPrefixAccepted() {
         String decoded = StringUnicodeEncoderDecoder.decodeUnicodeSequenceToString(
                 "\\U0048\\U0065\\U006c\\U006c\\U006f");
-        assertEquals("Hello", decoded);
+        assertEquals(HELLO, decoded);
     }
 
     @Test
     void decodeWithWhitespaceBetweenCodesAccepted() {
         String decoded = StringUnicodeEncoderDecoder.decodeUnicodeSequenceToString(
                 "\\u0048 \\u0065 \\u006c \\u006c \\u006f");
-        assertEquals("Hello", decoded);
+        assertEquals(HELLO, decoded);
     }
 
     @Test

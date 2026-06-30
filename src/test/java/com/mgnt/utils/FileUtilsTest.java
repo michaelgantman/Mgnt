@@ -11,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileUtilsTest {
 
+    private static final String UTF_8 = "UTF-8";
+    private static final String EXPECTED_FILE_NAME = "file.txt";
+
     @TempDir
     Path tempDir;
 
@@ -18,9 +21,9 @@ class FileUtilsTest {
     void readFileAsStringUtf8() throws IOException {
         Path file = tempDir.resolve("test.txt");
         String content = "Hello, World!\nSecond line";
-        Files.write(file, content.getBytes("UTF-8"));
+        Files.write(file, content.getBytes(UTF_8));
 
-        String result = FileUtils.readFileAsString(file.toString(), "UTF-8");
+        String result = FileUtils.readFileAsString(file.toString(), UTF_8);
         assertEquals(content, result);
     }
 
@@ -28,9 +31,9 @@ class FileUtilsTest {
     void readFileAsStringDefaultCharset() throws IOException {
         Path file = tempDir.resolve("default.txt");
         String content = "Simple ASCII content";
-        Files.write(file, content.getBytes("UTF-8"));
+        Files.write(file, content.getBytes(UTF_8));
 
-        String result = FileUtils.readFileAsString(file.toString(), "UTF-8");
+        String result = FileUtils.readFileAsString(file.toString(), UTF_8);
         assertEquals(content, result);
     }
 
@@ -67,17 +70,17 @@ class FileUtilsTest {
 
     @Test
     void getFileNameUnixPath() {
-        assertEquals("file.txt", FileUtils.getFileName("/some/path/file.txt"));
+        assertEquals(EXPECTED_FILE_NAME, FileUtils.getFileName("/some/path/file.txt"));
     }
 
     @Test
     void getFileNameWindowsPath() {
-        assertEquals("file.txt", FileUtils.getFileName("C:\\some\\path\\file.txt"));
+        assertEquals(EXPECTED_FILE_NAME, FileUtils.getFileName("C:\\some\\path\\file.txt"));
     }
 
     @Test
     void getFileNameNoSeparatorReturnsInput() {
-        assertEquals("file.txt", FileUtils.getFileName("file.txt"));
+        assertEquals(EXPECTED_FILE_NAME, FileUtils.getFileName(EXPECTED_FILE_NAME));
     }
 
     @Test

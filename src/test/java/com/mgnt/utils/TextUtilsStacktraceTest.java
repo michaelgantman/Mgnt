@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TextUtilsStacktraceTest {
 
+    private static final String TEST_PACKAGE = "com.example.";
+
     private String[] savedPackages;
 
     @BeforeEach
@@ -47,7 +49,7 @@ class TextUtilsStacktraceTest {
                 "\tat java.util.concurrent.Future.get(Future.java:100)\n" +
                 "\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n";
 
-        String result = TextUtils.getStacktrace(stacktrace, "com.example.");
+        String result = TextUtils.getStacktrace(stacktrace, TEST_PACKAGE);
 
         assertTrue(result.contains("some error"));
         assertTrue(result.contains("com.example.Foo.doIt"));
@@ -58,7 +60,7 @@ class TextUtilsStacktraceTest {
 
     @Test
     void getStacktraceFromCharSequenceWithGlobalPackageSet() {
-        TextUtils.setRelevantPackage("com.example.");
+        TextUtils.setRelevantPackage(TEST_PACKAGE);
         String stacktrace =
                 "java.lang.RuntimeException: global test\n" +
                 "\tat com.example.Bar.run(Bar.java:10)\n" +

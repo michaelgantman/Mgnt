@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BaseEntityFactoryTest {
 
+    private static final String TEST_CONTENT = "hello";
+
     @BeforeAll
     static void registerImplementations() {
         // Instantiating the concrete classes triggers their constructors which call
@@ -42,18 +44,18 @@ class BaseEntityFactoryTest {
     @Test
     void jsonFormatterFormatsMessage() {
         InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON");
-        String result = formatter.formatMessage("hello");
+        String result = formatter.formatMessage(TEST_CONTENT);
         assertNotNull(result);
-        assertTrue(result.contains("hello"));
+        assertTrue(result.contains(TEST_CONTENT));
         assertTrue(result.contains("{"));
     }
 
     @Test
     void xmlFormatterFormatsMessage() {
         InfoFormatter formatter = InfoFormatterFactory.getInstance("XML");
-        String result = formatter.formatMessage("hello");
+        String result = formatter.formatMessage(TEST_CONTENT);
         assertNotNull(result);
-        assertTrue(result.contains("hello"));
+        assertTrue(result.contains(TEST_CONTENT));
         assertTrue(result.contains("<"));
     }
 

@@ -7,21 +7,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VersionRangeTest {
 
+    private static final String RANGE_LOWER = "1.0";
+    private static final String RANGE_UPPER = "3.0";
+
     private VersionRange range; // [1.0 - 3.0]
 
     @BeforeEach
     void setUp() throws Exception {
-        range = new VersionRange("1.0", "3.0");
+        range = new VersionRange(RANGE_LOWER, RANGE_UPPER);
     }
 
     @Test
     void isInRangeLowerBoundIncluded() throws InvalidVersionFormatException {
-        assertTrue(range.isInRange("1.0"));
+        assertTrue(range.isInRange(RANGE_LOWER));
     }
 
     @Test
     void isInRangeUpperBoundIncluded() throws InvalidVersionFormatException {
-        assertTrue(range.isInRange("3.0"));
+        assertTrue(range.isInRange(RANGE_UPPER));
     }
 
     @Test
@@ -56,7 +59,7 @@ class VersionRangeTest {
 
     @Test
     void isAboveRangeFalseAtUpperBound() throws InvalidVersionFormatException {
-        assertFalse(range.isAboveRange("3.0"));
+        assertFalse(range.isAboveRange(RANGE_UPPER));
     }
 
     @Test
@@ -71,7 +74,7 @@ class VersionRangeTest {
 
     @Test
     void isBelowRangeFalseAtLowerBound() throws InvalidVersionFormatException {
-        assertFalse(range.isBellowRange(new Version("1.0")));
+        assertFalse(range.isBellowRange(new Version(RANGE_LOWER)));
     }
 
     @Test
@@ -144,15 +147,15 @@ class VersionRangeTest {
 
     @Test
     void getFromAndToVersion() throws Exception {
-        assertEquals("1.0", range.getFromVersion().toString());
-        assertEquals("3.0", range.getToVersion().toString());
+        assertEquals(RANGE_LOWER, range.getFromVersion().toString());
+        assertEquals(RANGE_UPPER, range.getToVersion().toString());
     }
 
     @Test
     void toStringContainsBothBounds() {
         String s = range.toString();
-        assertTrue(s.contains("1.0"));
-        assertTrue(s.contains("3.0"));
+        assertTrue(s.contains(RANGE_LOWER));
+        assertTrue(s.contains(RANGE_UPPER));
         assertTrue(s.contains("-"));
     }
 }

@@ -1,5 +1,6 @@
 package com.mgnt.lifecycle.management.example;
 
+import com.mgnt.lifecycle.management.example.implementations.DATA_TYPE;
 import com.mgnt.lifecycle.management.example.implementations.JsonInfoFormatter;
 import com.mgnt.lifecycle.management.example.implementations.XmlInfoFormatter;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,14 +25,14 @@ class BaseEntityFactoryTest {
 
     @Test
     void factoryRetrievesJsonFormatter() {
-        InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON");
+        InfoFormatter formatter = InfoFormatterFactory.getInstance(DATA_TYPE.JSON.toString());
         assertNotNull(formatter);
         assertInstanceOf(JsonInfoFormatter.class, formatter);
     }
 
     @Test
     void factoryRetrievesXmlFormatter() {
-        InfoFormatter formatter = InfoFormatterFactory.getInstance("XML");
+        InfoFormatter formatter = InfoFormatterFactory.getInstance(DATA_TYPE.XML.toString());
         assertNotNull(formatter);
         assertInstanceOf(XmlInfoFormatter.class, formatter);
     }
@@ -43,7 +44,7 @@ class BaseEntityFactoryTest {
 
     @Test
     void jsonFormatterFormatsMessage() {
-        InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON");
+        InfoFormatter formatter = InfoFormatterFactory.getInstance(DATA_TYPE.JSON.toString());
         String result = formatter.formatMessage(TEST_CONTENT);
         assertNotNull(result);
         assertTrue(result.contains(TEST_CONTENT));
@@ -52,7 +53,7 @@ class BaseEntityFactoryTest {
 
     @Test
     void xmlFormatterFormatsMessage() {
-        InfoFormatter formatter = InfoFormatterFactory.getInstance("XML");
+        InfoFormatter formatter = InfoFormatterFactory.getInstance(DATA_TYPE.XML.toString());
         String result = formatter.formatMessage(TEST_CONTENT);
         assertNotNull(result);
         assertTrue(result.contains(TEST_CONTENT));
@@ -61,13 +62,13 @@ class BaseEntityFactoryTest {
 
     @Test
     void formatMessageNullContentReturnsNull() {
-        InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON");
+        InfoFormatter formatter = InfoFormatterFactory.getInstance(DATA_TYPE.JSON.toString());
         assertNull(formatter.formatMessage(null));
     }
 
     @Test
     void formatMessageEmptyContentReturnsNull() {
-        InfoFormatter formatter = InfoFormatterFactory.getInstance("JSON");
+        InfoFormatter formatter = InfoFormatterFactory.getInstance(DATA_TYPE.XML.toString());
         assertNull(formatter.formatMessage(""));
     }
 

@@ -91,7 +91,7 @@ class VersionRangeTest {
 
     @Test
     void isOverlapTouchingAtUpperBound() throws Exception {
-        VersionRange touching = new VersionRange("3.0", "5.0");
+        VersionRange touching = new VersionRange(RANGE_UPPER, "5.0");
         assertTrue(range.isOverlap(touching));
     }
 
@@ -110,6 +110,12 @@ class VersionRangeTest {
     void isOverlapContainedRange() throws Exception {
         VersionRange inner = new VersionRange("1.5", "2.5");
         assertTrue(range.isOverlap(inner));
+    }
+
+    @Test
+    void isOverlapContainingRange() throws Exception {
+        VersionRange outer = new VersionRange("0.5", "3.5");
+        assertTrue(range.isOverlap(outer));
     }
 
     @Test

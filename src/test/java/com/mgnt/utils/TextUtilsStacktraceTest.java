@@ -70,6 +70,9 @@ class TextUtilsStacktraceTest {
         String result = TextUtils.getStacktrace(stacktrace);
         assertTrue(result.contains("global test"));
         assertTrue(result.contains("com.example.Bar.run"));
+        assertTrue(result.contains("java.lang.Thread.run"));
+        assertFalse(result.contains("java.lang.Object.wait"));
+        assertTrue(result.contains("\t..."));
     }
 
     @Test

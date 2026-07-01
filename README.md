@@ -119,7 +119,7 @@ MgntUtils is available on **Maven Central**:
 <dependency>
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.7.0.7</version>
+    <version>1.7.0.8</version>
 </dependency>
 ```
 If you also want Javadoc and sources for your IDE:
@@ -128,7 +128,7 @@ If you also want Javadoc and sources for your IDE:
 <dependency>
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.7.0.7</version>
+    <version>1.7.0.8</version>
     <classifier>javadoc</classifier>
 </dependency>
 ```
@@ -137,7 +137,7 @@ If you also want Javadoc and sources for your IDE:
 <dependency>
     <groupId>com.github.michaelgantman</groupId>
     <artifactId>MgntUtils</artifactId>
-    <version>1.7.0.7</version>
+    <version>1.7.0.8</version>
     <classifier>sources</classifier>
 </dependency>
 ```

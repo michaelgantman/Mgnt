@@ -3,9 +3,11 @@ package com.mgnt.utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Isolated
 class TextUtilsStacktraceTest {
 
     private static final String TEST_PACKAGE = "com.example.";
@@ -98,5 +100,16 @@ class TextUtilsStacktraceTest {
         assertTrue(trace.contains("wrapper error"));
         assertTrue(trace.contains("root cause"));
         assertTrue(trace.contains("Caused by:"));
+    }
+
+    @Test
+    void getStacktraceSuppressedContainsBothMessages() {
+        RuntimeException primary = new RuntimeException("primary error");
+        RuntimeException suppressed = new RuntimeException("suppressed error");
+        primary.addSuppressed(suppressed);
+        String trace = TextUtils.getStacktrace(primary, false);
+        assertTrue(trace.contains("primary error"));
+        assertTrue(trace.contains("suppressed error"));
+        assertTrue(trace.contains("Suppressed:"));
     }
 }

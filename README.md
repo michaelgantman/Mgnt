@@ -4,7 +4,9 @@
 ![License](https://img.shields.io/github/license/michaelgantman/Mgnt)
 ![Javadoc](https://img.shields.io/badge/javadoc-available-green)
 ![GitHub release](https://img.shields.io/github/v/release/michaelgantman/Mgnt)
+![Tests](https://img.shields.io/badge/tests-comprehensive-brightgreen)
 ![GitHub stars](https://img.shields.io/github/stars/michaelgantman/Mgnt)
+
 
 MgntUtils is an open-source Java library that provides:
 * A collection of **utility methods** for common tasks that are either missing from or overly verbose in the standard Java API

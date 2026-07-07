@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TextUtilsStacktraceTest {
 
     private static final String TEST_PACKAGE = "com.example.";
+    private static final String MGNT_PACKAGE  = "com.mgnt.";
 
     private String[] savedPackages;
 
@@ -35,7 +36,7 @@ class TextUtilsStacktraceTest {
     @Test
     void getStacktraceWithExplicitPackageFiltersIrrelevantLines() {
         RuntimeException e = new RuntimeException("filtered");
-        String filtered = TextUtils.getStacktrace(e, true, "com.mgnt.");
+        String filtered = TextUtils.getStacktrace(e, true, MGNT_PACKAGE);
         assertNotNull(filtered);
         assertTrue(filtered.contains("filtered"));
     }
@@ -110,6 +111,31 @@ class TextUtilsStacktraceTest {
         String trace = TextUtils.getStacktrace(primary, false);
         assertTrue(trace.contains("primary error"));
         assertTrue(trace.contains("suppressed error"));
+        assertTrue(trace.contains("Suppressed:"));
+    }
+
+    // Both exceptions are instantiated here in com.mgnt.utils, so their frames
+    // contain MGNT_PACKAGE lines — filtering must preserve the Caused by section.
+    @Test
+    void getStacktraceCausedByPreservedAfterFiltering() {
+        RuntimeException cause = new RuntimeException("root cause filtered");
+        RuntimeException wrapper = new RuntimeException("wrapper error filtered", cause);
+        String trace = TextUtils.getStacktrace(wrapper, true, MGNT_PACKAGE);
+        assertTrue(trace.contains("wrapper error filtered"));
+        assertTrue(trace.contains("root cause filtered"));
+        assertTrue(trace.contains("Caused by:"));
+    }
+
+    // Both exceptions are instantiated here in com.mgnt.utils, so their frames
+    // contain MGNT_PACKAGE lines — filtering must preserve the Suppressed section.
+    @Test
+    void getStacktraceSuppressedPreservedAfterFiltering() {
+        RuntimeException primary = new RuntimeException("primary error filtered");
+        RuntimeException suppressed = new RuntimeException("suppressed error filtered");
+        primary.addSuppressed(suppressed);
+        String trace = TextUtils.getStacktrace(primary, true, MGNT_PACKAGE);
+        assertTrue(trace.contains("primary error filtered"));
+        assertTrue(trace.contains("suppressed error filtered"));
         assertTrue(trace.contains("Suppressed:"));
     }
 }

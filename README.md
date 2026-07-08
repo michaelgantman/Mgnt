@@ -7,7 +7,6 @@
 ![Tests](https://img.shields.io/badge/tests-comprehensive-brightgreen)
 ![GitHub stars](https://img.shields.io/github/stars/michaelgantman/Mgnt)
 
-
 MgntUtils is an open-source Java library that provides:
 * A collection of **utility methods** for common tasks that are either missing from or overly verbose in the standard Java API
 * **Self-Populating Factory Micro-Framework**: The most architecturally significant part of this library — a micro-framework whose implementation classes automatically register themselves with their factory upon instantiation, eliminating manual registry maintenance and enabling a powerful N × M extensibility pattern described in the documentation below.

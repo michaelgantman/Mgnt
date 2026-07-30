@@ -5,7 +5,7 @@
 ![Javadoc](https://img.shields.io/badge/javadoc-available-green)
 ![GitHub release](https://img.shields.io/github/v/release/michaelgantman/Mgnt)
 ![Tests](https://img.shields.io/badge/tests-comprehensive-brightgreen)
-![GitHub stars](https://img.shields.io/github/stars/michaelgantman/Mgnt)
+![GitHub stars](https://img.shields.io/github/stars/michaelgantman/Mgnt)<br>
 ![Scarf: Commercial Users](https://api.scarf.sh/v2/packages/Michaelgantman/61e6b8ce-9292-4209-963c-545dce43b5cb/commercial-users-badge)
 ![Scarf: Downloads](https://api.scarf.sh/v2/packages/Michaelgantman/61e6b8ce-9292-4209-963c-545dce43b5cb/downloads-badge)
 

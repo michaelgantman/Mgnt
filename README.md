@@ -93,16 +93,16 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
 
 ### Feature-Specific Deep Dives
 
-- **[Java Stacktrace filtering utility](https://www.linkedin.com/pulse/java-stacktrace-filtering-utility-michael-gantman-t003f/)**  
+- **[Filtering Java Stack Traces With MgntUtils Library](https://dzone.com/articles/filter-java-stacktrace-mgntutils)**  
   Focuses on the library’s most popular feature: `TextUtils.getStacktrace()`. It explains how to use it for cleaner logs and how to configure package-based filtering to keep important stack frames and remove noise.<br><br>
   
-- **[Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://www.linkedin.com/pulse/zero-code-change-stacktrace-filtering-spring-boot-michael-gantman-sdnaf/)**
+- **[Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://dev.to/mgantman/zero-code-change-stacktrace-filtering-for-spring-boot-an-infrastructure-level-integration-3fk5)**
   This is a follow up article to **Java Stacktrace filtering utility**. The first article explains what the feature is and how to configure it. This one explains how to transparently integrate it into Spring Boot project without any code base changes required. **It is truly a game changer**. It is a small one time effort and completely transparent to developers, but carries a huge benefit<br><br>    
 
 - **[Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)**  
   Explores the `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` utilities in detail, showing how human-readable time-interval strings (like `"5d"`, `"4h"`, `"30m"`) can replace hard-to-read numeric values in configuration and code.<br><br>
   
-- **[String to Unicode converter utility](https://www.linkedin.com/pulse/string-unicode-converter-utility-michael-gantman-hd9lf/)**  
+- **[String to Unicode converter utility](https://dzone.com/articles/string-to-unicode-converter-utility)**  
   Explores `StringUnicodeEncoderDecoder` and shows how to convert strings to Unicode escape sequences and back. This is especially useful when debugging encoding issues, inspecting Unicode-encoded configuration, or working with non-Latin languages.<br><br>
 
 ### Architectural Design Pattern
@@ -113,6 +113,13 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   - **Part 2** shows how this pattern can be used to build extensible, multi-stage workflows for multiple data types, allowing you to “extend the flow length-wise and width-wise” (i.e., resolve an N × M matrix-like problem) without modifying existing code — just by adding new data types and stages.
 
   This article underscores the fact that beyond its collection of utilities, this library provides a foundation for a powerful **architectural design pattern** that can be reused across many projects.
+  
+### Commercial Adoption  
+
+Below are 2 articles that are related to and extend 2 stacktrace filtering feature articles mentioned above. The deal with commercial adoption aspects for this feature.
+
+-- **[Cutting AI Token Costs With MgntUtils Stack Trace Filtering](https://dzone.com/articles/ai-token-costs-stack-traces)**
+This is a live production integration case study. The feature was integrated into live commercial product serving real-world customers. The article shows measured benefit results and describes integration process (time, effort, some non-obvious issues).
  
 ## Installing MgntUtils
 

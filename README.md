@@ -26,8 +26,8 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
   Filtering is configured via a predefined list of relevant package prefixes, allowing you to focus only on application-level code.
 
   **Key capabilities:**
-  - Filter stacktraces from `Throwable`
-  - **Filter stacktraces from raw `String` input (e.g., logs, remote services)**
+  - Filter stacktraces from `Throwable` that may be referred to as "Hot filtering"
+  - **Filter stacktraces from raw `String` input or "Cold Filtering" (good for filtering stacktraces from logs, remote services, etc)**
   - Configurable filtering via relevant package prefixes
   - Collapse irrelevant frames
 
@@ -118,8 +118,11 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
 
 Below are 2 articles that are related to and extend 2 stacktrace filtering feature articles mentioned above. The deal with commercial adoption aspects for this feature.
 
--- **[Cutting AI Token Costs With MgntUtils Stack Trace Filtering](https://dzone.com/articles/ai-token-costs-stack-traces)**
-This is a live production integration case study. The feature was integrated into live commercial product serving real-world customers. The article shows measured benefit results and describes integration process (time, effort, some non-obvious issues).
+- **[Cutting AI Token Costs With MgntUtils Stacktrace Filtering](https://dzone.com/articles/ai-token-costs-stack-traces)**
+This is a live production integration case study. The stacktrace filtering feature was integrated into live commercial product serving real-world customers. The article shows measured benefit results and describes integration process (time, effort, some non-obvious issues).
+
+- **[Verify AI Token Cost Cuts with MgntUtils Stacktrace Filtering on your own data — Before You Touch Production](https://dev.to/mgantman/verify-ai-token-cost-cuts-with-mgntutils-stacktrace-filtering-on-your-own-data-before-you-touch-k96)**
+This article is based on Stacktrace filtering feature "Cold Filtering" support (ability to filter stacktrace String rather than extracted from `Throwable`). It explains how using this feature allows prospective customer to see the exact results by filtering their own stacktraces extracted from their own logs, thus see exact results before making any changes in their product code. This allows to evaluate reliability of the feature and evaluate exact benefits before making any changes.  
  
 ## Installing MgntUtils
 

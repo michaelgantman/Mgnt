@@ -26,12 +26,12 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
   Filtering is configured via a predefined list of relevant package prefixes, allowing you to focus only on application-level code.
 
   **Key capabilities:**
-  - Filter stacktraces from `Throwable` that may be referred to as "Hot filtering"
-  - **Filter stacktraces from raw `String` input or "Cold Filtering" (good for filtering stacktraces from logs, remote services, etc)**
+  - Filter stacktraces from a `Throwable` — referred to as "hot filtering"
+  - **Filter stacktraces from raw** `String` **input, such as logs or remote-service output — referred to as "cold filtering"**
   - Configurable filtering via relevant package prefixes
   - Collapse irrelevant frames
 
-  **Why String-based filtering matters:**
+  **Why String-based filtering (cold filtering) matters:**
   Unlike typical solutions that operate only on exceptions, MgntUtils can process raw stacktrace strings. This enables usage beyond in-process error handling:
 
   - Log processing pipelines  
@@ -49,7 +49,7 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
   The methods `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` convert strings like `"5d"`, `"4h"`, or `"30m"` directly into `long` milliseconds or `java.time.Duration` values, making time-based configuration far more maintainable than raw numeric values.<br><br>
 
 - **Unicode Conversion**  
-  The `StringUnicodeEncoderDecoder` class converts strings to Unicode escape sequences (e.g., `Hello` → `\u0048\u0065\u006c\u006c\u006f`) and back. This is useful for debugging encoding issues, handling special characters and emojis and working with non-Latin scripts such as Hebrew, Arabic, Slavic languages, Chinese, and others.
+  The `StringUnicodeEncoderDecoder` class converts strings to Unicode escape sequences (e.g., `Hello` → `\u0048\u0065\u006c\u006c\u006f`) and back. This is useful for debugging encoding issues, handling special characters and emojis, and working with non-Latin scripts such as Hebrew, Arabic, Slavic languages, Chinese, and others.
 
 
 - **Silent Numeric Parsing**  
@@ -97,7 +97,8 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   Focuses on the library’s most popular feature: `TextUtils.getStacktrace()`. It explains how to use it for cleaner logs and how to configure package-based filtering to keep important stack frames and remove noise.<br><br>
   
 - **[Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://dev.to/mgantman/zero-code-change-stacktrace-filtering-for-spring-boot-an-infrastructure-level-integration-3fk5)**
-  This is a follow up article to **Java Stacktrace filtering utility**. The first article explains what the feature is and how to configure it. This one explains how to transparently integrate it into Spring Boot project without any code base changes required. **It is truly a game changer**. It is a small one time effort and completely transparent to developers, but carries a huge benefit<br><br>    
+  This is a follow-up article to **[Filtering Java Stack Traces With MgntUtils Library](https://dzone.com/articles/filter-java-stacktrace-mgntutils)**. The first article explains what the feature is and how to configure it. This one explains how to transparently integrate it into a Spring Boot project without requiring any codebase changes. **It is truly a game changer.** It requires a small one-time effort, is completely transparent to developers, and carries significant benefits.<br><br>
+
 
 - **[Parsing human-readable Strings to Time Intervals - no more crazy numbers in milliseconds](https://www.linkedin.com/pulse/parsing-human-readable-strings-time-intervals-more-crazy-gantman-js3ee/)**  
   Explores the `TextUtils.parseStringToTimeInterval()` and `TextUtils.parseStringToDuration()` utilities in detail, showing how human-readable time-interval strings (like `"5d"`, `"4h"`, `"30m"`) can replace hard-to-read numeric values in configuration and code.<br><br>
@@ -116,13 +117,13 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
   
 ### Commercial Adoption  
 
-Below are 2 articles that are related to and extend 2 stacktrace filtering feature articles mentioned above. The deal with commercial adoption aspects for this feature.
+Below are two articles that relate to and extend the two stacktrace filtering articles mentioned above. They focus on commercial adoption of this feature: one documents a live production integration, while the other shows how to evaluate expected benefits before making production changes.
 
-- **[Cutting AI Token Costs With MgntUtils Stacktrace Filtering](https://dzone.com/articles/ai-token-costs-stack-traces)**
-This is a live production integration case study. The stacktrace filtering feature was integrated into live commercial product serving real-world customers. The article shows measured benefit results and describes integration process (time, effort, some non-obvious issues).
+- **[Cutting AI Token Costs With MgntUtils Stacktrace Filtering](https://dzone.com/articles/ai-token-costs-stack-traces)**  
+  This is a live production-integration case study. The stacktrace filtering feature was integrated into a live commercial product serving real-world customers. The article presents measured benefits and describes the integration process, including the time and effort involved as well as some non-obvious issues.<br><br>
 
-- **[Verify AI Token Cost Cuts with MgntUtils Stacktrace Filtering on your own data — Before You Touch Production](https://dev.to/mgantman/verify-ai-token-cost-cuts-with-mgntutils-stacktrace-filtering-on-your-own-data-before-you-touch-k96)**
-This article is based on Stacktrace filtering feature "Cold Filtering" support (ability to filter stacktrace String rather than extracted from `Throwable`). It explains how using this feature allows prospective customer to see the exact results by filtering their own stacktraces extracted from their own logs, thus see exact results before making any changes in their product code. This allows to evaluate reliability of the feature and evaluate exact benefits before making any changes.  
+- **[Verify AI Token Cost Cuts with MgntUtils Stacktrace Filtering on Your Own Data — Before You Touch Production](https://dev.to/mgantman/verify-ai-token-cost-cuts-with-mgntutils-stacktrace-filtering-on-your-own-data-before-you-touch-k96)**  
+  This article is based on the stacktrace filtering feature’s support for "cold filtering": the ability to filter a stacktrace `String` rather than one extracted from a `Throwable`. It explains how a prospective customer can filter stacktraces taken from their own logs and see the expected results before making any changes to product code. This makes it possible to evaluate the feature’s reliability and estimate its benefits before production integration.
  
 ## Installing MgntUtils
 

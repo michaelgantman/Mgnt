@@ -41,7 +41,7 @@ The Javadoc API is available here: <a href="https://michaelgantman.github.io/Mgn
 
   **Infrastructure-level integration:**
   This feature can be integrated transparently into Spring Boot applications without changing existing code.  
-  See: [Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://www.linkedin.com/pulse/zero-code-change-stacktrace-filtering-spring-boot-michael-gantman-sdnaf/).
+  See: [Zero-Code-Change Stacktrace Filtering for Spring Boot: An Infrastructure-Level Integration](https://dev.to/mgantman/zero-code-change-stacktrace-filtering-for-spring-boot-an-infrastructure-level-integration-3fk5).
   
   <br>
 

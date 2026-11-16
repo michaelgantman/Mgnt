@@ -115,16 +115,21 @@ You can find all of these articles in the **Featured** section of my LinkedIn pr
 
   This article underscores the fact that beyond its collection of utilities, this library provides a foundation for a powerful **architectural design pattern** that can be reused across many projects.
   
-### Commercial Adoption  
+### Commercial Adoption
 
-Below are two articles that relate to and extend the two stacktrace filtering articles mentioned above. They focus on commercial adoption of this feature: one documents a live production integration, while the other shows how to evaluate expected benefits before making production changes.
+Below are three articles that focus on commercial adoption of the stacktrace filtering feature.
+
+The first two articles relate to and extend the two stacktrace filtering articles mentioned above. The first one documents a live production integration, while the second shows how to evaluate expected benefits before making production changes. The third one documents the real-world use of the stacktrace filtering feature by a third-party project unaffiliated with the library’s author.
 
 - **[Cutting AI Token Costs With MgntUtils Stacktrace Filtering](https://dzone.com/articles/ai-token-costs-stack-traces)**  
   This is a live production-integration case study. The stacktrace filtering feature was integrated into a live commercial product serving real-world customers. The article presents measured benefits and describes the integration process, including the time and effort involved as well as some non-obvious issues.<br><br>
 
 - **[Verify AI Token Cost Cuts with MgntUtils Stacktrace Filtering on Your Own Data — Before You Touch Production](https://dev.to/mgantman/verify-ai-token-cost-cuts-with-mgntutils-stacktrace-filtering-on-your-own-data-before-you-touch-k96)**  
-  This article is based on the stacktrace filtering feature’s support for "cold filtering": the ability to filter a stacktrace `String` rather than one extracted from a `Throwable`. It explains how a prospective customer can filter stacktraces taken from their own logs and see the expected results before making any changes to product code. This makes it possible to evaluate the feature’s reliability and estimate its benefits before production integration.
- 
+  This article is based on the stacktrace filtering feature’s support for "cold filtering": the ability to filter a stacktrace `String` rather than one extracted from a `Throwable`. It explains how a prospective customer can filter stacktraces taken from their own logs and see the expected results before making any changes to product code. This makes it possible to evaluate the filtering results and estimate its benefits before production integration.<br><br>
+
+- **[MgntUtils Stacktrace Filtering in Real-World Use: The Soffa Project](https://dev.to/mgantman/mgntutils-stacktrace-filtering-in-real-world-use-the-soffa-project-5h9m)**  
+  This article explores the real-world use of the stacktrace filtering feature by a third-party user - the Soffa project, associated with LaStartupStation, a Morocco-based company. The project used the stacktrace filtering feature for several years (2021–2025), upgrading to newer versions of this library along the way.  
+  
 ## Installing MgntUtils
 
 MgntUtils is available on **Maven Central**:

@@ -145,7 +145,11 @@ This Javadoc and the GitHub README provide a solid overview of what MgntUtils is
 <p><b>Commercial Adoption:</b></p>
 
 <p>
-    Below are two articles that relate to and extend the two stacktrace filtering articles mentioned above. They focus on commercial adoption of this feature: one documents a live production integration, while the other shows how to evaluate expected benefits before making production changes.
+    Below are three articles that focus on commercial adoption of the stacktrace filtering feature.
+</p>
+
+<p>
+    The first two articles relate to and extend the two stacktrace filtering articles mentioned above. The first one documents a live production integration, while the second shows how to evaluate expected benefits before making production changes. The third one documents the real-world use of the stacktrace filtering feature by a third-party project unaffiliated with the library’s author.
 </p>
 
 <ul>
@@ -156,10 +160,14 @@ This Javadoc and the GitHub README provide a solid overview of what MgntUtils is
     <br>
     <li>
         <a href="https://dev.to/mgantman/verify-ai-token-cost-cuts-with-mgntutils-stacktrace-filtering-on-your-own-data-before-you-touch-k96" target="_top">Verify AI Token Cost Cuts with MgntUtils Stacktrace Filtering on Your Own Data — Before You Touch Production</a><br>
-        This article is based on the stacktrace filtering feature's support for "cold filtering": the ability to filter a stacktrace <code>String</code> rather than one extracted from a <code>Throwable</code>. It explains how a prospective customer can filter stacktraces taken from their own logs and see the expected results before making any changes to product code. This makes it possible to evaluate the feature's reliability and estimate its benefits before production integration.
+        This article is based on the stacktrace filtering feature’s support for "cold filtering": the ability to filter a stacktrace <code>String</code> rather than one extracted from a <code>Throwable</code>. It explains how a prospective customer can filter stacktraces taken from their own logs and see the expected results before making any changes to product code. This makes it possible to evaluate the filtering results and estimate its benefits before production integration.
+    </li>
+    <br>
+    <li>
+        <a href="https://dev.to/mgantman/mgntutils-stacktrace-filtering-in-real-world-use-the-soffa-project-5h9m" target="_top">MgntUtils Stacktrace Filtering in Real-World Use: The Soffa Project</a><br>
+        This article explores the real-world use of the stacktrace filtering feature by a third-party user - the Soffa project, associated with LaStartupStation, a Morocco-based company. The project used the stacktrace filtering feature for several years (2021–2025), upgrading to newer versions of this library along the way.
     </li>
 </ul>
-
 <p>
     If you have any feedback, feel free to drop a note at
     <a href="mailto:michael_gantman@yahoo.com" target="_top">michael_gantman@yahoo.com</a>
